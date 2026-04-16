@@ -1,0 +1,30 @@
+---
+title: Which Profiler module should I open?
+---
+flowchart TB
+  ROOT["Something is slow or wrong.<br/>Which module do I open?"]:::orbiter
+
+  ROOT --> Q1{Frame rate below target?}
+  Q1 -- "yes" --> CPU[CPU Usage module<br/>Hierarchy for averages · Timeline for spikes]:::planet
+
+  ROOT --> Q2{CPU budget OK but GPU slow?}
+  Q2 -- "yes" --> GPU[GPU Usage module<br/>+ Frame Debugger · check overdraw · confirm batching]:::planet
+
+  ROOT --> Q3{Micro-stutters or GC spikes?}
+  Q3 -- "yes" --> MEM[Memory module<br/>target 0 B GC alloc/frame · check Detailed sample]:::planet
+
+  ROOT --> Q4{UI sluggish?}
+  Q4 -- "yes" --> UI_M[UI module<br/>canvas rebuilds · batch breaks · TMP alloc]:::planet
+
+  ROOT --> Q5{Physics overshoot or fighting custom integrator?}
+  Q5 -- "yes" --> PHY[Physics 2D module<br/>should flatline · if not, a non-kinematic rigidbody sneaked in]:::planet
+
+  ROOT --> Q6{Unknown hot method — no BeginSample yet?}
+  Q6 -- "yes" --> DEEP[Deep Profile once<br/>find the hot method · wrap in BeginSample · shallow-profile forever after]:::neutral
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef success fill:#10B981,stroke:#065F46,color:#fff;
+  classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

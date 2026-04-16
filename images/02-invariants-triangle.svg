@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">The invariants triangle</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Three subsystems Verlet-step at 50 Hz · all three read gravity from the same method · one math, three call sites</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- GA shared node — circle at center -->
+  <circle class="paused" cx="800" cy="470" r="130" stroke-width="2"/>
+  <text class="paused-t" x="800" y="438" text-anchor="middle" font-size="12" font-style="italic" letter-spacing="0.08em">SHARED</text>
+  <text class="paused-t" x="800" y="465" text-anchor="middle" font-size="16" font-weight="700">GetGravityAcceleration(r)</text>
+  <text class="paused-sub" x="800" y="488" text-anchor="middle" font-size="13" font-style="italic">Planetoid.cs · one method</text>
+  <text class="paused-sub" x="800" y="506" text-anchor="middle" font-size="12" font-style="italic">every caller is on the same page</text>
+
+  <!-- GB — GravityBody top-left -->
+  <rect class="running" x="140" y="220" width="310" height="120" rx="12" stroke-width="2"/>
+  <text class="running-t" x="295" y="252" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">CALLER · LIVE MOTION</text>
+  <text class="running-t" x="295" y="282" text-anchor="middle" font-size="16" font-weight="700">GravityBody.FixedUpdate</text>
+  <text class="running-t" x="295" y="305" text-anchor="middle" font-size="12" font-style="italic">reads GA(r), Verlet-steps one orbiter</text>
+  <text class="running-t" x="295" y="325" text-anchor="middle" font-size="12" font-style="italic">authoritative per-frame position</text>
+
+  <line class="arrow-line" x1="445" y1="340" x2="683" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="555" y="378" text-anchor="middle" font-size="12">reads → Verlet-steps</text>
+  <text class="txt-dim" x="555" y="393" text-anchor="middle" font-size="11" font-style="italic">(one orbiter)</text>
+
+  <!-- SL — SlingshotLauncher top-right -->
+  <rect class="running" x="1150" y="220" width="310" height="120" rx="12" stroke-width="2"/>
+  <text class="running-t" x="1305" y="252" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">CALLER · PREVIEW</text>
+  <text class="running-t" x="1305" y="282" text-anchor="middle" font-size="15" font-weight="700">SlingshotLauncher</text>
+  <text class="running-t" x="1305" y="302" text-anchor="middle" font-size="13" font-style="italic">.UpdateTrajectoryPreview</text>
+  <text class="running-t" x="1305" y="325" text-anchor="middle" font-size="12" font-style="italic">dotted-line preview mirrors live motion</text>
+
+  <line class="arrow-line" x1="1155" y1="340" x2="917" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1045" y="378" text-anchor="middle" font-size="12">reads → Verlet-steps</text>
+  <text class="txt-dim" x="1045" y="393" text-anchor="middle" font-size="11" font-style="italic">(200 preview ticks)</text>
+
+  <!-- DF — DebrisField bottom -->
+  <rect class="killed" x="645" y="680" width="310" height="120" rx="12" stroke-width="2"/>
+  <text class="killed-t" x="800" y="712" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">CALLER · DEBRIS</text>
+  <text class="killed-t" x="800" y="742" text-anchor="middle" font-size="16" font-weight="700">DebrisField.FixedUpdate</text>
+  <text class="killed-t" x="800" y="765" text-anchor="middle" font-size="12" font-style="italic">1500-particle SoA loop</text>
+  <text class="killed-t" x="800" y="785" text-anchor="middle" font-size="12" font-style="italic">reads GA(r) per particle</text>
+
+  <line class="arrow-line" x1="800" y1="675" x2="800" y2="605" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="818" y="645" font-size="12">reads → Verlet-steps</text>
+  <text class="txt-dim" x="818" y="660" font-size="11" font-style="italic">(1500 particles)</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Change gravity here and all three update in lockstep — a single source of truth is the game-feel invariant.</text>
+</svg>

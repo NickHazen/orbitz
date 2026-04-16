@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant U as Unity runtime
+  participant GB as GameBootstrapper
+  participant P as Planetoid.Awake
+  participant DF as DebrisField.Awake
+  participant SL as SlingshotLauncher.Awake
+  participant FU as first FixedUpdate
+
+  U->>GB: RuntimeInitializeOnLoadMethod<br/>(BeforeSceneLoad)
+  GB->>GB: EnhancedTouchSupport.Enable()
+  GB-->>U: (editor-only) TouchSimulation.Enable()
+  U->>P: Awake — scene object
+  U->>DF: Awake — FindAnyObjectByType<Planetoid>()<br/>Configure ParticleSystem + Spawn
+  U->>SL: Awake — cache Camera.main
+  Note over U,SL: Scene-object Awake order is NOT<br/>guaranteed in general. We code defensively.
+  U->>FU: First FixedUpdate (50 Hz)<br/>GravityBody + DebrisField step

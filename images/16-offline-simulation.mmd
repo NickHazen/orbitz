@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant P as Player
+    participant OS as Mobile OS
+    participant App as Unity app
+    participant Sim as OfflineSim
+    participant UI as Resume UI
+
+    P->>OS: Sends app to background
+    OS->>App: OnApplicationPause(true)
+    App->>App: Persist save + timestamp Tsleep
+
+    Note over P,OS: Hours pass...
+
+    P->>OS: Reopens app
+    OS->>App: OnApplicationPause(false)
+    App->>Sim: Δt = now − Tsleep
+    Sim->>Sim: Δt = min(Δt, napCap = 12h)
+    Sim->>Sim: Fast-sim N ticks<br/>(economy + passive income)
+    Sim-->>App: Resources delta
+    App->>UI: Show "While you were away…"
+    UI-->>P: +N mass, +M currency

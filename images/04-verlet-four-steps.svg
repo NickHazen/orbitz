@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="56" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Velocity Verlet — the four-step dance</text>
+  <text x="800" y="88" text-anchor="middle" font-size="17" fill="#6B7280">One FixedUpdate tick, in the order that matters</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <!-- Step 1: position -->
+  <rect x="60" y="190" width="340" height="370" rx="16" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="230" y="240" text-anchor="middle" font-size="22" font-weight="700" fill="#000">1 — Update position</text>
+  <text x="230" y="285" text-anchor="middle" font-size="15" fill="#000">Read: current pos, vel, acc</text>
+  <text x="230" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#000">pos += vel·Δt</text>
+  <text x="230" y="365" text-anchor="middle" font-size="20" font-weight="700" fill="#000">+ ½·acc·Δt²</text>
+  <text x="230" y="415" text-anchor="middle" font-size="15" fill="#000">The Δt² term is what</text>
+  <text x="230" y="438" text-anchor="middle" font-size="15" fill="#000">makes it second-order</text>
+  <text x="230" y="461" text-anchor="middle" font-size="15" fill="#000">accurate, not first.</text>
+  <text x="230" y="525" text-anchor="middle" font-size="13" fill="#000">Write: pos</text>
+
+  <!-- Step 2: new acceleration -->
+  <rect x="440" y="190" width="340" height="370" rx="16" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="610" y="240" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">2 — New acceleration</text>
+  <text x="610" y="285" text-anchor="middle" font-size="15" fill="#fff">Evaluate field at new pos</text>
+  <text x="610" y="340" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">newAcc =</text>
+  <text x="610" y="370" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">GetGravityAccel(pos)</text>
+  <text x="610" y="415" text-anchor="middle" font-size="15" fill="#fff">+ drag, multi-body,</text>
+  <text x="610" y="438" text-anchor="middle" font-size="15" fill="#fff">anything you want to</text>
+  <text x="610" y="461" text-anchor="middle" font-size="15" fill="#fff">fold into the field.</text>
+  <text x="610" y="525" text-anchor="middle" font-size="13" fill="#fff">Write: newAcc (local)</text>
+
+  <!-- Step 3: velocity update using averaged acc -->
+  <rect x="820" y="190" width="340" height="370" rx="16" fill="#10B981" stroke="#065F46" stroke-width="2"/>
+  <text x="990" y="240" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">3 — Update velocity</text>
+  <text x="990" y="285" text-anchor="middle" font-size="15" fill="#fff">Average OLD and NEW acc</text>
+  <text x="990" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">vel += ½·(acc + newAcc)·Δt</text>
+  <text x="990" y="395" text-anchor="middle" font-size="15" fill="#fff">This is the symplectic</text>
+  <text x="990" y="418" text-anchor="middle" font-size="15" fill="#fff">trick — phase space area</text>
+  <text x="990" y="441" text-anchor="middle" font-size="15" fill="#fff">is preserved tick-over-tick,</text>
+  <text x="990" y="464" text-anchor="middle" font-size="15" fill="#fff">so orbits don't decay.</text>
+  <text x="990" y="525" text-anchor="middle" font-size="13" fill="#fff">Write: vel</text>
+
+  <!-- Step 4: store newAcc -->
+  <rect x="1200" y="190" width="340" height="370" rx="16" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+  <text x="1370" y="240" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">4 — Store acceleration</text>
+  <text x="1370" y="285" text-anchor="middle" font-size="15" fill="#fff">For next tick's step 3</text>
+  <text x="1370" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">acc = newAcc</text>
+  <text x="1370" y="395" text-anchor="middle" font-size="15" fill="#fff">Next tick's OLD is this</text>
+  <text x="1370" y="418" text-anchor="middle" font-size="15" fill="#fff">tick's NEW. Swap fields are</text>
+  <text x="1370" y="441" text-anchor="middle" font-size="15" fill="#fff">often called shadow copies.</text>
+  <text x="1370" y="525" text-anchor="middle" font-size="13" fill="#fff">Write: acc (for next tick)</text>
+
+  <!-- Arrows between -->
+  <g stroke="#6B7280" stroke-width="3" fill="none">
+    <line x1="400" y1="375" x2="438" y2="375" marker-end="url(#arrow)"/>
+    <line x1="780" y1="375" x2="818" y2="375" marker-end="url(#arrow)"/>
+    <line x1="1160" y1="375" x2="1198" y2="375" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Loop arrow back -->
+  <path d="M 1370 560 Q 1370 680 800 680 Q 230 680 230 590" stroke="#6B7280" stroke-width="2" fill="none" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+  <text x="800" y="710" text-anchor="middle" font-size="16" fill="#6B7280">next FixedUpdate tick (50 Hz, Δt = 0.02 s)</text>
+
+  <!-- Bottom warning -->
+  <rect x="320" y="760" width="960" height="90" rx="10" fill="#1E293B" stroke="#EF4444" stroke-width="2"/>
+  <text x="800" y="795" text-anchor="middle" font-size="16" font-weight="700" fill="#EF4444">Pitfall</text>
+  <text x="800" y="825" text-anchor="middle" font-size="15" fill="#E5E7EB">Don't overwrite acc before step 3 reads it. Step 2's new value must land in a separate local.</text>
+</svg>

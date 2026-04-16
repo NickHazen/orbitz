@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">FixedUpdate → Velocity Verlet → commit</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">The four-step integrator that runs once per physics tick (50 Hz) — symplectic, second-order accurate</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ============== Stage A — trigger -->
+  <rect class="relaunch" x="450" y="120" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="800" y="150" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">TRIGGER</text>
+  <text class="relaunch-t" x="800" y="178" text-anchor="middle" font-size="18" font-weight="700">FixedUpdate tick</text>
+
+  <line class="arrow-line" x1="800" y1="200" x2="800" y2="237" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============== Stage B — Verlet step 1 -->
+  <rect class="running" x="450" y="240" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="running-t" x="800" y="270" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">STEP 1 · POSITION</text>
+  <text class="running-t" x="800" y="300" text-anchor="middle" font-size="20" font-weight="600">pos += vel · dt + ½ · acc · dt²</text>
+
+  <line class="arrow-line" x1="800" y1="320" x2="800" y2="357" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============== Stage C — Verlet step 2 (gravity query) -->
+  <rect class="paused" x="450" y="360" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="800" y="390" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">STEP 2 · ACCELERATION</text>
+  <text class="paused-t" x="800" y="420" text-anchor="middle" font-size="18" font-weight="600">acc_new = Planetoid.GetGravityAcceleration(pos)</text>
+
+  <line class="arrow-line" x1="800" y1="440" x2="800" y2="477" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============== Stage D — Verlet step 3 -->
+  <rect class="running" x="450" y="480" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="running-t" x="800" y="510" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">STEP 3 · VELOCITY</text>
+  <text class="running-t" x="800" y="540" text-anchor="middle" font-size="20" font-weight="600">vel += ½ · (acc_old + acc_new) · dt</text>
+
+  <line class="arrow-line" x1="800" y1="560" x2="800" y2="597" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============== Stage E — Verlet step 4 -->
+  <rect class="running" x="450" y="600" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="running-t" x="800" y="630" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">STEP 4 · CARRY ACCELERATION</text>
+  <text class="running-t" x="800" y="660" text-anchor="middle" font-size="20" font-weight="600">acc_old = acc_new</text>
+
+  <line class="arrow-line" x1="800" y1="680" x2="800" y2="717" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============== Stage F — commit -->
+  <rect class="relaunch" x="450" y="720" width="700" height="80" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="800" y="750" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">COMMIT</text>
+  <text class="relaunch-t" x="800" y="780" text-anchor="middle" font-size="18" font-weight="600">transform.position = pos</text>
+
+  <!-- Side annotations: Verlet bracket -->
+  <line class="arrow-line" x1="400" y1="240" x2="400" y2="680" stroke-width="3" stroke-opacity="0.35"/>
+  <text class="txt-dim" x="380" y="462" text-anchor="middle" font-size="12" font-style="italic" transform="rotate(-90 380 462)">Velocity Verlet — four coupled steps per tick</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Two gravity queries per tick (via pos change in Step 1 before Step 2) — the price of a symplectic integrator.</text>
+</svg>

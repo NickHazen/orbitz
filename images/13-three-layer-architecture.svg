@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .layer-band { fill: #EDDFBF; fill-opacity: 0.35; stroke: #C9AE7C; stroke-opacity: 0.5; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .layer-band { fill: #1A2033; fill-opacity: 0.45; stroke: #334155; stroke-opacity: 0.6; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Three-layer architecture — physics, economy, UI</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Data flows one way, upward · each layer only depends on the layer below via events, never the reverse</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- =========== UI LAYER (y=150..300) =========== -->
+  <rect class="layer-band" x="60" y="150" width="1480" height="150" rx="12" stroke-width="1"/>
+  <rect class="relaunch"   x="60" y="150" width="8"    height="150"/>
+  <text class="txt"        x="90" y="180" font-size="13" font-weight="700" letter-spacing="0.14em">UI LAYER</text>
+  <text class="txt-dim"    x="90" y="197" font-size="11" font-style="italic">presentation only — observes state, never mutates</text>
+
+  <rect class="relaunch" x="170"  y="215" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="310" y="244" text-anchor="middle" font-size="15" font-weight="700">HUD counter</text>
+  <text class="relaunch-t" x="310" y="264" text-anchor="middle" font-size="11" font-style="italic">live mass / currency display</text>
+
+  <rect class="relaunch" x="660"  y="215" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="800" y="244" text-anchor="middle" font-size="15" font-weight="700">Upgrade menu</text>
+  <text class="relaunch-t" x="800" y="264" text-anchor="middle" font-size="11" font-style="italic">list + purchase CTA</text>
+
+  <rect class="relaunch" x="1150" y="215" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="1290" y="244" text-anchor="middle" font-size="15" font-weight="700">Wallet display</text>
+  <text class="relaunch-t" x="1290" y="264" text-anchor="middle" font-size="11" font-style="italic">balance + recent gain animation</text>
+
+  <!-- Arrow: Economy → UI -->
+  <line class="arrow-line" x1="800" y1="355" x2="800" y2="305" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text class="txt"     x="820" y="332" font-size="12">observed</text>
+  <text class="txt-dim" x="820" y="348" font-size="11" font-style="italic">UI subscribes to wallet change events</text>
+
+  <!-- =========== ECONOMY LAYER (y=360..510) =========== -->
+  <rect class="layer-band" x="60" y="360" width="1480" height="150" rx="12" stroke-width="1"/>
+  <rect class="running"    x="60" y="360" width="8"    height="150"/>
+  <text class="txt"        x="90" y="390" font-size="13" font-weight="700" letter-spacing="0.14em">ECONOMY LAYER</text>
+  <text class="txt-dim"    x="90" y="407" font-size="11" font-style="italic">ledger + wallet + upgrade rules — pure C#, no MonoBehaviour</text>
+
+  <rect class="running" x="170"  y="425" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="running-t" x="310" y="454" text-anchor="middle" font-size="15" font-weight="700">EconomyLedger</text>
+  <text class="running-t" x="310" y="474" text-anchor="middle" font-size="11" font-style="italic">listens to physics events</text>
+
+  <rect class="running" x="660"  y="425" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="running-t" x="800" y="454" text-anchor="middle" font-size="15" font-weight="700">ResourceWallet</text>
+  <text class="running-t" x="800" y="474" text-anchor="middle" font-size="11" font-style="italic">balance + OnBalanceChanged</text>
+
+  <rect class="running" x="1150" y="425" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1290" y="454" text-anchor="middle" font-size="15" font-weight="700">UpgradeService</text>
+  <text class="running-t" x="1290" y="474" text-anchor="middle" font-size="11" font-style="italic">cost curves + apply effects</text>
+
+  <!-- Arrow: Physics → Economy -->
+  <line class="arrow-line" x1="800" y1="565" x2="800" y2="515" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text class="txt"     x="820" y="542" font-size="12">emits events</text>
+  <text class="txt-dim" x="820" y="558" font-size="11" font-style="italic">OnMassAbsorbed · OnOrbiterKilled · …</text>
+
+  <!-- =========== PHYSICS LAYER (y=570..720) =========== -->
+  <rect class="layer-band" x="60" y="570" width="1480" height="150" rx="12" stroke-width="1"/>
+  <rect class="paused"     x="60" y="570" width="8"    height="150"/>
+  <text class="txt"        x="90" y="600" font-size="13" font-weight="700" letter-spacing="0.14em">PHYSICS LAYER</text>
+  <text class="txt-dim"    x="90" y="617" font-size="11" font-style="italic">custom Verlet + debris — MonoBehaviours with no upward references</text>
+
+  <rect class="paused" x="170"  y="635" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="310" y="664" text-anchor="middle" font-size="15" font-weight="700">GravityBody</text>
+  <text class="paused-t" x="310" y="684" text-anchor="middle" font-size="11" font-style="italic">Verlet integrator, per orbiter</text>
+
+  <rect class="paused" x="660"  y="635" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="800" y="664" text-anchor="middle" font-size="15" font-weight="700">DebrisField</text>
+  <text class="paused-t" x="800" y="684" text-anchor="middle" font-size="11" font-style="italic">SoA particle sim + pickup</text>
+
+  <rect class="paused" x="1150" y="635" width="280" height="70" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="1290" y="664" text-anchor="middle" font-size="15" font-weight="700">Planetoid</text>
+  <text class="paused-t" x="1290" y="684" text-anchor="middle" font-size="11" font-style="italic">gravity + drag authority</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Physics compiles without economy referenced · economy compiles without UI referenced — dependency direction is the load-bearing invariant.</text>
+</svg>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Debris FixedUpdate pipeline</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Seven stages per tick — three built today, four planned; order is load-bearing</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="running" x="608" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="630" y="120" font-size="13">Built today</text>
+    <rect class="paused"  x="744" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="766" y="120" font-size="13">Planned</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Stage centers: 140, 350, 560, 770, 980, 1190, 1400  (210 px apart) -->
+  <!-- Box: 170 × 95, y=360..455 -->
+
+  <!-- Stage 1 Verlet — built -->
+  <rect class="running" x="55" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="running-t" x="140" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 1</text>
+  <text class="running-t" x="140" y="411" text-anchor="middle" font-size="16" font-weight="700">Verlet</text>
+  <text class="running-t" x="140" y="441" text-anchor="middle" font-size="10" font-style="italic">built</text>
+
+  <line class="arrow-line" x1="225" y1="408" x2="264" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2 Drag — planned -->
+  <rect class="paused" x="265" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="350" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 2</text>
+  <text class="paused-t" x="350" y="411" text-anchor="middle" font-size="16" font-weight="700">Drag</text>
+  <text class="paused-t" x="350" y="441" text-anchor="middle" font-size="10" font-style="italic">planned</text>
+
+  <line class="arrow-line" x1="435" y1="408" x2="474" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3 Pickup — built -->
+  <rect class="running" x="475" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="running-t" x="560" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 3</text>
+  <text class="running-t" x="560" y="411" text-anchor="middle" font-size="16" font-weight="700">Pickup</text>
+  <text class="running-t" x="560" y="441" text-anchor="middle" font-size="10" font-style="italic">built</text>
+
+  <line class="arrow-line" x1="645" y1="408" x2="684" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4 Spatial hash — planned -->
+  <rect class="paused" x="685" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="770" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 4</text>
+  <text class="paused-t" x="770" y="411" text-anchor="middle" font-size="15" font-weight="700">Spatial hash</text>
+  <text class="paused-t" x="770" y="441" text-anchor="middle" font-size="10" font-style="italic">planned</text>
+
+  <line class="arrow-line" x1="855" y1="408" x2="894" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5 Particle collisions — planned -->
+  <rect class="paused" x="895" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="980" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 5</text>
+  <text class="paused-t" x="980" y="407" text-anchor="middle" font-size="14" font-weight="700">Particle</text>
+  <text class="paused-t" x="980" y="425" text-anchor="middle" font-size="14" font-weight="700">collisions</text>
+  <text class="paused-t" x="980" y="446" text-anchor="middle" font-size="10" font-style="italic">planned</text>
+
+  <line class="arrow-line" x1="1065" y1="408" x2="1104" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 6 Max-speed clamp — planned -->
+  <rect class="paused" x="1105" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="1190" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 6</text>
+  <text class="paused-t" x="1190" y="407" text-anchor="middle" font-size="14" font-weight="700">Max-speed</text>
+  <text class="paused-t" x="1190" y="425" text-anchor="middle" font-size="14" font-weight="700">clamp</text>
+  <text class="paused-t" x="1190" y="446" text-anchor="middle" font-size="10" font-style="italic">planned</text>
+
+  <line class="arrow-line" x1="1275" y1="408" x2="1314" y2="408" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 7 Surface kill — built -->
+  <rect class="running" x="1315" y="360" width="170" height="95" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1400" y="383" text-anchor="middle" font-size="10" font-style="italic">Stage 7</text>
+  <text class="running-t" x="1400" y="407" text-anchor="middle" font-size="14" font-weight="700">Surface</text>
+  <text class="running-t" x="1400" y="425" text-anchor="middle" font-size="14" font-weight="700">kill</text>
+  <text class="running-t" x="1400" y="446" text-anchor="middle" font-size="10" font-style="italic">built</text>
+
+  <!-- Description cards below each stage -->
+  <g font-size="11">
+    <rect class="panel" x="55"   y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="140" y="508" text-anchor="middle">position step</text>
+    <text class="txt-dim" x="140" y="526" text-anchor="middle" font-style="italic">x += v·dt + ½a·dt²</text>
+    <text class="txt-dim" x="140" y="542" text-anchor="middle" font-style="italic">symplectic update</text>
+
+    <rect class="panel" x="265"  y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="350" y="508" text-anchor="middle">atmospheric drag</text>
+    <text class="txt-dim" x="350" y="526" text-anchor="middle" font-style="italic">only inside atmosphere</text>
+    <text class="txt-dim" x="350" y="542" text-anchor="middle" font-style="italic">circularises decay</text>
+
+    <rect class="panel" x="475"  y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="560" y="508" text-anchor="middle">orbiter merge</text>
+    <text class="txt-dim" x="560" y="526" text-anchor="middle" font-style="italic">mass + momentum</text>
+    <text class="txt-dim" x="560" y="542" text-anchor="middle" font-style="italic">conservation</text>
+
+    <rect class="panel" x="685"  y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="770" y="508" text-anchor="middle">cell assignment</text>
+    <text class="txt-dim" x="770" y="526" text-anchor="middle" font-style="italic">grid bucket per body</text>
+    <text class="txt-dim" x="770" y="542" text-anchor="middle" font-style="italic">O(1) neighbour query</text>
+
+    <rect class="panel" x="895"  y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="980" y="508" text-anchor="middle">pairwise impulses</text>
+    <text class="txt-dim" x="980" y="526" text-anchor="middle" font-style="italic">normal + tangential</text>
+    <text class="txt-dim" x="980" y="542" text-anchor="middle" font-style="italic">elastic restitution</text>
+
+    <rect class="panel" x="1105" y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="1190" y="508" text-anchor="middle">cap velocity</text>
+    <text class="txt-dim" x="1190" y="526" text-anchor="middle" font-style="italic">|v| ≤ v_max</text>
+    <text class="txt-dim" x="1190" y="542" text-anchor="middle" font-style="italic">prevents runaway</text>
+
+    <rect class="panel" x="1315" y="480" width="170" height="80" rx="8" stroke-width="1"/>
+    <text class="txt"     x="1400" y="508" text-anchor="middle">remove on impact</text>
+    <text class="txt-dim" x="1400" y="526" text-anchor="middle" font-style="italic">r ≤ surfaceRadius</text>
+    <text class="txt-dim" x="1400" y="542" text-anchor="middle" font-style="italic">pooled back to free list</text>
+  </g>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Order is load-bearing — Verlet first (integrate), Surface kill last (sweep dead bodies); collisions in the middle so positions have settled.</text>
+</svg>

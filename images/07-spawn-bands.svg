@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Debris spawn bands</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Concentric rings define where particles may appear and where they may not</text>
+
+  <!-- Outer spawn radius -->
+  <circle cx="800" cy="470" r="380" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+  <!-- Inner spawn radius -->
+  <circle cx="800" cy="470" r="260" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+  <!-- Perigee threshold (just above atmosphere) -->
+  <circle cx="800" cy="470" r="210" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="8 6"/>
+  <!-- Atmosphere -->
+  <circle cx="800" cy="470" r="170" fill="#EF4444" fill-opacity="0.12" stroke="#EF4444" stroke-width="2"/>
+  <!-- Planet -->
+  <circle cx="800" cy="470" r="110" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="800" y="476" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Particles in the belt (between inner and outer, mostly above perigee) -->
+  <g fill="#8B5CF6">
+    <circle cx="560" cy="310" r="5"/>
+    <circle cx="990" cy="290" r="5"/>
+    <circle cx="1110" cy="420" r="5"/>
+    <circle cx="1090" cy="580" r="5"/>
+    <circle cx="960" cy="700" r="5"/>
+    <circle cx="620" cy="720" r="5"/>
+    <circle cx="490" cy="580" r="5"/>
+    <circle cx="520" cy="440" r="5"/>
+    <circle cx="720" cy="190" r="5"/>
+    <circle cx="1030" cy="610" r="5"/>
+    <circle cx="570" cy="610" r="5"/>
+    <circle cx="1150" cy="470" r="5"/>
+  </g>
+
+  <!-- A few "decaying" particles with low perigee (inside the perigee threshold, outside atmosphere) -->
+  <g fill="#EF4444">
+    <circle cx="780" cy="280" r="5"/>
+    <circle cx="920" cy="640" r="5"/>
+  </g>
+
+  <!-- Radius callouts to the right -->
+  <g stroke="#6B7280" stroke-width="1" fill="none">
+    <line x1="800" y1="470" x2="1400" y2="470"/>
+  </g>
+
+  <g font-size="15" fill="#E5E7EB">
+    <!-- Planet surface -->
+    <circle cx="910" cy="470" r="4" fill="#3B82F6"/>
+    <text x="910" y="455" text-anchor="middle" font-size="13" fill="#3B82F6">SurfaceRadius</text>
+
+    <!-- Atmosphere outer -->
+    <circle cx="970" cy="470" r="4" fill="#EF4444"/>
+    <text x="970" y="503" text-anchor="middle" font-size="13" fill="#EF4444">AtmosphereRadius</text>
+
+    <!-- Perigee threshold -->
+    <circle cx="1010" cy="470" r="4" fill="#10B981"/>
+    <text x="1030" y="455" text-anchor="start" font-size="13" fill="#10B981">perigee threshold ≈ 1.05 · atm</text>
+
+    <!-- Inner spawn -->
+    <circle cx="1060" cy="470" r="4" fill="#8B5CF6"/>
+    <text x="1080" y="503" text-anchor="start" font-size="13" fill="#8B5CF6">innerRadius (spawn min)</text>
+
+    <!-- Outer spawn -->
+    <circle cx="1180" cy="470" r="4" fill="#8B5CF6"/>
+    <text x="1200" y="455" text-anchor="start" font-size="13" fill="#8B5CF6">outerRadius (spawn max)</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="15" fill="#E5E7EB">
+    <rect x="60" y="140" width="360" height="320" rx="10" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+    <text x="80" y="175" font-weight="700">Band legend</text>
+
+    <circle cx="98" cy="215" r="7" fill="#3B82F6"/>
+    <text x="120" y="220">Planet — surface-kill region.</text>
+
+    <circle cx="98" cy="253" r="7" fill="#EF4444"/>
+    <text x="120" y="258">Atmosphere — drag zone, decay lives here.</text>
+
+    <circle cx="98" cy="291" r="7" fill="#10B981"/>
+    <text x="120" y="296">Perigee threshold — rejection sampler floor.</text>
+
+    <circle cx="98" cy="329" r="7" fill="#8B5CF6"/>
+    <text x="120" y="334">Belt — area-uniform spawn band.</text>
+
+    <rect x="88" y="360" width="20" height="20" fill="#8B5CF6"/>
+    <text x="120" y="374">Stable particle.</text>
+
+    <rect x="88" y="400" width="20" height="20" fill="#EF4444"/>
+    <text x="120" y="414">Decaying particle (low perigee).</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="300" y="830" width="1000" height="54" rx="8" fill="#1E293B" stroke="#6B7280"/>
+  <text x="800" y="863" text-anchor="middle" font-size="14" fill="#E5E7EB">SampleOrbit draws radius uniformly by area, then rejects if perigee &lt; threshold. Decaying fraction is seeded separately.</text>
+</svg>

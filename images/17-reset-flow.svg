@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .killed-sub { fill: #F5D9D1; }
+    .reset-band  { fill: #B45B4D; fill-opacity: 0.16; stroke: #B45B4D; stroke-opacity: 0.5; }
+    .carry-band  { fill: #6F9677; fill-opacity: 0.16; stroke: #6F9677; stroke-opacity: 0.6; }
+    .carry       { fill: #6F9677; stroke: #3E5E44; }
+    .carry-t     { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .reset-band  { fill: #B45B4D; fill-opacity: 0.22; stroke: #B45B4D; stroke-opacity: 0.6; }
+      .carry-band  { fill: #6F9677; fill-opacity: 0.22; stroke: #6F9677; stroke-opacity: 0.7; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Prestige — what resets, what carries</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">PrestigeService.Execute() calls Reset() on everything run-scoped · persists everything meta-scoped · nothing else</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- PS in the middle-left -->
+  <rect class="running" x="60" y="410" width="320" height="110" rx="12" stroke-width="2"/>
+  <text class="running-t" x="220" y="442" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">TRIGGER</text>
+  <text class="running-t" x="220" y="470" text-anchor="middle" font-size="17" font-weight="700">PrestigeService</text>
+  <text class="running-t" x="220" y="490" text-anchor="middle" font-size="14" font-family="ui-monospace, monospace">.Execute()</text>
+  <text class="running-t" x="220" y="510" text-anchor="middle" font-size="11" font-style="italic">player opts in</text>
+
+  <!-- Arrow to RESETS (up-right) -->
+  <line class="arrow-line" x1="381" y1="435" x2="449" y2="230" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="405" y="308" font-size="12" font-weight="700">Reset() on every</text>
+  <text class="txt"     x="405" y="324" font-size="12" font-weight="700">subsystem</text>
+
+  <!-- Arrow to CARRIES (down-right) -->
+  <line class="arrow-line" x1="381" y1="495" x2="449" y2="700" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="405" y="595" font-size="12" font-weight="700">persist across</text>
+  <text class="txt"     x="405" y="611" font-size="12" font-weight="700">run boundary</text>
+
+  <!-- RESETS band (top right) -->
+  <rect class="reset-band" x="450" y="145" width="1100" height="325" rx="14" stroke-width="1"/>
+  <text class="killed" x="470" y="180" font-size="14" font-weight="700" letter-spacing="0.14em" fill="#B45B4D">RESETS TO ZERO · RUN-SCOPED</text>
+  <text class="txt-dim" x="470" y="200" font-size="11" font-style="italic">everything tied to the current run is wiped — new run starts fresh</text>
+
+  <!-- 5 reset items -->
+  <g>
+    <rect class="killed" x="480" y="220" width="500" height="40" rx="8" stroke-width="1.5"/>
+    <text class="killed-t" x="500" y="245" font-size="13" font-weight="700">Buildings · stations · refineries</text>
+
+    <rect class="killed" x="480" y="270" width="500" height="40" rx="8" stroke-width="1.5"/>
+    <text class="killed-t" x="500" y="295" font-size="13" font-weight="700">Current wallet · mass · refined tiers</text>
+
+    <rect class="killed" x="480" y="320" width="500" height="40" rx="8" stroke-width="1.5"/>
+    <text class="killed-t" x="500" y="345" font-size="13" font-weight="700">In-run upgrade ledger</text>
+
+    <rect class="killed" x="480" y="370" width="500" height="40" rx="8" stroke-width="1.5"/>
+    <text class="killed-t" x="500" y="395" font-size="13" font-weight="700">Current run progress · debris density</text>
+
+    <rect class="killed" x="480" y="420" width="500" height="40" rx="8" stroke-width="1.5"/>
+    <text class="killed-t" x="500" y="445" font-size="13" font-weight="700">Orbiter stats · auto-launch cadence</text>
+  </g>
+
+  <!-- Side notes next to RESETS -->
+  <text class="txt-dim" x="1010" y="245" font-size="12" font-style="italic">iterate buildingLedger, call Dispose()</text>
+  <text class="txt-dim" x="1010" y="295" font-size="12" font-style="italic">wallet.ResetAll(), refinery.ResetTiers()</text>
+  <text class="txt-dim" x="1010" y="345" font-size="12" font-style="italic">UpgradeService.ClearInRunPurchases()</text>
+  <text class="txt-dim" x="1010" y="395" font-size="12" font-style="italic">DebrisField.Reseed(defaultDensity)</text>
+  <text class="txt-dim" x="1010" y="445" font-size="12" font-style="italic">spawn only the starter slingshot again</text>
+
+  <!-- CARRIES band (bottom right) -->
+  <rect class="carry-band" x="450" y="615" width="1100" height="260" rx="14" stroke-width="1"/>
+  <text x="470" y="650" font-size="14" font-weight="700" letter-spacing="0.14em" fill="#4A7352">CARRIES FORWARD · META-SCOPED</text>
+  <text class="txt-dim" x="470" y="670" font-size="11" font-style="italic">meta-progression that survives the reset, the thing you're running for</text>
+
+  <!-- 5 carry items -->
+  <g>
+    <rect class="carry" x="480" y="685" width="500" height="36" rx="8" stroke-width="1.5"/>
+    <text class="carry-t" x="500" y="709" font-size="13" font-weight="700">Stardust wallet + lifetime total</text>
+
+    <rect class="carry" x="480" y="728" width="500" height="36" rx="8" stroke-width="1.5"/>
+    <text class="carry-t" x="500" y="752" font-size="13" font-weight="700">Meta-upgrade tiers</text>
+
+    <rect class="carry" x="480" y="771" width="500" height="36" rx="8" stroke-width="1.5"/>
+    <text class="carry-t" x="500" y="795" font-size="13" font-weight="700">Permanent unlocks · skins · palettes</text>
+
+    <rect class="carry" x="480" y="814" width="500" height="36" rx="8" stroke-width="1.5"/>
+    <text class="carry-t" x="500" y="838" font-size="13" font-weight="700">Statistics · fastest / longest run</text>
+
+    <rect class="carry" x="1010" y="685" width="530" height="36" rx="8" stroke-width="1.5"/>
+    <text class="carry-t" x="1030" y="709" font-size="13" font-weight="700">Prestige-only building unlocks</text>
+  </g>
+
+  <text class="txt-dim" x="1010" y="752" font-size="12" font-style="italic">saved to disk under meta/ — not cleared on reset</text>
+  <text class="txt-dim" x="1010" y="795" font-size="12" font-style="italic">drives cost-reduction and yield multipliers</text>
+  <text class="txt-dim" x="1010" y="838" font-size="12" font-style="italic">bragging rights · surface in the meta-menu</text>
+</svg>

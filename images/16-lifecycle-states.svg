@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    /* --- Duneswept (light) default --- */
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .killed-sub { fill: #F5D9D1; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .resume-line { stroke: #6F9677; fill: none; }
+    .resume-head { fill: #6F9677; }
+    .resume-t   { fill: #4A7352; }
+
+    /* --- Deep Space (dark) via OS preference --- */
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .resume-t   { fill: #8EB294; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title -->
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Mobile &amp; desktop app lifecycle</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Four-state loop per platform — the shape is the same, the Unity hooks are not</text>
+
+  <!-- Legend -->
+  <g transform="translate(370 108)">
+    <rect class="running"  x="0"   y="0" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="22"  y="12" font-size="13">Running</text>
+    <rect class="paused"   x="100" y="0" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="122" y="12" font-size="13">Paused / backgrounded</text>
+    <rect class="killed"   x="312" y="0" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="334" y="12" font-size="13">Killed</text>
+    <rect class="relaunch" x="402" y="0" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="424" y="12" font-size="13">Relaunch</text>
+    <line class="resume-line" x1="512" y1="7" x2="545" y2="7" stroke-width="2.5"/>
+    <text class="txt"         x="552" y="12" font-size="13">Resume cycle</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+    <marker id="arrow-resume" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path class="resume-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ============== iOS ============== -->
+  <g transform="translate(80 0)">
+    <rect class="panel" x="0" y="160" width="440" height="656" rx="14" stroke-width="1"/>
+    <text class="txt"   x="220" y="192" text-anchor="middle" font-size="19" font-weight="700">iOS</text>
+
+    <rect class="running" x="100" y="220" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="running-t" x="220" y="253" text-anchor="middle" font-size="16" font-weight="700">Running</text>
+
+    <rect class="paused" x="100" y="380" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="paused-t" x="220" y="404" text-anchor="middle" font-size="15" font-weight="700">Paused /</text>
+    <text class="paused-t" x="220" y="422" text-anchor="middle" font-size="15" font-weight="700">backgrounded</text>
+
+    <rect class="killed" x="100" y="540" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="killed-t" x="220" y="565" text-anchor="middle" font-size="15" font-weight="700">Killed for memory</text>
+    <text class="killed-sub" x="220" y="584" text-anchor="middle" font-size="11" font-style="italic">OS-initiated</text>
+
+    <rect class="relaunch" x="100" y="700" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="relaunch-t" x="220" y="733" text-anchor="middle" font-size="15" font-weight="700">Relaunch (cold start)</text>
+
+    <line class="arrow-line" x1="220" y1="276" x2="220" y2="377" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="436" x2="220" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="596" x2="220" y2="697" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <text class="txt"     x="232" y="311" font-size="12">swipe home</text>
+    <text class="txt-dim" x="232" y="328" font-size="11" font-style="italic">OnApplicationPause(true)</text>
+    <text class="txt-dim" x="232" y="345" font-size="11" font-style="italic">applicationWillResignActive</text>
+
+    <text class="txt"     x="232" y="471" font-size="12">~30 s, then suspended</text>
+    <text class="txt-dim" x="232" y="488" font-size="11" font-style="italic">OS may terminate anytime</text>
+    <text class="txt-dim" x="232" y="505" font-size="11" font-style="italic">— no hook fires</text>
+
+    <text class="txt"     x="232" y="631" font-size="12">tap icon → cold start</text>
+    <text class="txt-dim" x="232" y="648" font-size="11" font-style="italic">OnApplicationQuit does</text>
+    <text class="txt-dim" x="232" y="665" font-size="11" font-style="italic">not fire on this path</text>
+
+    <path class="resume-line" d="M 100 728 Q 40 728 40 670 L 40 286 Q 40 248 97 248" stroke-width="2.5" marker-end="url(#arrow-resume)"/>
+    <text class="resume-t" x="56" y="478" font-size="12" font-style="italic" text-anchor="middle" transform="rotate(-90 56 478)">Awake → OnApplicationPause(false) → read save → catch-up</text>
+  </g>
+
+  <!-- ============== Android ============== -->
+  <g transform="translate(580 0)">
+    <rect class="panel" x="0" y="160" width="440" height="656" rx="14" stroke-width="1"/>
+    <text class="txt"   x="220" y="192" text-anchor="middle" font-size="19" font-weight="700">Android</text>
+
+    <rect class="running" x="100" y="220" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="running-t" x="220" y="253" text-anchor="middle" font-size="16" font-weight="700">Running</text>
+
+    <rect class="paused" x="100" y="380" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="paused-t"   x="220" y="405" text-anchor="middle" font-size="15" font-weight="700">Paused</text>
+    <text class="paused-sub" x="220" y="424" text-anchor="middle" font-size="12" font-style="italic">Activity.onPause</text>
+
+    <rect class="killed" x="100" y="540" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="killed-t"   x="220" y="565" text-anchor="middle" font-size="15" font-weight="700">Killed by LMK</text>
+    <text class="killed-sub" x="220" y="584" text-anchor="middle" font-size="11" font-style="italic">Low-Memory Killer</text>
+
+    <rect class="relaunch" x="100" y="700" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="relaunch-t" x="220" y="733" text-anchor="middle" font-size="15" font-weight="700">Relaunch (cold start)</text>
+
+    <line class="arrow-line" x1="220" y1="276" x2="220" y2="377" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="436" x2="220" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="596" x2="220" y2="697" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <text class="txt"     x="232" y="311" font-size="12">home / recents</text>
+    <text class="txt-dim" x="232" y="328" font-size="11" font-style="italic">onPause →</text>
+    <text class="txt-dim" x="232" y="345" font-size="11" font-style="italic">OnApplicationPause(true)</text>
+
+    <text class="txt"     x="232" y="471" font-size="12">LMK / battery saver</text>
+    <text class="txt-dim" x="232" y="488" font-size="11" font-style="italic">OEM-specific aggressive</text>
+    <text class="txt-dim" x="232" y="505" font-size="11" font-style="italic">kills on some vendors</text>
+
+    <text class="txt"     x="232" y="631" font-size="12">resume from recents</text>
+    <text class="txt-dim" x="232" y="648" font-size="11" font-style="italic">full cold start —</text>
+    <text class="txt-dim" x="232" y="665" font-size="11" font-style="italic">the process was gone</text>
+
+    <path class="resume-line" d="M 100 728 Q 40 728 40 670 L 40 286 Q 40 248 97 248" stroke-width="2.5" marker-end="url(#arrow-resume)"/>
+    <text class="resume-t" x="56" y="478" font-size="12" font-style="italic" text-anchor="middle" transform="rotate(-90 56 478)">Awake → OnApplicationPause(false) → run catch-up</text>
+  </g>
+
+  <!-- ============== Desktop ============== -->
+  <g transform="translate(1080 0)">
+    <rect class="panel" x="0" y="160" width="440" height="656" rx="14" stroke-width="1"/>
+    <text class="txt"   x="220" y="192" text-anchor="middle" font-size="19" font-weight="700">Desktop (Mac / Windows / Linux)</text>
+
+    <rect class="running" x="100" y="220" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="running-t" x="220" y="253" text-anchor="middle" font-size="16" font-weight="700">Running</text>
+
+    <rect class="paused" x="100" y="380" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="paused-t" x="220" y="404" text-anchor="middle" font-size="15" font-weight="700">Focus lost /</text>
+    <text class="paused-t" x="220" y="422" text-anchor="middle" font-size="15" font-weight="700">minimized</text>
+
+    <rect class="killed" x="100" y="540" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="killed-t"   x="220" y="565" text-anchor="middle" font-size="15" font-weight="700">Quit / force-kill</text>
+    <text class="killed-sub" x="220" y="584" text-anchor="middle" font-size="11" font-style="italic">user-initiated</text>
+
+    <rect class="relaunch" x="100" y="700" width="240" height="56" rx="10" stroke-width="2"/>
+    <text class="relaunch-t" x="220" y="733" text-anchor="middle" font-size="15" font-weight="700">Relaunch</text>
+
+    <line class="arrow-line" x1="220" y1="276" x2="220" y2="377" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="436" x2="220" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+    <line class="arrow-line" x1="220" y1="596" x2="220" y2="697" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <text class="txt"     x="232" y="311" font-size="12">alt-tab / minimize</text>
+    <text class="txt-dim" x="232" y="328" font-size="11" font-style="italic">OnApplicationFocus(false)</text>
+    <text class="txt-dim" x="232" y="345" font-size="11" font-style="italic">pause hook is patchy</text>
+
+    <text class="txt"     x="232" y="471" font-size="12">user quits app</text>
+    <text class="txt-dim" x="232" y="488" font-size="11" font-style="italic">OnApplicationQuit</text>
+    <text class="txt-dim" x="232" y="505" font-size="11" font-style="italic">usually fires here</text>
+
+    <text class="txt"     x="232" y="631" font-size="12">user reopens</text>
+    <text class="txt-dim" x="232" y="648" font-size="11" font-style="italic">fresh process</text>
+
+    <path class="resume-line" d="M 100 728 Q 40 728 40 670 L 40 286 Q 40 248 97 248" stroke-width="2.5" marker-end="url(#arrow-resume)"/>
+    <text class="resume-t" x="56" y="478" font-size="12" font-style="italic" text-anchor="middle" transform="rotate(-90 56 478)">Awake → OnApplicationFocus(true) → optional resume pass</text>
+  </g>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Unity routes all three into OnApplicationPause / OnApplicationFocus / OnApplicationQuit — but reliability differs by platform.</text>
+</svg>

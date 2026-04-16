@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Burst compilation pipeline</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Managed C# → IL → LLVM-optimized native code — and SIMD executes four-to-eight particles per op at runtime</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Phase labels above pipeline -->
+  <text class="txt-dim" x="595" y="285" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.15em">COMPILE TIME</text>
+  <line class="arrow-line" x1="60" y1="298" x2="1150" y2="298" stroke-width="1" stroke-opacity="0.35"/>
+
+  <text class="txt-dim" x="1320" y="285" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.15em">RUN TIME</text>
+  <line class="arrow-line" x1="1200" y1="298" x2="1540" y2="298" stroke-width="1" stroke-opacity="0.35"/>
+
+  <!-- Centers at x=160, 450, 740, 1030 (COMPILE), 1320 (RUN) — 290 apart.
+       Boxes 240 × 130, y=340..470. -->
+
+  <!-- Stage 1 — CS -->
+  <rect class="relaunch" x="40" y="340" width="240" height="130" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="160" y="370" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 1 · SOURCE</text>
+  <text class="relaunch-t" x="160" y="400" text-anchor="middle" font-size="17" font-weight="700">Managed C#</text>
+  <text class="relaunch-t" x="160" y="425" text-anchor="middle" font-size="12" font-style="italic">IJobParallelFor struct</text>
+  <text class="relaunch-t" x="160" y="447" text-anchor="middle" font-size="11" font-style="italic">[BurstCompile] attribute</text>
+
+  <line class="arrow-line" x1="281" y1="405" x2="329" y2="405" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2 — IL -->
+  <rect class="relaunch" x="330" y="340" width="240" height="130" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="450" y="370" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 2 · LOWER</text>
+  <text class="relaunch-t" x="450" y="400" text-anchor="middle" font-size="17" font-weight="700">IL bytecode</text>
+  <text class="relaunch-t" x="450" y="425" text-anchor="middle" font-size="12" font-style="italic">emitted by Roslyn</text>
+  <text class="relaunch-t" x="450" y="447" text-anchor="middle" font-size="11" font-style="italic">standard .NET IL</text>
+
+  <line class="arrow-line" x1="571" y1="405" x2="619" y2="405" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3 — BC (the star) -->
+  <rect class="running" x="620" y="340" width="240" height="130" rx="12" stroke-width="2"/>
+  <text class="running-t" x="740" y="370" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 3 · OPTIMIZE</text>
+  <text class="running-t" x="740" y="400" text-anchor="middle" font-size="17" font-weight="700">Burst compiler</text>
+  <text class="running-t" x="740" y="425" text-anchor="middle" font-size="12" font-style="italic">LLVM back-end</text>
+  <text class="running-t" x="740" y="447" text-anchor="middle" font-size="11" font-style="italic">auto-vectorize · inline</text>
+
+  <line class="arrow-line" x1="861" y1="405" x2="909" y2="405" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4 — NATIVE -->
+  <rect class="running" x="910" y="340" width="240" height="130" rx="12" stroke-width="2"/>
+  <text class="running-t" x="1030" y="370" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 4 · OUTPUT</text>
+  <text class="running-t" x="1030" y="400" text-anchor="middle" font-size="17" font-weight="700">Native code</text>
+  <text class="running-t" x="1030" y="425" text-anchor="middle" font-size="12" font-style="italic">AVX2 on desktop</text>
+  <text class="running-t" x="1030" y="447" text-anchor="middle" font-size="11" font-style="italic">NEON on ARM / mobile</text>
+
+  <!-- Phase boundary: dashed vertical divider -->
+  <line class="arrow-line" x1="1175" y1="310" x2="1175" y2="500" stroke-width="1.5" stroke-dasharray="5 5" stroke-opacity="0.5"/>
+  <line class="arrow-line" x1="1151" y1="405" x2="1199" y2="405" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5 — CPU -->
+  <rect class="paused" x="1200" y="340" width="240" height="130" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="1320" y="370" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 5 · EXECUTE</text>
+  <text class="paused-t" x="1320" y="400" text-anchor="middle" font-size="17" font-weight="700">CPU executes</text>
+  <text class="paused-sub" x="1320" y="425" text-anchor="middle" font-size="12" font-style="italic">one SIMD op =</text>
+  <text class="paused-sub" x="1320" y="447" text-anchor="middle" font-size="12" font-style="italic">4–8 particles simultaneously</text>
+
+  <!-- Benefit callout below the pipeline -->
+  <rect class="panel" x="200" y="540" width="1200" height="160" rx="12" stroke-width="1"/>
+  <text class="txt"     x="800" y="575" text-anchor="middle" font-size="15" font-weight="700">What Burst actually buys you</text>
+  <text class="txt"     x="800" y="608" text-anchor="middle" font-size="13">Same C# you'd write for managed code — but at runtime it runs as tight SIMD-vectorized native that saturates the CPU lanes.</text>
+  <text class="txt-dim" x="800" y="634" text-anchor="middle" font-size="12" font-style="italic">Caveats: the struct must be unmanaged (no class refs, no boxing), no reference types, no managed exceptions —</text>
+  <text class="txt-dim" x="800" y="652" text-anchor="middle" font-size="12" font-style="italic">and Burst silently falls back to plain managed code if any of those constraints break. Always verify in the Burst Inspector.</text>
+  <text class="txt-dim" x="800" y="682" text-anchor="middle" font-size="11" font-style="italic">Typical speedup on DebrisField-style workloads: 3–10× on desktop, 2–6× on mobile.</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">The first four stages happen once at build time · the fifth happens every frame — which is where every saved CPU cycle lives.</text>
+</svg>

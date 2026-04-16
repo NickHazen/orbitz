@@ -1,0 +1,24 @@
+flowchart LR
+    MB["MonoBehaviour<br/>(mutable state)<br/>Planetoid, GravityBody"]
+    SN["Snapshot struct<br/>(immutable copy)<br/>float2, float, int"]
+    JB["IJobParallelFor<br/>reads snapshot<br/>[BurstCompile]"]
+    EQ["NativeQueue&lt;T&gt;<br/>ParallelWriter<br/>AbsorbEvent, …"]
+    MT["Main thread<br/>drains queue<br/>Absorb · SpawnStuck"]
+
+    MB -- "copy fields<br/>top of FixedUpdate" --> SN
+    SN -- "[ReadOnly] input" --> JB
+    JB -- "Enqueue events" --> EQ
+    EQ -- "TryDequeue<br/>after Complete()" --> MT
+    MT -. "next tick,<br/>rebuild snapshot" .-> MB
+
+    classDef mb fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef snap fill:#6B7280,stroke:#374151,color:#fff;
+    classDef job fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef queue fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef main fill:#10B981,stroke:#065F46,color:#fff;
+
+    class MB mb;
+    class SN snap;
+    class JB job;
+    class EQ queue;
+    class MT main;

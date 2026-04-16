@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Anatomy of an orbit</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Perigee, apogee, semi-major axis — one ellipse, three names you need</text>
+
+  <!-- Orbit ellipse, centered on geometric center of ellipse -->
+  <!-- ellipse center (900, 470), rx=500, ry=280 -->
+  <ellipse cx="900" cy="470" rx="500" ry="280" fill="none" stroke="#F59E0B" stroke-width="3"/>
+
+  <!-- Semi-major axis line (from left end to right end, passes through center and focus) -->
+  <line x1="400" y1="470" x2="1400" y2="470" stroke="#6B7280" stroke-width="1" stroke-dasharray="6 6"/>
+
+  <!-- Geometric center marker -->
+  <circle cx="900" cy="470" r="5" fill="#6B7280"/>
+  <text x="900" y="500" text-anchor="middle" font-size="14" fill="#6B7280">center</text>
+
+  <!-- Focus (planet) — shifted left from center by c = sqrt(a² − b²) ≈ 413 -->
+  <circle cx="487" cy="470" r="55" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="487" y="475" text-anchor="middle" font-size="15" fill="#fff" font-weight="700">planet</text>
+  <text x="487" y="560" text-anchor="middle" font-size="14" fill="#6B7280">focus</text>
+
+  <!-- Perigee (closest point = left endpoint of ellipse at x=400) -->
+  <circle cx="400" cy="470" r="7" fill="#10B981"/>
+  <text x="400" y="420" text-anchor="middle" font-weight="700" font-size="20" fill="#10B981">Perigee</text>
+  <text x="400" y="398" text-anchor="middle" font-size="14" fill="#6B7280">closest approach</text>
+
+  <!-- Apogee (farthest = right endpoint x=1400) -->
+  <circle cx="1400" cy="470" r="7" fill="#EF4444"/>
+  <text x="1400" y="420" text-anchor="middle" font-weight="700" font-size="20" fill="#EF4444">Apogee</text>
+  <text x="1400" y="398" text-anchor="middle" font-size="14" fill="#6B7280">farthest point</text>
+
+  <!-- Semi-major axis bracket (from center to right endpoint, = a) -->
+  <g stroke="#E5E7EB" stroke-width="2" fill="none">
+    <line x1="900" y1="750" x2="1400" y2="750"/>
+    <line x1="900" y1="740" x2="900" y2="760"/>
+    <line x1="1400" y1="740" x2="1400" y2="760"/>
+  </g>
+  <text x="1150" y="778" text-anchor="middle" font-size="18" fill="#E5E7EB">semi-major axis a</text>
+
+  <!-- Full major axis bracket (from left endpoint to right endpoint = 2a) -->
+  <g stroke="#6B7280" stroke-width="1" fill="none">
+    <line x1="400" y1="810" x2="1400" y2="810"/>
+    <line x1="400" y1="800" x2="400" y2="820"/>
+    <line x1="1400" y1="800" x2="1400" y2="820"/>
+  </g>
+  <text x="900" y="838" text-anchor="middle" font-size="14" fill="#6B7280">major axis = 2a</text>
+
+  <!-- Eccentricity note -->
+  <g font-size="15" fill="#E5E7EB">
+    <text x="80" y="140">r<tspan baseline-shift="sub" font-size="11">p</tspan> = a(1 − e)    (perigee distance from focus)</text>
+    <text x="80" y="168">r<tspan baseline-shift="sub" font-size="11">a</tspan> = a(1 + e)    (apogee distance from focus)</text>
+    <text x="80" y="196" fill="#6B7280">e = eccentricity (0 = circle, 1 = parabola)</text>
+  </g>
+
+  <!-- Sample orbiter glyph on upper arc -->
+  <circle cx="1180" cy="239" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="1180" y="220" text-anchor="middle" font-size="13" fill="#F59E0B">orbiter</text>
+
+  <!-- r vector from focus to orbiter -->
+  <line x1="487" y1="470" x2="1180" y2="239" stroke="#F59E0B" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="820" y="345" font-size="16" fill="#F59E0B" font-weight="700">r</text>
+</svg>

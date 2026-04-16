@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Upgrade dependency graph</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Root unlock → two forks → convergence on capstones · five layers from starter to T2 station</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="paused"  x="530" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="552" y="120" font-size="13">Root / starter</text>
+    <rect class="running" x="680" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="702" y="120" font-size="13">Standard tier</text>
+    <rect class="killed"  x="830" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="852" y="120" font-size="13">Capstone (converges multiple paths)</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- 5 columns at x=140, 420, 720, 1020, 1320. Box 220 × 60, rx=10 -->
+
+  <!-- L0: Basic Slingshot (root) -->
+  <rect class="paused" x="30" y="440" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="140" y="465" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L0 · ROOT</text>
+  <text class="paused-t" x="140" y="486" text-anchor="middle" font-size="15" font-weight="700">Basic Slingshot</text>
+
+  <!-- L1: Twin Slingshot (top), Fueled Rocket (bottom) -->
+  <rect class="running" x="310" y="310" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t" x="420" y="335" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L1</text>
+  <text class="running-t" x="420" y="356" text-anchor="middle" font-size="15" font-weight="700">Twin Slingshot</text>
+
+  <rect class="running" x="310" y="570" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t" x="420" y="595" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L1</text>
+  <text class="running-t" x="420" y="616" text-anchor="middle" font-size="15" font-weight="700">Fueled Rocket</text>
+
+  <!-- L2: Mass Driver (top), Orbital Station T1 (bottom) -->
+  <rect class="killed" x="610" y="310" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="killed-t" x="720" y="335" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L2 · CAPSTONE</text>
+  <text class="killed-t" x="720" y="356" text-anchor="middle" font-size="15" font-weight="700">Mass Driver</text>
+
+  <rect class="running" x="610" y="570" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t" x="720" y="595" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L2</text>
+  <text class="running-t" x="720" y="616" text-anchor="middle" font-size="15" font-weight="700">Orbital Station T1</text>
+
+  <!-- L3: Harvester Drone (top), Refinery T1 (bottom) -->
+  <rect class="running" x="910" y="440" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1020" y="465" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L3</text>
+  <text class="running-t" x="1020" y="486" text-anchor="middle" font-size="15" font-weight="700">Harvester Drone</text>
+
+  <rect class="running" x="910" y="660" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1020" y="685" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L3</text>
+  <text class="running-t" x="1020" y="706" text-anchor="middle" font-size="15" font-weight="700">Refinery T1</text>
+
+  <!-- L4: Orbital Station T2 (converges from Mass Driver and Refinery T1) -->
+  <rect class="killed" x="1210" y="530" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="killed-t" x="1320" y="555" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.1em">L4 · CAPSTONE</text>
+  <text class="killed-t" x="1320" y="576" text-anchor="middle" font-size="15" font-weight="700">Orbital Station T2</text>
+
+  <!-- Edges: BS → TS, FR -->
+  <line class="arrow-line" x1="250" y1="455" x2="305" y2="345" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="250" y1="485" x2="305" y2="595" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- TS → MD -->
+  <line class="arrow-line" x1="531" y1="340" x2="605" y2="340" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- FR → MD -->
+  <line class="arrow-line" x1="531" y1="585" x2="605" y2="360" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- FR → OS T1 -->
+  <line class="arrow-line" x1="531" y1="600" x2="605" y2="600" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- OS T1 → HD -->
+  <line class="arrow-line" x1="831" y1="585" x2="905" y2="475" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- OS T1 → RF -->
+  <line class="arrow-line" x1="831" y1="615" x2="905" y2="685" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- MD → OS T2 -->
+  <line class="arrow-line" x1="831" y1="355" x2="1205" y2="548" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- RF → OS T2 -->
+  <line class="arrow-line" x1="1131" y1="700" x2="1205" y2="572" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Capstones are the tree's storytelling moments — "you needed BOTH Mass Driver AND Refinery T1 to reach Station T2."</text>
+</svg>

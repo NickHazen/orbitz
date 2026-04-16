@@ -1,0 +1,28 @@
+flowchart LR
+    A["Main thread<br/>build NativeArray<br/>new AddConstantJob { … }"]
+    B["job.Schedule(len, 64)<br/>returns JobHandle"]
+    C1["Worker 1<br/>Execute(0..63)"]
+    C2["Worker 2<br/>Execute(64..127)"]
+    C3["Worker 3<br/>Execute(128..191)"]
+    CN["Worker N<br/>Execute(…)"]
+    D["handle.Complete()<br/>(main blocks here)"]
+    E["Main thread<br/>Debug.Log(positions[0])<br/>positions.Dispose()"]
+
+    A --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    B --> CN
+    C1 --> D
+    C2 --> D
+    C3 --> D
+    CN --> D
+    D --> E
+
+    classDef main fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef worker fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef done fill:#10B981,stroke:#065F46,color:#fff;
+
+    class A,B main;
+    class C1,C2,C3,CN worker;
+    class D,E done;

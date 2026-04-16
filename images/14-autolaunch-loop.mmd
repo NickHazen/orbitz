@@ -1,0 +1,14 @@
+flowchart LR
+    T[Idle timer tick<br/>every launchInterval s]:::neutral --> A[Auto-aim<br/>vis-viva → v target]:::orbiter
+    A --> S[Spawn orbiter<br/>Instantiate prefab]:::orbiter
+    S --> PH[Physics tick<br/>Verlet + drag]:::planet
+    PH --> PU[Pickup loop<br/>mass merge]:::success
+    PU --> EC[Economy tick<br/>mass → currency]:::success
+    EC --> T
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+    classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

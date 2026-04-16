@@ -1,0 +1,20 @@
+---
+title: One launch, choreographed — juice events along a single slingshot arc
+---
+flowchart LR
+
+  P["Press · t = 0 ms<br/>haptic tap · UI flash · band appears"]:::orbiter
+  D["Drag · continuous<br/>dotted preview · rising tension audio · rumble"]:::planet
+  R["Release · t ≈ 1200 ms<br/>launch SFX · screen shake 0.05 u · particle poof · camera zoom"]:::atmosphere
+  S["Spawn · t + 16 ms<br/>orbiter sprite appears · debut squash/stretch"]:::success
+  K["Pickups · t + 500 ms onward<br/>per-mass tic SFX · tiny bursts · counter pulse on tens digit"]:::debris
+  E["Orbit-end · variable<br/>success chime or atmosphere-burn fade"]:::neutral
+
+  P --> D --> R --> S --> K --> E
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef success fill:#10B981,stroke:#065F46,color:#fff;
+  classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

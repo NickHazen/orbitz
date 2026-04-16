@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+    .resume-line { stroke: #6F9677; fill: none; }
+    .resume-head { fill: #6F9677; }
+    .resume-t   { fill: #4A7352; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+      .resume-t   { fill: #8EB294; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Auto-launch loop</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Timer → aim → spawn → physics → pickup → economy → timer — the whole core loop, on a cadence</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+    <marker id="arrow-resume" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path class="resume-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Centers at x=170, 410, 650, 890, 1130, 1370 (240 apart). Boxes 200 × 90, y=380..470 -->
+
+  <!-- T — Timer tick -->
+  <rect class="relaunch" x="70" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="170" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 1 · TRIGGER</text>
+  <text class="relaunch-t" x="170" y="435" text-anchor="middle" font-size="15" font-weight="700">Timer tick</text>
+  <text class="relaunch-t" x="170" y="456" text-anchor="middle" font-size="11" font-style="italic">every launchInterval s</text>
+
+  <line class="arrow-line" x1="271" y1="425" x2="309" y2="425" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- A — Auto-aim -->
+  <rect class="running" x="310" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="410" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 2 · AIM</text>
+  <text class="running-t" x="410" y="435" text-anchor="middle" font-size="15" font-weight="700">Auto-aim</text>
+  <text class="running-t" x="410" y="456" text-anchor="middle" font-size="11" font-style="italic">vis-viva → v target</text>
+
+  <line class="arrow-line" x1="511" y1="425" x2="549" y2="425" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- S — Spawn -->
+  <rect class="running" x="550" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="650" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 3 · SPAWN</text>
+  <text class="running-t" x="650" y="435" text-anchor="middle" font-size="15" font-weight="700">Spawn orbiter</text>
+  <text class="running-t" x="650" y="456" text-anchor="middle" font-size="11" font-style="italic">Instantiate prefab</text>
+
+  <line class="arrow-line" x1="751" y1="425" x2="789" y2="425" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- PH — Physics -->
+  <rect class="paused" x="790" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="890" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 4 · PHYSICS</text>
+  <text class="paused-t" x="890" y="435" text-anchor="middle" font-size="15" font-weight="700">Physics tick</text>
+  <text class="paused-t" x="890" y="456" text-anchor="middle" font-size="11" font-style="italic">Verlet + drag</text>
+
+  <line class="arrow-line" x1="991" y1="425" x2="1029" y2="425" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- PU — Pickup -->
+  <rect class="decision" x="1030" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="txt" x="1130" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 5 · PICKUP</text>
+  <text class="txt" x="1130" y="435" text-anchor="middle" font-size="15" font-weight="700">Pickup loop</text>
+  <text class="txt" x="1130" y="456" text-anchor="middle" font-size="11" font-style="italic">mass merge</text>
+
+  <line class="arrow-line" x1="1231" y1="425" x2="1269" y2="425" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- EC — Economy -->
+  <rect class="running" x="1270" y="380" width="200" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1370" y="410" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 6 · ECONOMY</text>
+  <text class="running-t" x="1370" y="435" text-anchor="middle" font-size="15" font-weight="700">Economy tick</text>
+  <text class="running-t" x="1370" y="456" text-anchor="middle" font-size="11" font-style="italic">mass → currency</text>
+
+  <!-- Return curve — EC back to T (sage cycle) -->
+  <path class="resume-line" d="M 1370 471 C 1370 650 170 650 170 473" stroke-width="2.5" marker-end="url(#arrow-resume)"/>
+  <text class="resume-t" x="770" y="663" text-anchor="middle" font-size="12" font-style="italic">cycle closes — Timer re-arms at next launchInterval, idle throughput scales with player upgrades</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">The manual slingshot IS this loop without automation — automation swaps human intent for a policy fn.</text>
+</svg>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Atmospheric decay lifecycle</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Drag applied only at perigee circularizes, then shrinks, then kills</text>
+
+  <!-- Planet -->
+  <circle cx="800" cy="490" r="75" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="800" y="496" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Atmosphere ring -->
+  <circle cx="800" cy="490" r="120" fill="#EF4444" fill-opacity="0.15" stroke="#EF4444" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Orbit 1: highly elliptical, perigee dips inside atmosphere
+       Use ellipse centered at (800-180, 490) with rx=420, ry=260. Perigee at left end = (200,490); apogee = (1040,490). Focus shifts right, so put planet at right focus. Actually let's place planet at focus of ellipse. Simpler: draw ellipses approximately centered offset to the left -->
+  <!-- Orbit 1 (highly elliptical) -->
+  <ellipse cx="920" cy="490" rx="500" ry="300" fill="none" stroke="#F59E0B" stroke-width="2.5"/>
+  <text x="420" y="190" font-size="14" fill="#F59E0B">1. Elliptical — perigee dips into atmosphere</text>
+
+  <!-- Orbit 2 (less elliptical) -->
+  <ellipse cx="880" cy="490" rx="400" ry="280" fill="none" stroke="#F59E0B" stroke-width="2" stroke-opacity="0.75"/>
+  <text x="490" y="220" font-size="13" fill="#F59E0B">2. Drag trims apogee</text>
+
+  <!-- Orbit 3 (near-circular, larger) -->
+  <circle cx="800" cy="490" r="310" fill="none" stroke="#F59E0B" stroke-width="2" stroke-opacity="0.6"/>
+  <text x="530" y="250" font-size="13" fill="#F59E0B">3. Circularized</text>
+
+  <!-- Orbit 4 (shrinking circular) -->
+  <circle cx="800" cy="490" r="220" fill="none" stroke="#F59E0B" stroke-width="2" stroke-opacity="0.45"/>
+  <text x="580" y="275" font-size="13" fill="#F59E0B">4. Spiraling down</text>
+
+  <!-- Orbit 5 (final dip into atmosphere) -->
+  <circle cx="800" cy="490" r="145" fill="none" stroke="#F59E0B" stroke-width="2" stroke-opacity="0.3"/>
+  <text x="630" y="300" font-size="13" fill="#F59E0B">5. Atmosphere dominates</text>
+
+  <!-- Kill marker -->
+  <g>
+    <circle cx="800" cy="420" r="10" fill="#EF4444"/>
+    <text x="800" y="405" text-anchor="middle" font-size="13" fill="#EF4444" font-weight="700">6. Surface kill</text>
+  </g>
+
+  <!-- Stage labels on left side as a legend -->
+  <g>
+    <rect x="60" y="540" width="380" height="300" rx="10" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+    <text x="80" y="575" font-size="16" fill="#E5E7EB" font-weight="700">Why it looks magical</text>
+    <text x="80" y="608" font-size="14" fill="#E5E7EB">Drag is applied only at perigee (inside the</text>
+    <text x="80" y="630" font-size="14" fill="#E5E7EB">atmosphere), so velocity shed at the bottom</text>
+    <text x="80" y="652" font-size="14" fill="#E5E7EB">of the orbit lowers the apogee on the other side.</text>
+    <text x="80" y="686" font-size="14" fill="#E5E7EB">Repeat enough times and the apogee meets</text>
+    <text x="80" y="708" font-size="14" fill="#E5E7EB">the perigee — the orbit circularizes.</text>
+    <text x="80" y="742" font-size="14" fill="#E5E7EB">Keep going and both shrink together until the</text>
+    <text x="80" y="764" font-size="14" fill="#E5E7EB">whole orbit is inside the atmosphere.</text>
+    <text x="80" y="798" font-size="13" fill="#6B7280">It's not a script — it's an emergent consequence</text>
+    <text x="80" y="818" font-size="13" fill="#6B7280">of Newton + drag. Gorgeous for free.</text>
+  </g>
+
+  <!-- Arrow sequence legend right -->
+  <g>
+    <rect x="1180" y="540" width="380" height="300" rx="10" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+    <text x="1200" y="575" font-size="16" fill="#E5E7EB" font-weight="700">Timeline</text>
+    <g font-size="14" fill="#E5E7EB">
+      <text x="1200" y="608">1 → 2   apogee drops after each perigee pass</text>
+      <text x="1200" y="636">2 → 3   orbit becomes nearly circular</text>
+      <text x="1200" y="664">3 → 4   circular orbit shrinks tick by tick</text>
+      <text x="1200" y="692">4 → 5   whole orbit enters atmosphere</text>
+      <text x="1200" y="720">5 → 6   velocity collapses, surface trigger</text>
+    </g>
+    <text x="1200" y="770" font-size="13" fill="#6B7280">Seed this by spawning a fraction of debris</text>
+    <text x="1200" y="790" font-size="13" fill="#6B7280">with perigee &lt; atmosphere via a dedicated</text>
+    <text x="1200" y="810" font-size="13" fill="#6B7280">decayingFraction knob (don't widen speedJitter).</text>
+  </g>
+</svg>

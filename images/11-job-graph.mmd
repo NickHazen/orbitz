@@ -1,0 +1,16 @@
+flowchart LR
+    S[Snapshot<br/>main thread]:::neutral --> V[VerletJob<br/>IJobParallelFor]:::orbiter
+    V --> D[DragJob<br/>IJobParallelFor]:::orbiter
+    D --> P[PickupEmitJob<br/>IJobParallelFor<br/>+ NativeQueue]:::success
+    P --> H[HashBuildJob<br/>IJob, Burst]:::debris
+    H --> C[CollisionResolveJob<br/>IJob, Burst]:::debris
+    C --> K[SurfaceKillJob<br/>IJobParallelFor]:::atmosphere
+    K --> DR[Drain queue<br/>main thread]:::neutral
+    DR --> SY[SyncToParticleSystem<br/>LateUpdate]:::neutral
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+    classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

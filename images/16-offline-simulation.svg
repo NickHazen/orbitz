@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title -->
+  <text class="txt" x="800" y="46" text-anchor="middle" font-size="27" font-weight="700">Offline catch-up simulation</text>
+  <text class="txt-dim" x="800" y="74" text-anchor="middle" font-size="14">Sleep → wake → compute Δt → cap at nap limit → fast-sim N ticks → show catch-up UI</text>
+
+  <!-- Tiny arrow-style legend -->
+  <g>
+    <line  class="arrow-line" x1="610" y1="100" x2="660" y2="100" stroke-width="2"/>
+    <text class="txt"      x="668" y="105" font-size="13">synchronous call</text>
+    <line  class="arrow-line" x1="810" y1="100" x2="860" y2="100" stroke-width="2" stroke-dasharray="6 4"/>
+    <text class="txt"      x="868" y="105" font-size="13">async return</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Participant boxes (y=140..200), lane centers 150, 475, 800, 1125, 1450 -->
+  <rect class="relaunch" x="40"   y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="150"  y="176" text-anchor="middle" font-size="15" font-weight="700">Player</text>
+
+  <rect class="paused"   x="365"  y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="paused-t"   x="475"  y="176" text-anchor="middle" font-size="15" font-weight="700">Mobile OS</text>
+
+  <rect class="running"  x="690"  y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="800"  y="176" text-anchor="middle" font-size="15" font-weight="700">Unity app</text>
+
+  <rect class="running"  x="1015" y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="1125" y="176" text-anchor="middle" font-size="15" font-weight="700">OfflineSim</text>
+
+  <rect class="running"  x="1340" y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="1450" y="176" text-anchor="middle" font-size="15" font-weight="700">Resume UI</text>
+
+  <!-- Lifelines (dashed) -->
+  <line class="arrow-line" x1="150"  y1="200" x2="150"  y2="810" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="475"  y1="200" x2="475"  y2="810" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="800"  y1="200" x2="800"  y2="810" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1125" y1="200" x2="1125" y2="810" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1450" y1="200" x2="1450" y2="810" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+
+  <!-- ============== Pre-sleep -->
+  <!-- Msg 1: P → OS "Sends app to background" -->
+  <text class="txt" x="312" y="232" text-anchor="middle" font-size="12">Sends app to background</text>
+  <line class="arrow-line" x1="150" y1="245" x2="470" y2="245" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 2: OS → App "OnApplicationPause(true)" -->
+  <text class="txt" x="637" y="275" text-anchor="middle" font-size="12">OnApplicationPause(true)</text>
+  <line class="arrow-line" x1="475" y1="288" x2="795" y2="288" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 3: App → App self-loop -->
+  <path class="arrow-line" d="M 800 318 C 870 318 870 348 803 346" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="882" y="337" font-size="12">Persist save + timestamp Tsleep</text>
+
+  <!-- ============== Hours pass band -->
+  <rect class="panel" x="80" y="375" width="1440" height="34" rx="8" stroke-width="1"/>
+  <text class="txt-dim" x="800" y="397" text-anchor="middle" font-size="14" font-style="italic">Hours pass …</text>
+
+  <!-- ============== Post-wake -->
+  <!-- Msg 5: P → OS "Reopens app" -->
+  <text class="txt" x="312" y="437" text-anchor="middle" font-size="12">Reopens app</text>
+  <line class="arrow-line" x1="150" y1="450" x2="470" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 6: OS → App "OnApplicationPause(false)" -->
+  <text class="txt" x="637" y="480" text-anchor="middle" font-size="12">OnApplicationPause(false)</text>
+  <line class="arrow-line" x1="475" y1="493" x2="795" y2="493" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 7: App → Sim "Δt = now − Tsleep" -->
+  <text class="txt" x="962" y="523" text-anchor="middle" font-size="12">Δt = now − Tsleep</text>
+  <line class="arrow-line" x1="800" y1="536" x2="1120" y2="536" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 8: Sim → Sim self-loop "Δt = min(Δt, napCap = 12h)" -->
+  <path class="arrow-line" d="M 1125 566 C 1195 566 1195 596 1128 594" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="1207" y="585" font-size="12">Δt = min(Δt, napCap = 12 h)</text>
+
+  <!-- Msg 9: Sim → Sim self-loop "Fast-sim N ticks" -->
+  <path class="arrow-line" d="M 1125 618 C 1195 618 1195 648 1128 646" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1207" y="633" font-size="12">Fast-sim N ticks</text>
+  <text class="txt-dim" x="1207" y="649" font-size="11" font-style="italic">economy + passive income</text>
+
+  <!-- Msg 10: Sim → App dashed return "Resources delta" -->
+  <text class="txt" x="962" y="683" text-anchor="middle" font-size="12">Resources delta</text>
+  <line class="arrow-line" x1="1125" y1="696" x2="805" y2="696" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Msg 11: App → UI "Show 'While you were away…'" -->
+  <text class="txt" x="1122" y="725" text-anchor="middle" font-size="12">Show “While you were away …”</text>
+  <line class="arrow-line" x1="800" y1="738" x2="1445" y2="738" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 12: UI → P dashed return "+N mass, +M currency" -->
+  <text class="txt" x="800" y="768" text-anchor="middle" font-size="12">+N mass, +M currency</text>
+  <line class="arrow-line" x1="1450" y1="781" x2="155" y2="781" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">The nap cap bounds the fast-sim cost and keeps wake-time predictable even if the app was backgrounded for days.</text>
+</svg>

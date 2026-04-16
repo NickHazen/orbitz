@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="50" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Spatial hash grid — 3×3 neighborhood query</text>
+  <text x="800" y="82" text-anchor="middle" font-size="17" fill="#6B7280">Instead of testing every other particle, only test neighbors in the query cell and its 8 siblings</text>
+
+  <!-- Grid: 10 cols × 7 rows, cell = 100px, origin (200,130) -->
+  <!-- Grid size 1000 × 700, cells 100 px -->
+  <g stroke="#6B7280" stroke-width="1" fill="none">
+    <!-- verticals -->
+    <line x1="200" y1="130" x2="200" y2="830"/>
+    <line x1="300" y1="130" x2="300" y2="830"/>
+    <line x1="400" y1="130" x2="400" y2="830"/>
+    <line x1="500" y1="130" x2="500" y2="830"/>
+    <line x1="600" y1="130" x2="600" y2="830"/>
+    <line x1="700" y1="130" x2="700" y2="830"/>
+    <line x1="800" y1="130" x2="800" y2="830"/>
+    <line x1="900" y1="130" x2="900" y2="830"/>
+    <line x1="1000" y1="130" x2="1000" y2="830"/>
+    <line x1="1100" y1="130" x2="1100" y2="830"/>
+    <line x1="1200" y1="130" x2="1200" y2="830"/>
+    <!-- horizontals -->
+    <line x1="200" y1="130" x2="1200" y2="130"/>
+    <line x1="200" y1="230" x2="1200" y2="230"/>
+    <line x1="200" y1="330" x2="1200" y2="330"/>
+    <line x1="200" y1="430" x2="1200" y2="430"/>
+    <line x1="200" y1="530" x2="1200" y2="530"/>
+    <line x1="200" y1="630" x2="1200" y2="630"/>
+    <line x1="200" y1="730" x2="1200" y2="730"/>
+    <line x1="200" y1="830" x2="1200" y2="830"/>
+  </g>
+
+  <!-- 3x3 highlight around cell (5,3): x in [700,1000], y in [330,630] -->
+  <rect x="700" y="330" width="300" height="300" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-width="3"/>
+
+  <!-- Query particle at center cell (6,4): x in [800,900], y in [430,530] -->
+  <circle cx="840" cy="490" r="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="860" y="475" font-size="13" fill="#F59E0B" font-weight="700">query</text>
+
+  <!-- Particles scattered around (neighbors that will be tested in yellow, non-neighbors in gray) -->
+  <g fill="#8B5CF6">
+    <!-- Inside 3x3 highlight (candidates) -->
+    <circle cx="750" cy="400" r="8"/>
+    <circle cx="960" cy="380" r="8"/>
+    <circle cx="760" cy="600" r="8"/>
+    <circle cx="930" cy="600" r="8"/>
+    <circle cx="870" cy="370" r="8"/>
+    <circle cx="730" cy="510" r="8"/>
+    <circle cx="970" cy="500" r="8"/>
+    <circle cx="880" cy="610" r="8"/>
+  </g>
+  <g fill="#6B7280">
+    <!-- Outside — not tested -->
+    <circle cx="250" cy="170" r="7"/>
+    <circle cx="360" cy="260" r="7"/>
+    <circle cx="470" cy="180" r="7"/>
+    <circle cx="590" cy="280" r="7"/>
+    <circle cx="260" cy="380" r="7"/>
+    <circle cx="380" cy="470" r="7"/>
+    <circle cx="260" cy="560" r="7"/>
+    <circle cx="370" cy="660" r="7"/>
+    <circle cx="270" cy="770" r="7"/>
+    <circle cx="510" cy="760" r="7"/>
+    <circle cx="680" cy="770" r="7"/>
+    <circle cx="1040" cy="780" r="7"/>
+    <circle cx="1140" cy="680" r="7"/>
+    <circle cx="1150" cy="490" r="7"/>
+    <circle cx="1120" cy="280" r="7"/>
+    <circle cx="1040" cy="180" r="7"/>
+    <circle cx="850" cy="200" r="7"/>
+    <circle cx="640" cy="430" r="7"/>
+    <circle cx="640" cy="700" r="7"/>
+    <circle cx="1050" cy="440" r="7"/>
+  </g>
+
+  <!-- Cell index labels -->
+  <g font-size="12" fill="#6B7280">
+    <text x="208" y="148">(0,0)</text>
+    <text x="1108" y="148">(10,0)</text>
+    <text x="208" y="820">(0,7)</text>
+    <text x="808" y="448">(6,3)</text>
+  </g>
+
+  <!-- Legend + note -->
+  <g>
+    <rect x="1280" y="160" width="290" height="300" rx="10" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+    <text x="1300" y="195" font-size="16" fill="#E5E7EB" font-weight="700">Legend</text>
+
+    <circle cx="1315" cy="230" r="9" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="1335" y="236" font-size="14" fill="#E5E7EB">query particle</text>
+
+    <circle cx="1315" cy="265" r="7" fill="#8B5CF6"/>
+    <text x="1335" y="271" font-size="14" fill="#E5E7EB">candidate (tested)</text>
+
+    <circle cx="1315" cy="300" r="7" fill="#6B7280"/>
+    <text x="1335" y="306" font-size="14" fill="#E5E7EB">outside (skipped)</text>
+
+    <rect x="1300" y="330" width="26" height="16" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-width="2"/>
+    <text x="1335" y="344" font-size="14" fill="#E5E7EB">3×3 neighborhood</text>
+
+    <text x="1300" y="390" font-size="13" fill="#6B7280">Cell side ≥ 2·maxRadius</text>
+    <text x="1300" y="412" font-size="13" fill="#6B7280">so any colliding pair must</text>
+    <text x="1300" y="434" font-size="13" fill="#6B7280">live in the 3×3 window.</text>
+  </g>
+
+  <!-- Bottom footer -->
+  <text x="800" y="880" text-anchor="middle" font-size="14" fill="#6B7280">Dedup with j &gt; i during the pair iteration, or every impulse lands twice.</text>
+</svg>

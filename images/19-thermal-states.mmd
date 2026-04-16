@@ -1,0 +1,20 @@
+---
+title: Mobile thermal state machine — normal to throttled and back
+---
+stateDiagram-v2
+  direction LR
+
+  [*] --> Normal
+  Normal: Normal<br/>60 FPS · cool SoC · big cores unparked
+  Pressure: Pressure<br/>60 FPS held · clock drop starts · first big core parks
+  Throttled: Throttled<br/>45 or 30 FPS coherent step · LITTLE-core migration
+  Recovery: Recovery<br/>idle detected · clocks recover · re-opens big cores
+
+  Normal --> Pressure: sustained high load<br/>(>5 min · SoC temp ≥ warm threshold)
+  Pressure --> Throttled: temp ≥ critical threshold<br/>kernel forces clock cap
+  Throttled --> Throttled: load sustained<br/>stay at 30 FPS, no further drop
+  Throttled --> Recovery: load eased<br/>(backgrounded · pulldown menu · idle)
+  Recovery --> Normal: temp back under warm threshold<br/>big cores reopened
+
+  Normal --> Recovery: app backgrounded → targetFrameRate = 1
+  Recovery --> [*]: app killed by OS

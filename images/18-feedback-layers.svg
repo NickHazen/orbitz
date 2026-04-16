@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Feedback layers — what a single pickup actually triggers</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Four parallel channels fire on the same event; each has its own timing and budget</text>
+
+  <!-- Central event -->
+  <rect x="660" y="140" width="280" height="80" rx="14" fill="#F59E0B" stroke="#B45309" stroke-width="3"/>
+  <text x="800" y="178" text-anchor="middle" font-size="20" font-weight="700" fill="#000">Pickup event</text>
+  <text x="800" y="202" text-anchor="middle" font-size="13" fill="#000">Absorb(debris) — the one trigger</text>
+
+  <defs>
+    <marker id="arrFB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <!-- 4 stacked layers beneath -->
+  <!-- Visual -->
+  <g>
+    <rect x="120" y="300" width="1360" height="120" rx="14" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+    <text x="150" y="340" font-size="20" font-weight="700" fill="#fff">Visual</text>
+    <text x="150" y="370" font-size="14" fill="#fff">Particle burst at contact · flash tint on orbiter · scale-pop · trail refresh · stuck-debris sprite</text>
+    <text x="150" y="394" font-size="13" fill="#fff">budget: 2 particle bursts / 1 sprite flash · duration ≤ 200 ms</text>
+    <line x1="800" y1="220" x2="800" y2="298" stroke="#6B7280" stroke-width="2" marker-end="url(#arrFB)"/>
+  </g>
+
+  <!-- Audio -->
+  <g>
+    <rect x="120" y="440" width="1360" height="120" rx="14" fill="#10B981" stroke="#065F46" stroke-width="2"/>
+    <text x="150" y="480" font-size="20" font-weight="700" fill="#fff">Audio</text>
+    <text x="150" y="510" font-size="14" fill="#fff">Absorb one-shot with randomized pitch · layered with low ambient belt bed · ducks briefly</text>
+    <text x="150" y="534" font-size="13" fill="#fff">budget: 1 voice per pickup · max 8 concurrent voices · ±10% pitch jitter</text>
+  </g>
+
+  <!-- Haptic -->
+  <g>
+    <rect x="120" y="580" width="1360" height="120" rx="14" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="150" y="620" font-size="20" font-weight="700" fill="#fff">Haptic</text>
+    <text x="150" y="650" font-size="14" fill="#fff">Short selection-style buzz on mobile · intensity scales with debris mass · respects system toggle</text>
+    <text x="150" y="674" font-size="13" fill="#fff">budget: 1 short pulse per pickup · skipped above 8 pickups per 200 ms</text>
+  </g>
+
+  <!-- Camera -->
+  <g>
+    <rect x="120" y="720" width="1360" height="120" rx="14" fill="#EF4444" stroke="#991B1B" stroke-width="2"/>
+    <text x="150" y="760" font-size="20" font-weight="700" fill="#fff">Camera</text>
+    <text x="150" y="790" font-size="14" fill="#fff">Micro-shake · gentle zoom nudge · chromatic aberration blip on big pickups only</text>
+    <text x="150" y="814" font-size="13" fill="#fff">budget: amplitude capped · accessibility setting disables shake entirely</text>
+  </g>
+
+  <!-- Branch arrows from event down into each layer (cosmetic — just hint of parallel dispatch) -->
+  <g stroke="#6B7280" stroke-width="2" fill="none" stroke-dasharray="4 4">
+    <path d="M 800 220 Q 800 260 400 300" marker-end="url(#arrFB)"/>
+    <path d="M 800 220 Q 800 320 400 440" marker-end="url(#arrFB)"/>
+    <path d="M 800 220 Q 800 400 400 580" marker-end="url(#arrFB)"/>
+    <path d="M 800 220 Q 800 480 400 720" marker-end="url(#arrFB)"/>
+  </g>
+</svg>

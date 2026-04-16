@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Vis-viva cheatsheet</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">One equation relates speed at radius r to the semi-major axis a</text>
+
+  <!-- Orbit ellipse -->
+  <ellipse cx="850" cy="470" rx="480" ry="260" fill="none" stroke="#F59E0B" stroke-width="3"/>
+
+  <!-- Major axis line -->
+  <line x1="370" y1="470" x2="1330" y2="470" stroke="#6B7280" stroke-width="1" stroke-dasharray="6 6"/>
+
+  <!-- Planet at left focus; c = sqrt(a²−b²) ≈ 403 → focus at (850−403)=(447,470) -->
+  <circle cx="447" cy="470" r="50" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="447" y="476" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">planet</text>
+  <text x="447" y="545" text-anchor="middle" font-size="13" fill="#6B7280">gravitational focus</text>
+
+  <!-- Orbiter somewhere on upper arc, e.g. angle -40° on ellipse. Use parametric: center (850,470), so point = (850 + 480*cos θ, 470 - 260*sin θ). Pick θ ≈ 55°: x = 850+480*0.574=1125, y=470-260*0.819=257 -->
+  <circle cx="1125" cy="257" r="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="1155" y="248" font-size="14" fill="#F59E0B" font-weight="700">orbiter</text>
+
+  <!-- r vector from focus to orbiter -->
+  <line x1="447" y1="470" x2="1125" y2="257" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="770" y="345" font-size="20" font-weight="700" fill="#E5E7EB">r</text>
+  <text x="770" y="368" font-size="12" fill="#6B7280">distance to focus</text>
+
+  <!-- Velocity vector at orbiter (tangent to ellipse). Numerical tangent at that point: dx/dθ = -480sinθ, dy/dθ = -260cosθ. θ=55°: dx = -480*0.819=-393, dy = -260*0.574=-149 (note y inverted in SVG). Use direction (-393, 149). Normalize → length ~420, scaled to 140 → (-131, 50) -->
+  <line x1="1125" y1="257" x2="994" y2="307" stroke="#10B981" stroke-width="3" marker-end="url(#arrow-v)"/>
+  <text x="990" y="292" font-size="20" font-weight="700" fill="#10B981">v</text>
+  <text x="960" y="318" font-size="12" fill="#6B7280">tangential speed</text>
+
+  <!-- Semi-major axis bracket below -->
+  <g stroke="#E5E7EB" stroke-width="2" fill="none">
+    <line x1="850" y1="770" x2="1330" y2="770"/>
+    <line x1="850" y1="760" x2="850" y2="780"/>
+    <line x1="1330" y1="760" x2="1330" y2="780"/>
+  </g>
+  <text x="1090" y="796" text-anchor="middle" font-size="18" fill="#E5E7EB">semi-major axis a</text>
+
+  <!-- Formula panel (left) -->
+  <rect x="60" y="120" width="420" height="220" rx="10" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+  <text x="80" y="160" font-size="17" fill="#6B7280">Vis-viva equation</text>
+  <text x="80" y="220" font-size="32" font-weight="700" fill="#E5E7EB">v² = G·M · ( 2/r − 1/a )</text>
+  <g font-size="15" fill="#E5E7EB">
+    <text x="80" y="260">v  — instantaneous speed</text>
+    <text x="80" y="284">r  — distance to the focus</text>
+    <text x="80" y="308">a  — semi-major axis of the orbit</text>
+    <text x="80" y="332">G·M — planet's gravitational parameter</text>
+  </g>
+
+  <!-- Circular orbit special case -->
+  <rect x="60" y="690" width="420" height="160" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="80" y="725" font-size="17" fill="#10B981" font-weight="700">Circular orbit (a = r)</text>
+  <text x="80" y="770" font-size="26" font-weight="700" fill="#E5E7EB">v = √(G·M / r)</text>
+  <text x="80" y="810" font-size="14" fill="#6B7280">speed depends only on radius</text>
+</svg>

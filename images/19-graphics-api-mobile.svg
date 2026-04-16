@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Graphics API — mobile</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">iOS is locked to one API · Android needs you to declare a priority list so Unity can fall back cleanly</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ROOT -->
+  <rect class="running" x="600" y="150" width="400" height="70" rx="12" stroke-width="2"/>
+  <text class="running-t" x="800" y="185" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">START</text>
+  <text class="running-t" x="800" y="207" text-anchor="middle" font-size="16" font-weight="700">Which mobile API?</text>
+
+  <!-- Branches: iOS left, Android right -->
+  <line class="arrow-line" x1="730" y1="220" x2="450" y2="306" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="870" y1="220" x2="1150" y2="306" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Q_IOS -->
+  <path class="decision" d="M 450 310 L 590 380 L 450 450 L 310 380 Z" stroke-width="2"/>
+  <text class="txt" x="450" y="385" text-anchor="middle" font-size="16" font-weight="700">iOS?</text>
+
+  <!-- Q_AND -->
+  <path class="decision" d="M 1150 310 L 1290 380 L 1150 450 L 1010 380 Z" stroke-width="2"/>
+  <text class="txt" x="1150" y="385" text-anchor="middle" font-size="16" font-weight="700">Android?</text>
+
+  <!-- iOS → METAL -->
+  <line class="arrow-line" x1="450" y1="450" x2="450" y2="525" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="465" y="487" font-size="12">yes</text>
+  <text class="txt-dim" x="465" y="502" font-size="11" font-style="italic">no fallback exists</text>
+
+  <rect class="paused" x="280" y="530" width="340" height="120" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="450" y="560" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">THE ONLY OPTION</text>
+  <text class="paused-t" x="450" y="590" text-anchor="middle" font-size="18" font-weight="700">Metal</text>
+  <text class="paused-t" x="450" y="615" text-anchor="middle" font-size="12" font-style="italic">required since iOS 12</text>
+  <text class="paused-t" x="450" y="633" text-anchor="middle" font-size="12" font-style="italic">OpenGL ES is gone</text>
+
+  <!-- Android → VK (primary) -->
+  <line class="arrow-line" x1="1100" y1="435" x2="1000" y2="525" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1032" y="483" font-size="12">yes · Vulkan driver</text>
+  <text class="txt-dim" x="1032" y="498" font-size="11" font-style="italic">2019+ mid/flagship</text>
+
+  <rect class="paused" x="830" y="530" width="340" height="120" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="1000" y="560" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PRIMARY</text>
+  <text class="paused-t" x="1000" y="590" text-anchor="middle" font-size="18" font-weight="700">Vulkan</text>
+  <text class="paused-t" x="1000" y="615" text-anchor="middle" font-size="12" font-style="italic">best perf on 2019+ devices</text>
+  <text class="paused-t" x="1000" y="633" text-anchor="middle" font-size="12" font-style="italic">low-overhead API</text>
+
+  <!-- Android → GLES (legacy) -->
+  <line class="arrow-line" x1="1200" y1="435" x2="1300" y2="525" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1292" y="483" font-size="12">yes · legacy</text>
+  <text class="txt-dim" x="1292" y="498" font-size="11" font-style="italic">no Vulkan driver</text>
+
+  <rect class="relaunch" x="1210" y="530" width="340" height="120" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="1380" y="560" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">FALLBACK</text>
+  <text class="relaunch-t" x="1380" y="590" text-anchor="middle" font-size="18" font-weight="700">GL ES 3.x</text>
+  <text class="relaunch-t" x="1380" y="615" text-anchor="middle" font-size="12" font-style="italic">expect 30 FPS ceiling</text>
+  <text class="relaunch-t" x="1380" y="633" text-anchor="middle" font-size="12" font-style="italic">older devices, low-end tier</text>
+
+  <!-- Dashed "also falls back to" from Vulkan to GLES -->
+  <path class="arrow-line" d="M 1170 650 Q 1275 700 1210 650" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="1190" y="715" text-anchor="middle" font-size="11" font-style="italic">if Vulkan init fails at runtime, Unity falls through</text>
+
+  <!-- Footer note -->
+  <text class="txt-dim" x="800" y="832" text-anchor="middle" font-size="13" font-style="italic">Player Settings → Android → Other → Graphics APIs: set "Vulkan, GLES3" explicitly · don't rely on Auto.</text>
+  <text class="txt-dim" x="800" y="850" text-anchor="middle" font-size="12" font-style="italic">iOS has one box and it says Metal · don't think about it.</text>
+</svg>

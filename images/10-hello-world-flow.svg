@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Fork / join — hello-world job schedule</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Main thread schedules an IJobParallelFor · N workers run slices · Complete() is the join barrier</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Main-thread row: A, B on left · D, E on right · all at y=440 -->
+
+  <!-- A — main build NativeArray -->
+  <rect class="running" x="40" y="400" width="240" height="100" rx="12" stroke-width="2"/>
+  <text class="running-t" x="160" y="433" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">MAIN THREAD · 1</text>
+  <text class="running-t" x="160" y="458" text-anchor="middle" font-size="14" font-weight="700">Build NativeArray</text>
+  <text class="running-t" x="160" y="480" text-anchor="middle" font-size="11" font-family="ui-monospace, monospace">new AddConstantJob { … }</text>
+
+  <line class="arrow-line" x1="281" y1="450" x2="319" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- B — Schedule -->
+  <rect class="running" x="320" y="400" width="240" height="100" rx="12" stroke-width="2"/>
+  <text class="running-t" x="440" y="433" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">MAIN THREAD · 2</text>
+  <text class="running-t" x="440" y="458" text-anchor="middle" font-size="14" font-weight="700">Schedule</text>
+  <text class="running-t" x="440" y="478" text-anchor="middle" font-size="11" font-family="ui-monospace, monospace">job.Schedule(len, 64)</text>
+  <text class="running-t" x="440" y="495" text-anchor="middle" font-size="10" font-style="italic">returns JobHandle</text>
+
+  <!-- Fork: B → workers (fanning right into workers column) -->
+  <line class="arrow-line" x1="560" y1="435" x2="775" y2="205" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="560" y1="445" x2="775" y2="365" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="560" y1="455" x2="775" y2="525" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="560" y1="465" x2="775" y2="685" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text class="txt-dim" x="645" y="375" text-anchor="middle" font-size="11" font-style="italic">fork — batch of 64</text>
+  <text class="txt-dim" x="645" y="390" text-anchor="middle" font-size="11" font-style="italic">per worker</text>
+
+  <!-- Workers column (4 workers at x=780..1020) -->
+  <rect class="paused" x="780" y="170" width="240" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="900" y="199" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">WORKER 1</text>
+  <text class="paused-t" x="900" y="221" text-anchor="middle" font-size="14" font-weight="700">Execute(0 .. 63)</text>
+  <text class="paused-sub" x="900" y="240" text-anchor="middle" font-size="11" font-style="italic">one batch, one core</text>
+
+  <rect class="paused" x="780" y="330" width="240" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="900" y="359" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">WORKER 2</text>
+  <text class="paused-t" x="900" y="381" text-anchor="middle" font-size="14" font-weight="700">Execute(64 .. 127)</text>
+  <text class="paused-sub" x="900" y="400" text-anchor="middle" font-size="11" font-style="italic">one batch, one core</text>
+
+  <rect class="paused" x="780" y="490" width="240" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="900" y="519" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">WORKER 3</text>
+  <text class="paused-t" x="900" y="541" text-anchor="middle" font-size="14" font-weight="700">Execute(128 .. 191)</text>
+  <text class="paused-sub" x="900" y="560" text-anchor="middle" font-size="11" font-style="italic">one batch, one core</text>
+
+  <rect class="paused" x="780" y="650" width="240" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="900" y="679" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">WORKER N</text>
+  <text class="paused-t" x="900" y="701" text-anchor="middle" font-size="14" font-weight="700">Execute(…)</text>
+  <text class="paused-sub" x="900" y="720" text-anchor="middle" font-size="11" font-style="italic">one batch, one core</text>
+
+  <!-- Join: workers → D -->
+  <line class="arrow-line" x1="1020" y1="210" x2="1235" y2="430" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="1020" y1="370" x2="1235" y2="440" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="1020" y1="530" x2="1235" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="1020" y1="690" x2="1235" y2="460" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text class="txt-dim" x="1125" y="375" text-anchor="middle" font-size="11" font-style="italic">join — barrier on</text>
+  <text class="txt-dim" x="1125" y="390" text-anchor="middle" font-size="11" font-style="italic">all workers</text>
+
+  <!-- D — main Complete -->
+  <rect class="running" x="1240" y="400" width="200" height="100" rx="12" stroke-width="2"/>
+  <text class="running-t" x="1340" y="433" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">MAIN THREAD · 3</text>
+  <text class="running-t" x="1340" y="458" text-anchor="middle" font-size="14" font-weight="700">Complete()</text>
+  <text class="running-t" x="1340" y="478" text-anchor="middle" font-size="11" font-style="italic">main blocks</text>
+  <text class="running-t" x="1340" y="494" text-anchor="middle" font-size="11" font-style="italic">waits for last worker</text>
+
+  <!-- E below D — main uses results -->
+  <rect class="relaunch" x="1200" y="540" width="280" height="100" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="1340" y="573" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">MAIN THREAD · 4</text>
+  <text class="relaunch-t" x="1340" y="598" text-anchor="middle" font-size="14" font-weight="700">Use results</text>
+  <text class="relaunch-t" x="1340" y="618" text-anchor="middle" font-size="11" font-family="ui-monospace, monospace">Debug.Log(positions[0])</text>
+  <text class="relaunch-t" x="1340" y="634" text-anchor="middle" font-size="11" font-family="ui-monospace, monospace">positions.Dispose()</text>
+
+  <line class="arrow-line" x1="1340" y1="500" x2="1340" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Horizontal bracket showing "parallel region" -->
+  <line class="arrow-line" x1="780" y1="760" x2="1020" y2="760" stroke-width="3" stroke-opacity="0.35"/>
+  <text class="txt-dim" x="900" y="783" text-anchor="middle" font-size="12" font-style="italic">parallel region — Burst-compiled, no managed allocations allowed inside</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">The only thing main-thread does during the workers' slice is wait on Complete() — schedule early, use the gap for other work.</text>
+</svg>

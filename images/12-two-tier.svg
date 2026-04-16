@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Two-tier particle architecture</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">CPU owns gameplay; GPU owns the spectacle. A pickup-events bridge connects them.</text>
+
+  <defs>
+    <marker id="arrNeutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <!-- CPU tier (top) -->
+  <rect x="100" y="140" width="1400" height="240" rx="18" fill="#F59E0B" fill-opacity="0.08" stroke="#F59E0B" stroke-width="3"/>
+  <text x="140" y="180" font-size="22" font-weight="700" fill="#F59E0B">CPU tier — foreground, interactive</text>
+  <text x="140" y="208" font-size="14" fill="#E5E7EB">≤ 20 000 particles · Burst + Jobs · pickup / collision / decay gameplay</text>
+
+  <!-- Boxes inside CPU tier -->
+  <g>
+    <rect x="150" y="240" width="240" height="110" rx="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="270" y="275" text-anchor="middle" font-size="17" font-weight="700" fill="#000">DebrisField.cs</text>
+    <text x="270" y="302" text-anchor="middle" font-size="13" fill="#000">SoA, 7-stage pipeline</text>
+    <text x="270" y="324" text-anchor="middle" font-size="13" fill="#000">runs in IJobParallelFor</text>
+
+    <rect x="420" y="240" width="240" height="110" rx="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="540" y="275" text-anchor="middle" font-size="17" font-weight="700" fill="#000">Orbiter(s)</text>
+    <text x="540" y="302" text-anchor="middle" font-size="13" fill="#000">GravityBody + collider</text>
+    <text x="540" y="324" text-anchor="middle" font-size="13" fill="#000">calls Absorb on pickup</text>
+
+    <rect x="690" y="240" width="240" height="110" rx="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="810" y="275" text-anchor="middle" font-size="17" font-weight="700" fill="#000">SlingshotLauncher</text>
+    <text x="810" y="302" text-anchor="middle" font-size="13" fill="#000">trajectory preview</text>
+    <text x="810" y="324" text-anchor="middle" font-size="13" fill="#000">one honest dotted line</text>
+
+    <rect x="960" y="240" width="240" height="110" rx="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="1080" y="275" text-anchor="middle" font-size="17" font-weight="700" fill="#000">Economy / UI</text>
+    <text x="1080" y="302" text-anchor="middle" font-size="13" fill="#000">mass counter, upgrades</text>
+    <text x="1080" y="324" text-anchor="middle" font-size="13" fill="#000">save / load / idle</text>
+
+    <rect x="1230" y="240" width="240" height="110" rx="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="1350" y="275" text-anchor="middle" font-size="17" font-weight="700" fill="#000">Input</text>
+    <text x="1350" y="302" text-anchor="middle" font-size="13" fill="#000">Pointer.current</text>
+    <text x="1350" y="324" text-anchor="middle" font-size="13" fill="#000">EnhancedTouchSupport</text>
+  </g>
+
+  <!-- GPU tier (bottom) -->
+  <rect x="100" y="520" width="1400" height="240" rx="18" fill="#8B5CF6" fill-opacity="0.12" stroke="#8B5CF6" stroke-width="3"/>
+  <text x="140" y="560" font-size="22" font-weight="700" fill="#8B5CF6">GPU tier — background, visual only</text>
+  <text x="140" y="588" font-size="14" fill="#E5E7EB">Millions of particles · compute shader · never touched by gameplay code</text>
+
+  <g>
+    <rect x="150" y="620" width="240" height="110" rx="10" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="270" y="655" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Compute dispatch</text>
+    <text x="270" y="682" text-anchor="middle" font-size="13" fill="#fff">Simulate.compute</text>
+    <text x="270" y="704" text-anchor="middle" font-size="13" fill="#fff">Verlet + drag kernel</text>
+
+    <rect x="420" y="620" width="240" height="110" rx="10" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="540" y="655" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Spatial hash</text>
+    <text x="540" y="682" text-anchor="middle" font-size="13" fill="#fff">parallel scan in HLSL</text>
+    <text x="540" y="704" text-anchor="middle" font-size="13" fill="#fff">cell ranges in SSBO</text>
+
+    <rect x="690" y="620" width="240" height="110" rx="10" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="810" y="655" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Collisions</text>
+    <text x="810" y="682" text-anchor="middle" font-size="13" fill="#fff">cell-coloring + impulse</text>
+    <text x="810" y="704" text-anchor="middle" font-size="13" fill="#fff">same math as CPU tier</text>
+
+    <rect x="960" y="620" width="240" height="110" rx="10" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="1080" y="655" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Pickup append</text>
+    <text x="1080" y="682" text-anchor="middle" font-size="13" fill="#fff">AppendStructuredBuffer</text>
+    <text x="1080" y="704" text-anchor="middle" font-size="13" fill="#fff">writes events on contact</text>
+
+    <rect x="1230" y="620" width="240" height="110" rx="10" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="1350" y="655" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Render</text>
+    <text x="1350" y="682" text-anchor="middle" font-size="13" fill="#fff">RenderPrimitivesIndirect</text>
+    <text x="1350" y="704" text-anchor="middle" font-size="13" fill="#fff">billions of bytes, 1 DC</text>
+  </g>
+
+  <!-- Bridge between tiers: pickup events (GPU → CPU, AsyncGPUReadback) + dispatch params (CPU → GPU) -->
+  <g stroke="#6B7280" stroke-width="3" fill="none">
+    <!-- CPU → GPU (dispatch params, solid) -->
+    <line x1="1350" y1="360" x2="1350" y2="615" marker-end="url(#arrNeutral)"/>
+    <!-- GPU → CPU (pickup events, dotted) -->
+    <line x1="1080" y1="615" x2="1080" y2="365" stroke-dasharray="6 4" marker-end="url(#arrNeutral)"/>
+  </g>
+  <text x="1370" y="460" font-size="14" fill="#6B7280">dispatch params</text>
+  <text x="1370" y="480" font-size="14" fill="#6B7280">(every frame)</text>
+  <text x="1100" y="460" font-size="14" fill="#6B7280">pickup events</text>
+  <text x="1100" y="480" font-size="14" fill="#6B7280">(AsyncGPUReadback,</text>
+  <text x="1100" y="500" font-size="14" fill="#6B7280">1–3 frame latency)</text>
+
+  <!-- Bottom note -->
+  <rect x="300" y="810" width="1000" height="60" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="800" y="848" text-anchor="middle" font-size="15" fill="#E5E7EB">Gameplay decisions stay on CPU where you can debug them. GPU is the spectacle layer.</text>
+</svg>

@@ -1,0 +1,19 @@
+---
+title: Graphics API — desktop & web
+---
+flowchart TB
+  ROOT["Which desktop / web API?"]:::orbiter
+
+  ROOT --> Q_WEB{WebGL / browser?}
+  ROOT --> Q_DESK{Desktop?}
+
+  Q_WEB -- "yes · today" --> WEBGL[WebGL 2.0<br/>WebGPU still experimental]:::planet
+  WEBGL -.-> WEBGPU[WebGPU<br/>estimated production: 2027]:::debris
+
+  Q_DESK -- "Windows" --> D3D[D3D11 / D3D12]:::planet
+  Q_DESK -- "macOS" --> METAL_DESK[Metal]:::planet
+  Q_DESK -- "Linux" --> VK_DESK[Vulkan]:::planet
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;

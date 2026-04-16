@@ -1,0 +1,14 @@
+---
+config:
+    xyChart:
+        width: 1600
+        height: 900
+        plotReservedSpacePercent: 70
+---
+xychart-beta
+    title "Energy drift over 300 s of circular orbit"
+    x-axis "Simulated time (seconds)" [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300]
+    y-axis "Total orbital energy (% of initial)" 60 --> 140
+    line "Forward Euler" [100, 103, 107, 112, 117, 123, 129, 135, 141, 148, 156]
+    line "Symplectic Euler" [100, 100.2, 99.8, 100.3, 99.7, 100.4, 99.6, 100.5, 99.5, 100.5, 99.5]
+    line "Velocity Verlet" [100, 100.05, 99.97, 100.04, 99.98, 100.03, 99.99, 100.02, 100.0, 100.01, 100.0]

@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant GP as Gameplay
+    participant SS as SaveService
+    participant IS as ISaveable collectors
+    participant JU as JsonUtility
+    participant FS as persistentDataPath/save.json
+
+    GP->>SS: Save() on quit / autosave tick
+    SS->>IS: GatherState()
+    IS-->>SS: GameState struct (resources, upgrades, orbiters)
+    SS->>JU: ToJson(state, prettyPrint: true)
+    JU-->>SS: string
+    SS->>FS: File.WriteAllText(path, json)
+    FS-->>SS: done

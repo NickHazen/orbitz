@@ -1,0 +1,17 @@
+flowchart LR
+    A["GravityBody.Absorb(mass)"]:::phys
+    B["emits OnMassAbsorbed"]:::phys
+    C["EconomyLedger<br/>.HandleMassAbsorbed(e)"]:::econ
+    D["wallet.Add(mass × multiplier)"]:::econ
+    E["wallet.OnBalanceChanged"]:::econ
+    F["UI updates HUD"]:::ui
+    G["SaveService queues<br/>persistence"]:::save
+
+    A --> B --> C --> D --> E
+    E --> F
+    E --> G
+
+    classDef phys fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef econ fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef ui fill:#6B7280,stroke:#374151,color:#fff;
+    classDef save fill:#10B981,stroke:#065F46,color:#fff;

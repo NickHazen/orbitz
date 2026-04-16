@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="1600" height="700" fill="#0F172A"/>
+
+  <text x="800" y="48" text-anchor="middle" font-size="26" font-weight="700" fill="#E5E7EB">Softening radius — why clamp r before dividing</text>
+
+  <!-- Divider line -->
+  <line x1="800" y1="70" x2="800" y2="660" stroke="#374151" stroke-width="1" stroke-dasharray="6 6"/>
+
+  <!-- ===== LEFT PANEL: Without softening ===== -->
+  <text x="400" y="100" text-anchor="middle" font-size="20" font-weight="700" fill="#EF4444">Without softening</text>
+
+  <!-- Planet -->
+  <circle cx="400" cy="380" r="100" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="400" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Orbiter approaching dangerously close -->
+  <circle cx="430" cy="300" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="460" y="296" font-size="14" fill="#F59E0B" font-weight="700">orbiter</text>
+
+  <!-- Tiny r arrow -->
+  <line x1="420" y1="340" x2="425" y2="310" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="445" y="330" font-size="13" fill="#E5E7EB">r ≈ 0</text>
+
+  <!-- Explosion arrow — orbiter shoots off-screen -->
+  <defs>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowNeutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <line x1="430" y1="290" x2="530" y2="130" stroke="#EF4444" stroke-width="3" marker-end="url(#arrowRed)"/>
+  <text x="545" y="135" font-size="15" font-weight="700" fill="#EF4444">a = G·M / r²</text>
+  <text x="545" y="158" font-size="14" fill="#EF4444">r → 0, a → ∞</text>
+  <text x="545" y="180" font-size="14" fill="#EF4444">Particle shoots off-screen</text>
+
+  <!-- Left formula box -->
+  <rect x="120" y="530" width="560" height="110" rx="10" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="140" y="560" font-size="14" font-weight="700" fill="#EF4444">What goes wrong</text>
+  <text x="140" y="585" font-family="ui-monospace, monospace" font-size="14" fill="#E5E7EB">distSqr = delta.sqrMagnitude;  // 0.0001</text>
+  <text x="140" y="608" font-family="ui-monospace, monospace" font-size="14" fill="#E5E7EB">accel = G * mass / distSqr;    // 10 / 0.0001 = 100,000</text>
+  <text x="140" y="630" font-family="ui-monospace, monospace" font-size="14" fill="#E5E7EB">// Verlet writes this into velocity → goodbye</text>
+
+  <!-- ===== RIGHT PANEL: With softening ===== -->
+  <text x="1200" y="100" text-anchor="middle" font-size="20" font-weight="700" fill="#10B981">With softening</text>
+
+  <!-- Planet -->
+  <circle cx="1200" cy="380" r="100" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="1200" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Softening radius dashed ring -->
+  <circle cx="1200" cy="380" r="55" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="1275" y="350" font-size="13" fill="#EF4444">softening radius (ε)</text>
+
+  <!-- Orbiter inside softening zone -->
+  <circle cx="1230" cy="340" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="1260" y="336" font-size="14" fill="#F59E0B" font-weight="700">orbiter</text>
+
+  <!-- Clamped r arrow from orbiter to softening boundary -->
+  <line x1="1200" y1="380" x2="1224" y2="345" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="1180" y="354" font-size="13" fill="#E5E7EB" text-anchor="end">r</text>
+
+  <!-- Gentle deflection arrow -->
+  <path d="M 1230 330 Q 1260 290 1300 260" stroke="#10B981" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="1310" y="248" font-size="15" font-weight="700" fill="#10B981">a bounded</text>
+  <text x="1310" y="270" font-size="14" fill="#10B981">r clamped at ε</text>
+  <text x="1310" y="290" font-size="14" fill="#10B981">Orbiter deflects, stays in sim</text>
+
+  <!-- Green checkmark -->
+  <circle cx="1310" y="210" r="18" fill="#10B981"/>
+  <text x="1310" y="217" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">✓</text>
+
+  <!-- Right formula box -->
+  <rect x="920" y="530" width="560" height="110" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="940" y="560" font-size="14" font-weight="700" fill="#10B981">The one-line fix</text>
+  <text x="940" y="585" font-family="ui-monospace, monospace" font-size="14" fill="#E5E7EB">distSqr = delta.sqrMagnitude;  // 0.0001</text>
+  <text x="940" y="608" font-family="ui-monospace, monospace" font-size="14" fill="#10B981" font-weight="700">distSqr = Max(distSqr, ε * ε); // 0.09</text>
+  <text x="940" y="631" font-family="ui-monospace, monospace" font-size="14" fill="#E5E7EB">accel = G * mass / distSqr;    // 10 / 0.09 ≈ 111</text>
+</svg>

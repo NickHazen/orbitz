@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title -->
+  <text class="txt" x="800" y="46" text-anchor="middle" font-size="27" font-weight="700">Which Profiler module should I open?</text>
+  <text class="txt-dim" x="800" y="74" text-anchor="middle" font-size="14">Pick the row whose symptom matches — the module on the right is where to look first</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="decision" x="550" y="92" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="572" y="104" font-size="13">Symptom</text>
+    <rect class="paused"  x="668" y="92" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="690" y="104" font-size="13">Profiler module</text>
+    <rect class="relaunch" x="832" y="92" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="854" y="104" font-size="13">Diagnostic tool</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ROOT question (the entry point) -->
+  <rect class="running" x="400" y="128" width="800" height="56" rx="10" stroke-width="2"/>
+  <text class="running-t" x="800" y="163" text-anchor="middle" font-size="16" font-weight="700">Something is slow or wrong — which module do I open first?</text>
+
+  <!-- Row coordinates: six rows at y=210, 315, 420, 525, 630, 735 (h=85) -->
+
+  <!-- ============== Row 1 — Frame rate -->
+  <rect class="decision" x="80"  y="210" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="260" text-anchor="middle" font-size="16" font-weight="700">Frame rate below target?</text>
+
+  <line class="arrow-line" x1="640" y1="252" x2="775" y2="252" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="paused"  x="780" y="210" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="paused-t"    x="1150" y="247" text-anchor="middle" font-size="16" font-weight="700">CPU Usage module</text>
+  <text class="paused-sub"  x="1150" y="272" text-anchor="middle" font-size="12" font-style="italic">Hierarchy for averages · Timeline for spikes</text>
+
+  <!-- ============== Row 2 — GPU -->
+  <rect class="decision" x="80"  y="315" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="365" text-anchor="middle" font-size="16" font-weight="700">CPU budget fine but GPU slow?</text>
+
+  <line class="arrow-line" x1="640" y1="357" x2="775" y2="357" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="paused"  x="780" y="315" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="paused-t"    x="1150" y="352" text-anchor="middle" font-size="16" font-weight="700">GPU Usage module + Frame Debugger</text>
+  <text class="paused-sub"  x="1150" y="377" text-anchor="middle" font-size="12" font-style="italic">check overdraw · confirm SRP batching</text>
+
+  <!-- ============== Row 3 — Memory -->
+  <rect class="decision" x="80"  y="420" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="470" text-anchor="middle" font-size="16" font-weight="700">Micro-stutters or GC spikes?</text>
+
+  <line class="arrow-line" x1="640" y1="462" x2="775" y2="462" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="paused"  x="780" y="420" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="paused-t"    x="1150" y="457" text-anchor="middle" font-size="16" font-weight="700">Memory module</text>
+  <text class="paused-sub"  x="1150" y="482" text-anchor="middle" font-size="12" font-style="italic">target 0 B GC alloc / frame · check Detailed sample</text>
+
+  <!-- ============== Row 4 — UI -->
+  <rect class="decision" x="80"  y="525" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="575" text-anchor="middle" font-size="16" font-weight="700">UI sluggish?</text>
+
+  <line class="arrow-line" x1="640" y1="567" x2="775" y2="567" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="paused"  x="780" y="525" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="paused-t"    x="1150" y="562" text-anchor="middle" font-size="16" font-weight="700">UI module</text>
+  <text class="paused-sub"  x="1150" y="587" text-anchor="middle" font-size="12" font-style="italic">canvas rebuilds · batch breaks · TMP allocation</text>
+
+  <!-- ============== Row 5 — Physics -->
+  <rect class="decision" x="80"  y="630" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="672" text-anchor="middle" font-size="16" font-weight="700">Physics overshoot or fighting</text>
+  <text class="txt" x="360" y="694" text-anchor="middle" font-size="16" font-weight="700">the custom integrator?</text>
+
+  <line class="arrow-line" x1="640" y1="672" x2="775" y2="672" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="paused"  x="780" y="630" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="paused-t"    x="1150" y="665" text-anchor="middle" font-size="16" font-weight="700">Physics 2D module</text>
+  <text class="paused-sub"  x="1150" y="688" text-anchor="middle" font-size="12" font-style="italic">should flatline — if not, a non-kinematic rigidbody sneaked in</text>
+
+  <!-- ============== Row 6 — Deep Profile -->
+  <rect class="decision" x="80"  y="735" width="560" height="85" rx="10" stroke-width="2"/>
+  <text class="txt" x="360" y="777" text-anchor="middle" font-size="16" font-weight="700">Unknown hot method —</text>
+  <text class="txt" x="360" y="799" text-anchor="middle" font-size="16" font-weight="700">no BeginSample yet?</text>
+
+  <line class="arrow-line" x1="640" y1="777" x2="775" y2="777" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect class="relaunch" x="780" y="735" width="740" height="85" rx="10" stroke-width="2"/>
+  <text class="relaunch-t"   x="1150" y="770" text-anchor="middle" font-size="16" font-weight="700">Deep Profile once</text>
+  <text class="relaunch-t"   x="1150" y="793" text-anchor="middle" font-size="12" font-style="italic">find the hot method · wrap in BeginSample · shallow-profile forever after</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="868" text-anchor="middle" font-size="13" font-style="italic">Each row is independent — pick the symptom that matches your session, not the first one on the list.</text>
+</svg>

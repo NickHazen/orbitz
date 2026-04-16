@@ -1,0 +1,30 @@
+flowchart LR
+    subgraph rk4["RK4"]
+        direction TB
+        A1["Per-step accuracy: O(h⁴)"]:::orbiter
+        A2["Energy drift: monotonic — grows forever"]:::atmosphere
+        A3["Force evals per step: 4"]:::neutral
+    end
+
+    subgraph verlet["Velocity Verlet"]
+        direction TB
+        B1["Per-step accuracy: O(h²)"]:::neutral
+        B2["Energy drift: bounded — oscillates around zero"]:::success
+        B3["Force evals per step: 1 + 1 leftover"]:::success
+    end
+
+    subgraph choice["Orbit Tycoon needs"]
+        direction TB
+        C1["Energy stability — the player sees drift"]:::success
+        C2["Cheap per-particle — 1500 debris at 50 Hz"]:::success
+        C3["Verdict: Velocity Verlet"]:::success
+    end
+
+    rk4 --> choice
+    verlet --> choice
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

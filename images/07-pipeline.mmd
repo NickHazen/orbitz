@@ -1,0 +1,11 @@
+flowchart LR
+    A[Stage 1<br/>Verlet ✅] --> B[Stage 2<br/>Drag 🔨]
+    B --> C[Stage 3<br/>Pickup ✅]
+    C --> D[Stage 4<br/>Spatial hash 🔨]
+    D --> E[Stage 5<br/>Particle collisions 🔨]
+    E --> F[Stage 6<br/>Max-speed clamp 🔨]
+    F --> G[Stage 7<br/>Surface kill ✅]
+    classDef done fill:#10B981,stroke:#065F46,color:#fff;
+    classDef todo fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    class A,C,G done;
+    class B,D,E,F todo;

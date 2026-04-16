@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="1600" height="400" fill="#0F172A"/>
+
+  <text x="800" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#E5E7EB">Five load-bearing details that make the preview match reality</text>
+
+  <!-- Box 1 -->
+  <rect x="30" y="80" width="290" height="120" rx="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="175" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#000">1. Same launch velocity</text>
+  <line x1="50" y1="138" x2="300" y2="138" stroke="#B45309" stroke-width="1"/>
+  <text x="175" y="162" text-anchor="middle" font-size="13" fill="#000">Preview and HandlePressUp</text>
+  <text x="175" y="180" text-anchor="middle" font-size="13" fill="#000">compute simVel from the</text>
+  <text x="175" y="198" text-anchor="middle" font-size="13" fill="#000">same pull-vector formula.</text>
+
+  <!-- Box 2 -->
+  <rect x="340" y="80" width="290" height="120" rx="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="485" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#000">2. Read G from prefab</text>
+  <line x1="360" y1="138" x2="610" y2="138" stroke="#B45309" stroke-width="1"/>
+  <text x="485" y="162" text-anchor="middle" font-size="13" fill="#000">No live orbiter exists yet.</text>
+  <text x="485" y="180" text-anchor="middle" font-size="13" fill="#000">G is config, not state — so</text>
+  <text x="485" y="198" text-anchor="middle" font-size="13" fill="#000">read it off the prefab.</text>
+
+  <!-- Box 3 -->
+  <rect x="650" y="80" width="290" height="120" rx="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="795" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#000">3. Same gravity function</text>
+  <line x1="670" y1="138" x2="920" y2="138" stroke="#B45309" stroke-width="1"/>
+  <text x="795" y="162" text-anchor="middle" font-size="13" fill="#000">Both loops call Planetoid</text>
+  <text x="795" y="180" text-anchor="middle" font-size="13" fill="#000">.GetGravityAcceleration —</text>
+  <text x="795" y="198" text-anchor="middle" font-size="13" fill="#000">one source of gravity truth.</text>
+
+  <!-- Box 4 -->
+  <rect x="960" y="80" width="290" height="120" rx="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="1105" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#000">4. Byte-for-byte Verlet</text>
+  <line x1="980" y1="138" x2="1230" y2="138" stroke="#B45309" stroke-width="1"/>
+  <text x="1105" y="162" text-anchor="middle" font-size="13" fill="#000">pos, acc recompute, vel avg,</text>
+  <text x="1105" y="180" text-anchor="middle" font-size="13" fill="#000">store — same four steps,</text>
+  <text x="1105" y="198" text-anchor="middle" font-size="13" fill="#000">same order, same math.</text>
+
+  <!-- Box 5 -->
+  <rect x="1270" y="80" width="290" height="120" rx="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <text x="1415" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#000">5. Stop at surface</text>
+  <line x1="1290" y1="138" x2="1540" y2="138" stroke="#B45309" stroke-width="1"/>
+  <text x="1415" y="162" text-anchor="middle" font-size="13" fill="#000">Truncate the line when</text>
+  <text x="1415" y="180" text-anchor="middle" font-size="13" fill="#000">the sim path hits the</text>
+  <text x="1415" y="198" text-anchor="middle" font-size="13" fill="#000">planetoid's surface radius.</text>
+
+  <!-- Bottom connecting line -->
+  <line x1="175" y1="200" x2="175" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="485" y1="200" x2="485" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="795" y1="200" x2="795" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="1105" y1="200" x2="1105" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="1415" y1="200" x2="1415" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="175" y1="260" x2="1415" y2="260" stroke="#6B7280" stroke-width="1"/>
+  <line x1="795" y1="260" x2="795" y2="290" stroke="#6B7280" stroke-width="1"/>
+
+  <!-- Result box -->
+  <rect x="540" y="290" width="520" height="80" rx="10" fill="#10B981" stroke="#065F46" stroke-width="2"/>
+  <text x="800" y="322" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">Preview matches reality</text>
+  <text x="800" y="350" text-anchor="middle" font-size="14" fill="#fff">Break any one of these five and the dotted line lies.</text>
+</svg>

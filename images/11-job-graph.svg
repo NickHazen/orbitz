@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Burst job dependency graph</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Main-thread snapshot → six Burst jobs chained → drain → sync — one JobHandle per stage, Complete() once at the end</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="relaunch" x="546" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="568" y="120" font-size="13">Main-thread</text>
+    <rect class="running" x="686" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="708" y="120" font-size="13">IJobParallelFor</text>
+    <rect class="paused"  x="830" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="852" y="120" font-size="13">IJob (serial Burst)</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- 9 stages · centers at x=100, 260, 420, 580, 740, 900, 1060, 1220, 1380. Box 140×90 -->
+  <!-- y=370..460 -->
+
+  <!-- 1 Snapshot -->
+  <rect class="relaunch" x="30" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="100" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 1</text>
+  <text class="relaunch-t" x="100" y="420" text-anchor="middle" font-size="14" font-weight="700">Snapshot</text>
+  <text class="relaunch-t" x="100" y="444" text-anchor="middle" font-size="10" font-style="italic">main thread</text>
+
+  <line class="arrow-line" x1="171" y1="415" x2="189" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 2 VerletJob -->
+  <rect class="running" x="190" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="260" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 2</text>
+  <text class="running-t" x="260" y="420" text-anchor="middle" font-size="14" font-weight="700">VerletJob</text>
+  <text class="running-t" x="260" y="444" text-anchor="middle" font-size="10" font-style="italic">parallel-for</text>
+
+  <line class="arrow-line" x1="331" y1="415" x2="349" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 3 DragJob -->
+  <rect class="running" x="350" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="420" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 3</text>
+  <text class="running-t" x="420" y="420" text-anchor="middle" font-size="14" font-weight="700">DragJob</text>
+  <text class="running-t" x="420" y="444" text-anchor="middle" font-size="10" font-style="italic">parallel-for</text>
+
+  <line class="arrow-line" x1="491" y1="415" x2="509" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 4 PickupEmitJob -->
+  <rect class="running" x="510" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="580" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 4</text>
+  <text class="running-t" x="580" y="419" text-anchor="middle" font-size="13" font-weight="700">PickupEmit</text>
+  <text class="running-t" x="580" y="438" text-anchor="middle" font-size="10" font-style="italic">+ NativeQueue</text>
+
+  <line class="arrow-line" x1="651" y1="415" x2="669" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 5 HashBuildJob -->
+  <rect class="paused" x="670" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="740" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 5</text>
+  <text class="paused-t" x="740" y="420" text-anchor="middle" font-size="14" font-weight="700">HashBuild</text>
+  <text class="paused-t" x="740" y="444" text-anchor="middle" font-size="10" font-style="italic">IJob · Burst</text>
+
+  <line class="arrow-line" x1="811" y1="415" x2="829" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 6 CollisionResolveJob -->
+  <rect class="paused" x="830" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="900" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 6</text>
+  <text class="paused-t" x="900" y="419" text-anchor="middle" font-size="13" font-weight="700">Collision</text>
+  <text class="paused-t" x="900" y="437" text-anchor="middle" font-size="13" font-weight="700">Resolve</text>
+
+  <line class="arrow-line" x1="971" y1="415" x2="989" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 7 SurfaceKillJob -->
+  <rect class="running" x="990" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1060" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 7</text>
+  <text class="running-t" x="1060" y="420" text-anchor="middle" font-size="14" font-weight="700">SurfaceKill</text>
+  <text class="running-t" x="1060" y="444" text-anchor="middle" font-size="10" font-style="italic">parallel-for</text>
+
+  <line class="arrow-line" x1="1131" y1="415" x2="1149" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 8 Drain queue -->
+  <rect class="relaunch" x="1150" y="370" width="140" height="90" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="1220" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 8</text>
+  <text class="relaunch-t" x="1220" y="420" text-anchor="middle" font-size="14" font-weight="700">Drain queue</text>
+  <text class="relaunch-t" x="1220" y="444" text-anchor="middle" font-size="10" font-style="italic">main thread</text>
+
+  <line class="arrow-line" x1="1291" y1="415" x2="1309" y2="415" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 9 SyncToParticleSystem -->
+  <rect class="relaunch" x="1310" y="370" width="220" height="90" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="1420" y="397" text-anchor="middle" font-size="10" font-style="italic" letter-spacing="0.08em">STAGE 9 · LATEUPDATE</text>
+  <text class="relaunch-t" x="1420" y="420" text-anchor="middle" font-size="14" font-weight="700">SyncToParticleSystem</text>
+  <text class="relaunch-t" x="1420" y="444" text-anchor="middle" font-size="10" font-style="italic">SetParticles()</text>
+
+  <!-- Grouping bracket for worker stages (2..7) -->
+  <line class="arrow-line" x1="180" y1="500" x2="1140" y2="500" stroke-width="2" stroke-opacity="0.35"/>
+  <text class="txt-dim" x="660" y="525" text-anchor="middle" font-size="12" font-style="italic">worker-thread region — stages 2–7 run off Main, chained by JobHandle</text>
+
+  <!-- Pipeline notes below -->
+  <rect class="panel" x="150" y="560" width="1300" height="210" rx="12" stroke-width="1"/>
+  <text class="txt"     x="800" y="598" text-anchor="middle" font-size="15" font-weight="700">JobHandle dependency chain</text>
+  <text class="txt"     x="800" y="628" text-anchor="middle" font-size="13">Each ScheduleParallel() or Schedule() returns a JobHandle. Pass the previous handle as input-dependency to the next.</text>
+  <text class="txt"     x="800" y="652" text-anchor="middle" font-size="13">Unity's scheduler resolves the DAG — workers pick up ready stages, no explicit thread management.</text>
+  <text class="txt-dim" x="800" y="686" text-anchor="middle" font-size="12" font-style="italic">Call handleOfStage7.Complete() exactly once per FixedUpdate · forces main thread to wait for the tail of the chain.</text>
+  <text class="txt-dim" x="800" y="706" text-anchor="middle" font-size="12" font-style="italic">Complete earlier and you serialize yourself · complete later and you'll race with next tick.</text>
+  <text class="txt"     x="800" y="744" text-anchor="middle" font-size="13" font-weight="700">One snapshot in · one Complete() out · everything in between is yours to parallelize.</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">IJob = serial across one Burst-compiled function · IJobParallelFor = chunked work over an index range, many workers.</text>
+</svg>

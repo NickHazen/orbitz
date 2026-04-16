@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+  <rect width="1000" height="1000" fill="#0F172A"/>
+
+  <text x="500" y="50" text-anchor="middle" fill="#E5E7EB" font-size="28" font-weight="700">Three ship classes</text>
+  <text x="500" y="78" text-anchor="middle" fill="#6B7280" font-size="15">Each sits on a different payoff curve of mass, efficiency, and cadence.</text>
+
+  <!-- Planet -->
+  <circle cx="500" cy="520" r="70" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="500" y="527" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">Planet</text>
+
+  <!-- Orbit rings (dashed) -->
+  <circle cx="500" cy="520" r="160" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <circle cx="500" cy="520" r="260" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <circle cx="500" cy="520" r="360" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+  <!-- Pebble: inner ring, small dot -->
+  <circle cx="660" cy="520" r="9" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <g transform="translate(690, 500)">
+    <rect x="0" y="0" width="200" height="110" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="2"/>
+    <text x="100" y="26" text-anchor="middle" fill="#F59E0B" font-size="18" font-weight="700">Pebble</text>
+    <text x="12" y="50" fill="#E5E7EB" font-size="12">mass: low</text>
+    <text x="12" y="68" fill="#E5E7EB" font-size="12">efficiency: 1.0×</text>
+    <text x="12" y="86" fill="#E5E7EB" font-size="12">cadence: 3–4 s (fast)</text>
+    <text x="12" y="104" fill="#6B7280" font-size="11" font-style="italic">small mass, high cadence</text>
+  </g>
+
+  <!-- Sweeper: mid ring, medium dot -->
+  <circle cx="240" cy="520" r="15" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <g transform="translate(20, 460)">
+    <rect x="0" y="0" width="210" height="110" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="26" text-anchor="middle" fill="#F59E0B" font-size="18" font-weight="700">Sweeper</text>
+    <text x="12" y="50" fill="#E5E7EB" font-size="12">mass: high</text>
+    <text x="12" y="68" fill="#E5E7EB" font-size="12">efficiency: 0.8×</text>
+    <text x="12" y="86" fill="#E5E7EB" font-size="12">cadence: 12–15 s (slow)</text>
+    <text x="12" y="104" fill="#6B7280" font-size="11" font-style="italic">medium mass, balanced</text>
+  </g>
+
+  <!-- Fork: outer ring, large compound shape (top) -->
+  <g transform="translate(500, 160)">
+    <circle cx="0" cy="0" r="18" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <circle cx="-14" cy="10" r="8" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <circle cx="14" cy="10" r="8" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  </g>
+  <g transform="translate(380, 220)">
+    <rect x="0" y="0" width="240" height="110" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="2"/>
+    <text x="120" y="26" text-anchor="middle" fill="#F59E0B" font-size="18" font-weight="700">Fork</text>
+    <text x="12" y="50" fill="#E5E7EB" font-size="12">mass: medium</text>
+    <text x="12" y="68" fill="#E5E7EB" font-size="12">efficiency: 1.5× (in band)</text>
+    <text x="12" y="86" fill="#E5E7EB" font-size="12">cadence: 6–8 s (medium)</text>
+    <text x="12" y="104" fill="#6B7280" font-size="11" font-style="italic">high payoff, rewards aim</text>
+  </g>
+
+  <!-- Orbit labels -->
+  <text x="510" y="370" fill="#6B7280" font-size="13" transform="rotate(0, 510, 370)">inner ring · fast</text>
+  <text x="720" y="280" fill="#6B7280" font-size="13">outer ring · slow · big payoff</text>
+  <text x="280" y="808" fill="#6B7280" font-size="13">mid ring · balanced</text>
+
+  <!-- Legend -->
+  <g transform="translate(60, 930)">
+    <circle cx="10" cy="10" r="6" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+    <text x="26" y="15" fill="#E5E7EB" font-size="13">planet</text>
+
+    <circle cx="130" cy="10" r="7" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="144" y="15" fill="#E5E7EB" font-size="13">orbiter / ship glyph</text>
+
+    <line x1="320" y1="10" x2="370" y2="10" stroke="#6B7280" stroke-width="2" stroke-dasharray="6 6"/>
+    <text x="380" y="15" fill="#E5E7EB" font-size="13">orbit ring (altitude)</text>
+  </g>
+</svg>

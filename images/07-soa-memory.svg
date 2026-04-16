@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Struct of arrays vs. array of structs</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Hot loop walks one field at a time — SoA keeps each field contiguous in cache</text>
+
+  <!-- Left: AoS -->
+  <g>
+    <rect x="60" y="130" width="720" height="720" rx="14" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text x="420" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="#EF4444">Array of structs (AoS)</text>
+    <text x="420" y="200" text-anchor="middle" font-size="14" fill="#6B7280">Particle[] — each struct is a mixed record</text>
+
+    <!-- Legend -->
+    <g font-size="13" fill="#E5E7EB">
+      <rect x="90" y="220" width="18" height="18" fill="#F59E0B"/>
+      <text x="114" y="235">pos</text>
+      <rect x="170" y="220" width="18" height="18" fill="#3B82F6"/>
+      <text x="194" y="235">vel</text>
+      <rect x="240" y="220" width="18" height="18" fill="#10B981"/>
+      <text x="264" y="235">acc</text>
+      <rect x="310" y="220" width="18" height="18" fill="#8B5CF6"/>
+      <text x="334" y="235">mass</text>
+      <rect x="395" y="220" width="18" height="18" fill="#EF4444"/>
+      <text x="419" y="235">size</text>
+      <rect x="465" y="220" width="18" height="18" fill="#6B7280"/>
+      <text x="489" y="235">alive</text>
+    </g>
+
+    <!-- Rows — 5 particles, each row has all 6 fields -->
+    <g>
+      <!-- Row labels -->
+      <text x="80" y="290" font-size="13" fill="#6B7280">P0</text>
+      <text x="80" y="340" font-size="13" fill="#6B7280">P1</text>
+      <text x="80" y="390" font-size="13" fill="#6B7280">P2</text>
+      <text x="80" y="440" font-size="13" fill="#6B7280">P3</text>
+      <text x="80" y="490" font-size="13" fill="#6B7280">P4</text>
+    </g>
+    <g stroke="#0F172A" stroke-width="2">
+      <!-- P0 -->
+      <rect x="110" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="210" y="270" width="100" height="34" fill="#3B82F6"/>
+      <rect x="310" y="270" width="100" height="34" fill="#10B981"/>
+      <rect x="410" y="270" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="510" y="270" width="100" height="34" fill="#EF4444"/>
+      <rect x="610" y="270" width="100" height="34" fill="#6B7280"/>
+      <!-- P1 -->
+      <rect x="110" y="320" width="100" height="34" fill="#F59E0B"/>
+      <rect x="210" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="310" y="320" width="100" height="34" fill="#10B981"/>
+      <rect x="410" y="320" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="510" y="320" width="100" height="34" fill="#EF4444"/>
+      <rect x="610" y="320" width="100" height="34" fill="#6B7280"/>
+      <!-- P2 -->
+      <rect x="110" y="370" width="100" height="34" fill="#F59E0B"/>
+      <rect x="210" y="370" width="100" height="34" fill="#3B82F6"/>
+      <rect x="310" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="410" y="370" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="510" y="370" width="100" height="34" fill="#EF4444"/>
+      <rect x="610" y="370" width="100" height="34" fill="#6B7280"/>
+      <!-- P3 -->
+      <rect x="110" y="420" width="100" height="34" fill="#F59E0B"/>
+      <rect x="210" y="420" width="100" height="34" fill="#3B82F6"/>
+      <rect x="310" y="420" width="100" height="34" fill="#10B981"/>
+      <rect x="410" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="510" y="420" width="100" height="34" fill="#EF4444"/>
+      <rect x="610" y="420" width="100" height="34" fill="#6B7280"/>
+      <!-- P4 -->
+      <rect x="110" y="470" width="100" height="34" fill="#F59E0B"/>
+      <rect x="210" y="470" width="100" height="34" fill="#3B82F6"/>
+      <rect x="310" y="470" width="100" height="34" fill="#10B981"/>
+      <rect x="410" y="470" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="510" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="610" y="470" width="100" height="34" fill="#6B7280"/>
+    </g>
+
+    <!-- Hot-loop walk highlight: show jumps across struct rows -->
+    <text x="420" y="560" text-anchor="middle" font-size="16" fill="#E5E7EB" font-weight="700">Verlet reads pos → strides across junk → miss → miss → miss</text>
+    <g stroke="#EF4444" stroke-width="3" fill="none">
+      <rect x="108" y="268" width="104" height="38" fill="none"/>
+      <rect x="108" y="318" width="104" height="38" fill="none"/>
+      <rect x="108" y="368" width="104" height="38" fill="none"/>
+      <rect x="108" y="418" width="104" height="38" fill="none"/>
+      <rect x="108" y="468" width="104" height="38" fill="none"/>
+    </g>
+
+    <!-- Summary -->
+    <rect x="90" y="610" width="660" height="220" rx="10" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+    <text x="110" y="645" font-size="16" fill="#EF4444" font-weight="700">Consequences</text>
+    <text x="110" y="678" font-size="15" fill="#E5E7EB">• 5 of every 6 bytes pulled into cache are unused this pass.</text>
+    <text x="110" y="706" font-size="15" fill="#E5E7EB">• SIMD auto-vectorizers can't see 4 contiguous floats.</text>
+    <text x="110" y="734" font-size="15" fill="#E5E7EB">• Each field update takes a full cache line per particle.</text>
+    <text x="110" y="762" font-size="15" fill="#E5E7EB">• Prefetcher wastes bandwidth on fields the tick doesn't touch.</text>
+    <text x="110" y="800" font-size="14" fill="#6B7280">Convenient for per-particle writes; catastrophic for per-field hot loops.</text>
+  </g>
+
+  <!-- Right: SoA -->
+  <g>
+    <rect x="820" y="130" width="720" height="720" rx="14" fill="none" stroke="#10B981" stroke-width="2"/>
+    <text x="1180" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="#10B981">Struct of arrays (SoA)</text>
+    <text x="1180" y="200" text-anchor="middle" font-size="14" fill="#6B7280">One array per field — each field contiguous</text>
+
+    <!-- Field labels -->
+    <g font-size="13" fill="#6B7280">
+      <text x="840" y="290">pos[]</text>
+      <text x="840" y="340">vel[]</text>
+      <text x="840" y="390">acc[]</text>
+      <text x="840" y="440">mass[]</text>
+      <text x="840" y="490">size[]</text>
+      <text x="840" y="540">alive[]</text>
+    </g>
+
+    <!-- Rows: 5 cells of same color per field -->
+    <g stroke="#0F172A" stroke-width="2">
+      <!-- pos -->
+      <rect x="900" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="1000" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="1100" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="1200" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="1300" y="270" width="100" height="34" fill="#F59E0B"/>
+      <rect x="1400" y="270" width="100" height="34" fill="#F59E0B"/>
+      <!-- vel -->
+      <rect x="900" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="1000" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="1100" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="1200" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="1300" y="320" width="100" height="34" fill="#3B82F6"/>
+      <rect x="1400" y="320" width="100" height="34" fill="#3B82F6"/>
+      <!-- acc -->
+      <rect x="900" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="1000" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="1100" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="1200" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="1300" y="370" width="100" height="34" fill="#10B981"/>
+      <rect x="1400" y="370" width="100" height="34" fill="#10B981"/>
+      <!-- mass -->
+      <rect x="900" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="1000" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="1100" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="1200" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="1300" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <rect x="1400" y="420" width="100" height="34" fill="#8B5CF6"/>
+      <!-- size -->
+      <rect x="900" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="1000" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="1100" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="1200" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="1300" y="470" width="100" height="34" fill="#EF4444"/>
+      <rect x="1400" y="470" width="100" height="34" fill="#EF4444"/>
+      <!-- alive -->
+      <rect x="900" y="520" width="100" height="34" fill="#6B7280"/>
+      <rect x="1000" y="520" width="100" height="34" fill="#6B7280"/>
+      <rect x="1100" y="520" width="100" height="34" fill="#6B7280"/>
+      <rect x="1200" y="520" width="100" height="34" fill="#6B7280"/>
+      <rect x="1300" y="520" width="100" height="34" fill="#6B7280"/>
+      <rect x="1400" y="520" width="100" height="34" fill="#6B7280"/>
+    </g>
+
+    <!-- Highlight: hot loop walks pos[] row linearly -->
+    <rect x="898" y="268" width="604" height="38" fill="none" stroke="#10B981" stroke-width="3"/>
+    <text x="1180" y="610" text-anchor="middle" font-size="16" fill="#E5E7EB" font-weight="700">Verlet reads pos[] linearly — prefetch + SIMD happy</text>
+
+    <!-- Summary -->
+    <rect x="850" y="640" width="660" height="200" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="870" y="675" font-size="16" fill="#10B981" font-weight="700">Why we pick this</text>
+    <text x="870" y="708" font-size="15" fill="#E5E7EB">• Every cache line holds 8–16 of the field you actually want.</text>
+    <text x="870" y="736" font-size="15" fill="#E5E7EB">• Burst / auto-vectorizer sees 4+ contiguous floats and emits SIMD.</text>
+    <text x="870" y="764" font-size="15" fill="#E5E7EB">• Adding a new field means adding a new array — zero re-layout cost.</text>
+    <text x="870" y="792" font-size="15" fill="#E5E7EB">• Dead-field pruning is trivial — just skip that array in the hot loop.</text>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant GP as Gameplay
+    participant SS as SaveService
+    participant IS as ISaveable collectors
+    participant JU as JsonUtility
+    participant FS as persistentDataPath/save.json
+
+    GP->>SS: Load() on app start
+    SS->>FS: File.ReadAllText(path)
+    FS-->>SS: json
+    SS->>JU: FromJson<GameState>(json)
+    JU-->>SS: state
+    SS->>IS: ApplyState(state)

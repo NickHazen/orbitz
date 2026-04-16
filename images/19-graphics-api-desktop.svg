@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Graphics API — desktop &amp; web</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">WebGL 2.0 today (WebGPU in 2027) · each desktop OS has one dominant API</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ROOT -->
+  <rect class="running" x="600" y="150" width="400" height="70" rx="12" stroke-width="2"/>
+  <text class="running-t" x="800" y="185" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">START</text>
+  <text class="running-t" x="800" y="207" text-anchor="middle" font-size="16" font-weight="700">Which desktop / web API?</text>
+
+  <!-- Branches: Web left, Desktop right -->
+  <line class="arrow-line" x1="730" y1="220" x2="440" y2="306" stroke-width="2" marker-end="url(#arrow)"/>
+  <line class="arrow-line" x1="870" y1="220" x2="1160" y2="306" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Q_WEB -->
+  <path class="decision" d="M 440 310 L 600 380 L 440 450 L 280 380 Z" stroke-width="2"/>
+  <text class="txt" x="440" y="375" text-anchor="middle" font-size="15" font-weight="700">WebGL /</text>
+  <text class="txt" x="440" y="395" text-anchor="middle" font-size="15" font-weight="700">browser?</text>
+
+  <!-- Q_DESK -->
+  <path class="decision" d="M 1160 310 L 1320 380 L 1160 450 L 1000 380 Z" stroke-width="2"/>
+  <text class="txt" x="1160" y="385" text-anchor="middle" font-size="16" font-weight="700">Desktop?</text>
+
+  <!-- Web → WebGL 2.0 -->
+  <line class="arrow-line" x1="440" y1="450" x2="360" y2="535" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="345" y="485" font-size="12">yes · today</text>
+
+  <rect class="paused" x="200" y="540" width="320" height="100" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="360" y="570" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">SHIP TODAY</text>
+  <text class="paused-t" x="360" y="597" text-anchor="middle" font-size="17" font-weight="700">WebGL 2.0</text>
+  <text class="paused-t" x="360" y="620" text-anchor="middle" font-size="12" font-style="italic">universal browser support</text>
+
+  <!-- Web upgrade path → WebGPU dashed -->
+  <path class="arrow-line" d="M 520 590 Q 580 590 620 670" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="598" y="630" font-size="11" font-style="italic">future upgrade</text>
+
+  <rect class="relaunch" x="475" y="675" width="320" height="100" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="635" y="705" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">EXPERIMENTAL</text>
+  <text class="relaunch-t" x="635" y="732" text-anchor="middle" font-size="17" font-weight="700">WebGPU</text>
+  <text class="relaunch-t" x="635" y="755" text-anchor="middle" font-size="12" font-style="italic">production: ~2027</text>
+
+  <!-- Desktop fork to 3 OSes -->
+  <!-- Windows -->
+  <line class="arrow-line" x1="1080" y1="440" x2="960" y2="535" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="975" y="500" font-size="12">Windows</text>
+  <rect class="paused" x="820" y="540" width="270" height="100" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="955" y="576" text-anchor="middle" font-size="16" font-weight="700">D3D11 / D3D12</text>
+  <text class="paused-t" x="955" y="602" text-anchor="middle" font-size="12" font-style="italic">Direct3D, Microsoft stack</text>
+  <text class="paused-t" x="955" y="621" text-anchor="middle" font-size="12" font-style="italic">Unity default on Win</text>
+
+  <!-- macOS -->
+  <line class="arrow-line" x1="1160" y1="455" x2="1220" y2="535" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="1145" y="497" font-size="12">macOS</text>
+  <rect class="paused" x="1105" y="540" width="230" height="100" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="1220" y="576" text-anchor="middle" font-size="16" font-weight="700">Metal</text>
+  <text class="paused-t" x="1220" y="602" text-anchor="middle" font-size="12" font-style="italic">required on macOS 11+</text>
+  <text class="paused-t" x="1220" y="621" text-anchor="middle" font-size="12" font-style="italic">OpenGL deprecated</text>
+
+  <!-- Linux -->
+  <line class="arrow-line" x1="1240" y1="440" x2="1430" y2="535" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="1320" y="495" font-size="12">Linux</text>
+  <rect class="paused" x="1350" y="540" width="220" height="100" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="1460" y="576" text-anchor="middle" font-size="16" font-weight="700">Vulkan</text>
+  <text class="paused-t" x="1460" y="602" text-anchor="middle" font-size="12" font-style="italic">Unity Player default</text>
+  <text class="paused-t" x="1460" y="621" text-anchor="middle" font-size="12" font-style="italic">OpenGL still works</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Ship WebGL 2.0 today, revisit WebGPU in 2027 · on desktop each OS prefers its native API, Unity does the right thing on Auto.</text>
+</svg>

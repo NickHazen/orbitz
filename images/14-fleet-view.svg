@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+  <rect width="1600" height="900" fill="#0F172A"/>
+
+  <!-- Title -->
+  <text x="40" y="50" fill="#E5E7EB" font-size="26" font-weight="700">Fleet-view HUD (mockup)</text>
+  <text x="40" y="78" fill="#6B7280" font-size="14">Planet and belt on the left; per-ship stats and auto-launch toggles on the right.</text>
+
+  <!-- Left: game view frame -->
+  <rect x="40" y="110" width="1080" height="740" rx="12" fill="#0F172A" stroke="#6B7280" stroke-width="2"/>
+
+  <!-- Resource HUD (top-left corner) -->
+  <rect x="60" y="130" width="180" height="40" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="75" y="157" fill="#E5E7EB" font-size="16" font-weight="700">Mass: 12,483</text>
+
+  <!-- Planet -->
+  <circle cx="580" cy="500" r="100" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+
+  <!-- Orbit ellipses (dashed) -->
+  <ellipse cx="580" cy="500" rx="180" ry="160" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <ellipse cx="580" cy="500" rx="270" ry="240" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <ellipse cx="580" cy="500" rx="360" ry="300" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <ellipse cx="580" cy="500" rx="440" ry="280" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+  <!-- Orbiters (5 dots at varied positions) -->
+  <circle cx="760" cy="500" r="8" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <circle cx="440" cy="620" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <circle cx="840" cy="320" r="9" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <circle cx="240" cy="460" r="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <circle cx="980" cy="560" r="8" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+
+  <!-- Debris scatter (purple dots) -->
+  <g fill="#8B5CF6" opacity="0.6">
+    <circle cx="320" cy="320" r="2"/>
+    <circle cx="380" cy="280" r="2"/>
+    <circle cx="680" cy="240" r="2"/>
+    <circle cx="780" cy="720" r="2"/>
+    <circle cx="460" cy="760" r="2"/>
+    <circle cx="900" cy="660" r="2"/>
+    <circle cx="260" cy="700" r="2"/>
+    <circle cx="1020" cy="440" r="2"/>
+    <circle cx="200" cy="560" r="2"/>
+    <circle cx="540" cy="220" r="2"/>
+    <circle cx="660" cy="780" r="2"/>
+    <circle cx="880" cy="780" r="2"/>
+  </g>
+
+  <!-- Planet label -->
+  <text x="580" y="505" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Planet</text>
+
+  <!-- Menus pull-tab bottom -->
+  <rect x="60" y="790" width="160" height="40" rx="6" fill="#0F172A" stroke="#6B7280" stroke-width="1.5"/>
+  <text x="140" y="816" text-anchor="middle" fill="#E5E7EB" font-size="14">⚙  Menus ▾</text>
+
+  <!-- Right: fleet sidebar -->
+  <rect x="1140" y="110" width="420" height="740" rx="12" fill="#0F172A" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="1160" y="150" fill="#E5E7EB" font-size="22" font-weight="700">Fleet</text>
+  <text x="1160" y="174" fill="#6B7280" font-size="13">5 orbiters · 3 auto-launchers active</text>
+
+  <!-- Ship row 1 -->
+  <g transform="translate(1160, 196)">
+    <rect x="0" y="0" width="380" height="86" rx="8" fill="#0F172A" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="26" cy="43" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="52" y="30" fill="#E5E7EB" font-size="15" font-weight="700">Pebble #1</text>
+    <text x="52" y="50" fill="#6B7280" font-size="12">mass 8.2 · eff 1.0× · cadence 4 s</text>
+    <text x="52" y="70" fill="#10B981" font-size="12">auto ✓</text>
+    <rect x="300" y="30" width="64" height="28" rx="14" fill="#10B981" stroke="#065F46" stroke-width="1.5"/>
+    <circle cx="346" cy="44" r="10" fill="#fff"/>
+    <text x="332" y="76" text-anchor="middle" fill="#10B981" font-size="10">on</text>
+  </g>
+
+  <!-- Ship row 2 -->
+  <g transform="translate(1160, 296)">
+    <rect x="0" y="0" width="380" height="86" rx="8" fill="#0F172A" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="26" cy="43" r="14" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="52" y="30" fill="#E5E7EB" font-size="15" font-weight="700">Sweeper #1</text>
+    <text x="52" y="50" fill="#6B7280" font-size="12">mass 42.0 · eff 0.8× · cadence 14 s</text>
+    <text x="52" y="70" fill="#10B981" font-size="12">auto ✓</text>
+    <rect x="300" y="30" width="64" height="28" rx="14" fill="#10B981" stroke="#065F46" stroke-width="1.5"/>
+    <circle cx="346" cy="44" r="10" fill="#fff"/>
+    <text x="332" y="76" text-anchor="middle" fill="#10B981" font-size="10">on</text>
+  </g>
+
+  <!-- Ship row 3 -->
+  <g transform="translate(1160, 396)">
+    <rect x="0" y="0" width="380" height="86" rx="8" fill="#0F172A" stroke="#6B7280" stroke-width="1"/>
+    <g transform="translate(26, 43)">
+      <circle cx="0" cy="0" r="12" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+      <circle cx="-9" cy="7" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+      <circle cx="9" cy="7" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    </g>
+    <text x="52" y="30" fill="#E5E7EB" font-size="15" font-weight="700">Fork #1</text>
+    <text x="52" y="50" fill="#6B7280" font-size="12">mass 18.7 · eff 1.5× · cadence 7 s</text>
+    <text x="52" y="70" fill="#10B981" font-size="12">auto ✓</text>
+    <rect x="300" y="30" width="64" height="28" rx="14" fill="#10B981" stroke="#065F46" stroke-width="1.5"/>
+    <circle cx="346" cy="44" r="10" fill="#fff"/>
+    <text x="332" y="76" text-anchor="middle" fill="#10B981" font-size="10">on</text>
+  </g>
+
+  <!-- Ship row 4 -->
+  <g transform="translate(1160, 496)">
+    <rect x="0" y="0" width="380" height="86" rx="8" fill="#0F172A" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="26" cy="43" r="10" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="52" y="30" fill="#E5E7EB" font-size="15" font-weight="700">Pebble #2</text>
+    <text x="52" y="50" fill="#6B7280" font-size="12">mass 7.9 · eff 1.0× · cadence 4 s</text>
+    <text x="52" y="70" fill="#6B7280" font-size="12">manual</text>
+    <rect x="300" y="30" width="64" height="28" rx="14" fill="#6B7280" stroke="#374151" stroke-width="1.5"/>
+    <circle cx="314" cy="44" r="10" fill="#fff"/>
+    <text x="332" y="76" text-anchor="middle" fill="#6B7280" font-size="10">off</text>
+  </g>
+
+  <!-- Ship row 5 -->
+  <g transform="translate(1160, 596)">
+    <rect x="0" y="0" width="380" height="86" rx="8" fill="#0F172A" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="26" cy="43" r="14" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="52" y="30" fill="#E5E7EB" font-size="15" font-weight="700">Sweeper #2</text>
+    <text x="52" y="50" fill="#6B7280" font-size="12">mass 40.1 · eff 0.8× · cadence 14 s</text>
+    <text x="52" y="70" fill="#10B981" font-size="12">auto ✓</text>
+    <rect x="300" y="30" width="64" height="28" rx="14" fill="#10B981" stroke="#065F46" stroke-width="1.5"/>
+    <circle cx="346" cy="44" r="10" fill="#fff"/>
+    <text x="332" y="76" text-anchor="middle" fill="#10B981" font-size="10">on</text>
+  </g>
+
+  <!-- Footer: fleet stats -->
+  <g transform="translate(1160, 716)">
+    <rect x="0" y="0" width="380" height="110" rx="8" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+    <text x="14" y="26" fill="#E5E7EB" font-size="14" font-weight="700">Fleet totals</text>
+    <text x="14" y="52" fill="#6B7280" font-size="13">combined mass · 116.9</text>
+    <text x="14" y="72" fill="#6B7280" font-size="13">avg cadence · 8.6 s</text>
+    <text x="14" y="92" fill="#10B981" font-size="13">expected yield · 2,140 mass/min</text>
+  </g>
+</svg>

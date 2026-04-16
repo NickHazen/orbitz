@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Save flow</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">On quit or autosave tick · Gameplay asks SaveService · collect → serialize → write to disk</text>
+
+  <!-- Legend -->
+  <g>
+    <line class="arrow-line" x1="610" y1="108" x2="660" y2="108" stroke-width="2"/>
+    <text class="txt" x="668" y="113" font-size="13">synchronous call</text>
+    <line class="arrow-line" x1="810" y1="108" x2="860" y2="108" stroke-width="2" stroke-dasharray="6 4"/>
+    <text class="txt" x="868" y="113" font-size="13">async return</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Participants (y=140..200), lane centers 150, 475, 800, 1125, 1450 -->
+  <rect class="relaunch" x="40"   y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="150"  y="176" text-anchor="middle" font-size="15" font-weight="700">Gameplay</text>
+
+  <rect class="running"  x="365"  y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="475"  y="176" text-anchor="middle" font-size="15" font-weight="700">SaveService</text>
+
+  <rect class="running"  x="690"  y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="800"  y="173" text-anchor="middle" font-size="14" font-weight="700">ISaveable</text>
+  <text class="running-t"  x="800"  y="190" text-anchor="middle" font-size="12" font-style="italic">collectors</text>
+
+  <rect class="paused"   x="1015" y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="paused-t"   x="1125" y="176" text-anchor="middle" font-size="15" font-weight="700">JsonUtility</text>
+
+  <rect class="paused"   x="1340" y="140" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="paused-t"   x="1450" y="173" text-anchor="middle" font-size="14" font-weight="700">persistentDataPath</text>
+  <text class="paused-t"   x="1450" y="190" text-anchor="middle" font-size="11" font-style="italic">/save.json</text>
+
+  <!-- Lifelines -->
+  <line class="arrow-line" x1="150"  y1="200" x2="150"  y2="770" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="475"  y1="200" x2="475"  y2="770" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="800"  y1="200" x2="800"  y2="770" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1125" y1="200" x2="1125" y2="770" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1450" y1="200" x2="1450" y2="770" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+
+  <!-- Msg 1: GP → SS -->
+  <text class="txt"     x="312" y="240" text-anchor="middle" font-size="12">Save()</text>
+  <text class="txt-dim" x="312" y="255" text-anchor="middle" font-size="11" font-style="italic">on quit · autosave tick</text>
+  <line class="arrow-line" x1="150" y1="268" x2="470" y2="268" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 2: SS → IS -->
+  <text class="txt" x="637" y="311" text-anchor="middle" font-size="12">GatherState()</text>
+  <line class="arrow-line" x1="475" y1="324" x2="795" y2="324" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 3: IS → SS dashed return -->
+  <text class="txt"     x="637" y="366" text-anchor="middle" font-size="12">GameState struct</text>
+  <text class="txt-dim" x="637" y="381" text-anchor="middle" font-size="11" font-style="italic">resources · upgrades · orbiters</text>
+  <line class="arrow-line" x1="800" y1="394" x2="480" y2="394" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Msg 4: SS → JU -->
+  <text class="txt"     x="800" y="437" text-anchor="middle" font-size="12">ToJson(state, prettyPrint: true)</text>
+  <line class="arrow-line" x1="475" y1="450" x2="1120" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 5: JU → SS dashed return -->
+  <text class="txt-dim" x="800" y="491" text-anchor="middle" font-size="11" font-style="italic">serialized string</text>
+  <line class="arrow-line" x1="1125" y1="504" x2="480" y2="504" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Msg 6: SS → FS -->
+  <text class="txt"     x="962" y="547" text-anchor="middle" font-size="12">File.WriteAllText(path, json)</text>
+  <line class="arrow-line" x1="475" y1="560" x2="1445" y2="560" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 7: FS → SS dashed return -->
+  <text class="txt-dim" x="962" y="601" text-anchor="middle" font-size="11" font-style="italic">done · bytes flushed</text>
+  <line class="arrow-line" x1="1450" y1="614" x2="480" y2="614" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">JsonUtility is synchronous and single-threaded — fine for a few KB of save data on Main, bad for multi-MB worlds.</text>
+</svg>

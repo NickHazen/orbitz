@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#0F172A"/>
+
+  <!-- Title -->
+  <text x="800" y="70" text-anchor="middle" fill="#E5E7EB" font-size="38" font-weight="700">NativeArray allocator lifetimes</text>
+  <text x="800" y="108" text-anchor="middle" fill="#6B7280" font-size="20">Three allocators. Same frame axis. Very different disposal rules.</text>
+
+  <!-- Frame axis -->
+  <!-- Axis baseline at y=780 -->
+  <g stroke="#6B7280" stroke-width="2" fill="none">
+    <line x1="200" y1="780" x2="1500" y2="780"/>
+    <!-- Frame tick marks at 0..5 -->
+    <line x1="280"  y1="775" x2="280"  y2="790"/>
+    <line x1="480"  y1="775" x2="480"  y2="790"/>
+    <line x1="680"  y1="775" x2="680"  y2="790"/>
+    <line x1="880"  y1="775" x2="880"  y2="790"/>
+    <line x1="1080" y1="775" x2="1080" y2="790"/>
+    <line x1="1280" y1="775" x2="1280" y2="790"/>
+  </g>
+  <g fill="#6B7280" font-size="18" text-anchor="middle">
+    <text x="280"  y="818">frame 0</text>
+    <text x="480"  y="818">frame 1</text>
+    <text x="680"  y="818">frame 2</text>
+    <text x="880"  y="818">frame 3</text>
+    <text x="1080" y="818">frame 4</text>
+    <text x="1280" y="818">frame 5</text>
+  </g>
+  <text x="1500" y="818" fill="#6B7280" font-size="18" text-anchor="end">time →</text>
+
+  <!-- Vertical frame guides -->
+  <g stroke="#1E293B" stroke-width="1" stroke-dasharray="4 6">
+    <line x1="280"  y1="160" x2="280"  y2="780"/>
+    <line x1="480"  y1="160" x2="480"  y2="780"/>
+    <line x1="680"  y1="160" x2="680"  y2="780"/>
+    <line x1="880"  y1="160" x2="880"  y2="780"/>
+    <line x1="1080" y1="160" x2="1080" y2="780"/>
+    <line x1="1280" y1="160" x2="1280" y2="780"/>
+  </g>
+
+  <!-- Row labels -->
+  <g fill="#E5E7EB" font-size="22" font-weight="700" text-anchor="end">
+    <text x="180" y="220">Allocator.Persistent</text>
+    <text x="180" y="410">Allocator.TempJob</text>
+    <text x="180" y="600">Allocator.Temp</text>
+  </g>
+
+  <!-- Row 1: Persistent — solid bar from frame 0 extending off right edge -->
+  <!-- Bar -->
+  <rect x="280" y="190" width="1260" height="60" fill="#6B7280" stroke="#374151" stroke-width="2" rx="6"/>
+  <!-- Fade-out gradient hint via right-edge arrow -->
+  <polygon points="1540,190 1560,220 1540,250" fill="#6B7280"/>
+  <text x="905" y="227" text-anchor="middle" fill="#0F172A" font-size="20" font-weight="700">lives until you Dispose()</text>
+  <text x="280" y="180" fill="#E5E7EB" font-size="14">Awake → new NativeArray(…, Allocator.Persistent)</text>
+  <text x="1540" y="280" fill="#6B7280" font-size="16" text-anchor="end">… next scene, next tick, until you free it</text>
+
+  <!-- Row 2: TempJob — solid bar frame 0 to frame 4 (up to 4 frames) with warning at frame 4 -->
+  <rect x="280" y="380" width="800" height="60" fill="#EF4444" stroke="#991B1B" stroke-width="2" rx="6"/>
+  <text x="680" y="417" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="700">≤ 4 frames, auto-disposed (warning if you forget)</text>
+  <text x="280" y="370" fill="#E5E7EB" font-size="14">FixedUpdate → new NativeArray(…, Allocator.TempJob)</text>
+
+  <!-- Warning triangle at frame 4 -->
+  <g transform="translate(1080,360)">
+    <polygon points="0,-30 26,14 -26,14" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="0" y="7" text-anchor="middle" fill="#0F172A" font-size="22" font-weight="700">!</text>
+  </g>
+  <text x="1080" y="470" text-anchor="middle" fill="#F59E0B" font-size="16">Leak warning logged here</text>
+  <text x="1080" y="492" text-anchor="middle" fill="#6B7280" font-size="14">if you didn't Dispose()</text>
+
+  <!-- Row 3: Temp — very short bar only within frame 0 -->
+  <rect x="280" y="570" width="140" height="60" fill="#F59E0B" stroke="#B45309" stroke-width="2" rx="6"/>
+  <text x="350" y="607" text-anchor="middle" fill="#0F172A" font-size="18" font-weight="700">single-frame</text>
+  <text x="280" y="560" fill="#E5E7EB" font-size="14">Scratch inside one main-thread call. Cheap. Main thread only.</text>
+  <text x="500" y="607" fill="#6B7280" font-size="16">gone by the end of this frame</text>
+
+  <!-- Legend -->
+  <g transform="translate(200,690)">
+    <rect x="0" y="0" width="26" height="14" fill="#6B7280" rx="3"/>
+    <text x="36" y="12" fill="#E5E7EB" font-size="14">persistent — survives frames &amp; scene loads</text>
+    <rect x="380" y="0" width="26" height="14" fill="#EF4444" rx="3"/>
+    <text x="416" y="12" fill="#E5E7EB" font-size="14">tempjob — hand to a job, complete, dispose same frame</text>
+    <rect x="860" y="0" width="26" height="14" fill="#F59E0B" rx="3"/>
+    <text x="896" y="12" fill="#E5E7EB" font-size="14">temp — main-thread scratch, never handed to a worker</text>
+  </g>
+</svg>

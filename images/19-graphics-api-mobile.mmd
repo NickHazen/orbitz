@@ -1,0 +1,18 @@
+---
+title: Graphics API — mobile platforms
+---
+flowchart TB
+  ROOT["Which mobile API?"]:::orbiter
+
+  ROOT --> Q_IOS{iOS?}
+  ROOT --> Q_AND{Android?}
+
+  Q_IOS -- "yes" --> METAL[Metal<br/>only option · no fallback]:::planet
+
+  Q_AND -- "yes · device has Vulkan driver" --> VK[Primary: Vulkan<br/>best perf on 2019+ devices]:::planet
+  Q_AND -- "yes · legacy device · no Vulkan" --> GLES[Fallback: GL ES 3.x<br/>expect 30 FPS ceiling]:::neutral
+  VK -.-> GLES
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

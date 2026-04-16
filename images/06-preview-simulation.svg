@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Trajectory preview — stepping stones</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Every drag frame runs the same Verlet loop 200 times forward from the launch state</text>
+
+  <!-- Planet -->
+  <circle cx="260" cy="500" r="90" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="260" y="506" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Atmosphere ring (dashed) -->
+  <circle cx="260" cy="500" r="150" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="6 6" opacity="0.6"/>
+  <text x="260" y="365" text-anchor="middle" font-size="13" fill="#EF4444">atmosphere</text>
+
+  <!-- Launch anchor just above surface -->
+  <circle cx="260" cy="410" r="8" fill="#F59E0B"/>
+  <text x="200" y="400" text-anchor="end" font-size="15" fill="#F59E0B" font-weight="700">t = 0</text>
+
+  <!-- Dotted stepping stones along an arcing trajectory -->
+  <!-- Use a curving path of 24 visible dots spaced uniformly along an arc -->
+  <g fill="#F59E0B">
+    <circle cx="302" cy="364" r="7"/>
+    <circle cx="350" cy="323" r="7"/>
+    <circle cx="405" cy="288" r="7"/>
+    <circle cx="466" cy="262" r="7"/>
+    <circle cx="532" cy="244" r="7"/>
+    <circle cx="600" cy="236" r="7"/>
+    <circle cx="668" cy="238" r="7"/>
+    <circle cx="736" cy="250" r="7"/>
+    <circle cx="800" cy="272" r="7"/>
+    <circle cx="862" cy="303" r="7"/>
+    <circle cx="918" cy="343" r="7"/>
+    <circle cx="970" cy="391" r="7"/>
+    <circle cx="1014" cy="447" r="7"/>
+    <circle cx="1050" cy="510" r="7"/>
+    <circle cx="1078" cy="577" r="7"/>
+    <circle cx="1096" cy="647" r="7"/>
+    <circle cx="1104" cy="719" r="7"/>
+  </g>
+
+  <!-- Labels at start, middle, end -->
+  <text x="532" y="220" text-anchor="middle" font-size="14" fill="#6B7280">tick 50</text>
+  <text x="800" y="248" text-anchor="middle" font-size="14" fill="#6B7280">tick 100</text>
+  <text x="1060" y="490" text-anchor="end" font-size="14" fill="#6B7280">tick 150</text>
+  <text x="1150" y="740" text-anchor="start" font-size="14" fill="#6B7280">tick 200</text>
+
+  <!-- Inset: per-tick loop body -->
+  <rect x="60" y="680" width="560" height="180" rx="12" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+  <text x="80" y="712" font-size="15" fill="#6B7280">Per-tick body (same as GravityBody.FixedUpdate)</text>
+  <text x="80" y="748" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">p += v · Δt + ½ · a · Δt²</text>
+  <text x="80" y="774" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">aNew = Planetoid.GetGravityAccel(p, G)</text>
+  <text x="80" y="800" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">v += ½ · (a + aNew) · Δt</text>
+  <text x="80" y="826" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">a = aNew</text>
+  <text x="80" y="852" font-size="13" fill="#6B7280">repeat 200 times — stop early on atmosphere / surface hit</text>
+
+  <!-- Right-hand note -->
+  <rect x="660" y="680" width="880" height="180" rx="12" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="680" y="712" font-size="15" fill="#10B981" font-weight="700">Why the preview matches reality</text>
+  <text x="680" y="742" font-size="15" fill="#E5E7EB">• The loop reads G off the prefab's GravityBody — same constant the live orbiter uses.</text>
+  <text x="680" y="768" font-size="15" fill="#E5E7EB">• Same Planetoid.GetGravityAcceleration call, with softening, as the live step.</text>
+  <text x="680" y="794" font-size="15" fill="#E5E7EB">• Gravity is mass-independent (a = G·M/r²), so the preview ignores the orbiter's mass.</text>
+  <text x="680" y="820" font-size="15" fill="#E5E7EB">• Preview ignores drag on purpose — it's the idealized path; reality diverges after re-entry.</text>
+  <text x="680" y="846" font-size="13" fill="#6B7280">If you change the integrator, change it here too (see guide 05).</text>
+</svg>

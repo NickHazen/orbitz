@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">The physics-identity invariant</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Three files run the same integrator — change one and you change all three</text>
+
+  <!-- Central node -->
+  <circle cx="800" cy="470" r="150" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="800" y="445" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">Velocity Verlet</text>
+  <text x="800" y="475" text-anchor="middle" font-size="16" fill="#fff">+ GetGravityAcceleration</text>
+  <text x="800" y="503" text-anchor="middle" font-size="14" fill="#fff">one logical step</text>
+
+  <!-- GravityBody top -->
+  <g>
+    <rect x="620" y="150" width="360" height="150" rx="14" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+    <text x="800" y="190" text-anchor="middle" font-size="22" font-weight="700" fill="#000">GravityBody.FixedUpdate</text>
+    <text x="800" y="222" text-anchor="middle" font-size="14" fill="#000">Live orbiter motion.</text>
+    <text x="800" y="246" text-anchor="middle" font-size="14" fill="#000">Integrates position every 50 Hz.</text>
+    <text x="800" y="272" text-anchor="middle" font-size="14" fill="#000">Applies drag in the atmosphere.</text>
+  </g>
+
+  <!-- SlingshotLauncher bottom-left -->
+  <g>
+    <rect x="130" y="630" width="360" height="150" rx="14" fill="#10B981" stroke="#065F46" stroke-width="2"/>
+    <text x="310" y="670" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">SlingshotLauncher</text>
+    <text x="310" y="694" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">UpdateTrajectoryPreview</text>
+    <text x="310" y="722" text-anchor="middle" font-size="14" fill="#fff">The dotted preview line.</text>
+    <text x="310" y="746" text-anchor="middle" font-size="14" fill="#fff">200 Verlet steps forward.</text>
+    <text x="310" y="770" text-anchor="middle" font-size="14" fill="#fff">Reads G from the prefab.</text>
+  </g>
+
+  <!-- DebrisField bottom-right -->
+  <g>
+    <rect x="1110" y="630" width="360" height="150" rx="14" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+    <text x="1290" y="670" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">DebrisField.FixedUpdate</text>
+    <text x="1290" y="698" text-anchor="middle" font-size="14" fill="#fff">Thousands of particles.</text>
+    <text x="1290" y="722" text-anchor="middle" font-size="14" fill="#fff">Same Verlet, struct-of-arrays,</text>
+    <text x="1290" y="746" text-anchor="middle" font-size="14" fill="#fff">with its own gravitationalConstant</text>
+    <text x="1290" y="770" text-anchor="middle" font-size="14" fill="#fff">field that MUST match G.</text>
+  </g>
+
+  <!-- Triangle edges: center to each corner -->
+  <g stroke="#6B7280" stroke-width="2" fill="none" stroke-dasharray="6 6">
+    <line x1="800" y1="320" x2="800" y2="330"/>
+    <line x1="670" y1="555" x2="460" y2="630"/>
+    <line x1="930" y1="555" x2="1140" y2="630"/>
+  </g>
+
+  <!-- Connecting lines (solid, thicker) -->
+  <g stroke="#6B7280" stroke-width="2" fill="none">
+    <line x1="800" y1="320" x2="800" y2="320"/>
+  </g>
+  <!-- Actual arrows from center out -->
+  <g stroke="#6B7280" stroke-width="2" fill="none">
+    <line x1="800" y1="320" x2="800" y2="300"/>
+    <line x1="680" y1="550" x2="490" y2="630"/>
+    <line x1="920" y1="550" x2="1110" y2="630"/>
+  </g>
+
+  <!-- Bottom warning -->
+  <rect x="280" y="820" width="1040" height="60" rx="10" fill="#1E293B" stroke="#EF4444" stroke-width="2"/>
+  <text x="800" y="858" text-anchor="middle" font-size="15" fill="#E5E7EB">Grep <tspan font-weight="700" fill="#EF4444">GetGravityAcceleration</tspan> before and after every integrator change. A commit that touches one file and not the others is a bug in waiting.</text>
+</svg>

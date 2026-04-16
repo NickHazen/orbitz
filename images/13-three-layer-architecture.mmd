@@ -1,0 +1,36 @@
+flowchart TD
+    subgraph UI["UI layer"]
+        direction LR
+        HUD["HUD counter"]
+        UPGRADE["Upgrade menu"]
+        WALLET_VIEW["Wallet display"]
+    end
+
+    subgraph ECON["Economy layer"]
+        direction LR
+        LEDGER["EconomyLedger"]
+        WALLET["ResourceWallet"]
+        UPSVC["UpgradeService"]
+    end
+
+    subgraph PHYS["Physics layer"]
+        direction LR
+        GB["GravityBody"]
+        DF["DebrisField"]
+        P["Planetoid"]
+    end
+
+    PHYS -- "emits events" --> ECON
+    ECON -- "observed" --> UI
+
+    classDef uiStyle fill:#6B7280,stroke:#374151,color:#fff;
+    classDef econStyle fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef physStyle fill:#3B82F6,stroke:#1E40AF,color:#fff;
+
+    class HUD,UPGRADE,WALLET_VIEW uiStyle;
+    class LEDGER,WALLET,UPSVC econStyle;
+    class GB,DF,P physStyle;
+
+    style UI fill:#0F172A,stroke:#6B7280,color:#E5E7EB
+    style ECON fill:#0F172A,stroke:#8B5CF6,color:#E5E7EB
+    style PHYS fill:#0F172A,stroke:#3B82F6,color:#E5E7EB

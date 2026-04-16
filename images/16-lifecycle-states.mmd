@@ -1,0 +1,47 @@
+---
+title: Mobile and desktop app lifecycle — per platform
+---
+flowchart LR
+
+  subgraph IOS["iOS"]
+    direction TB
+    I_RUN[Running]:::orbiter
+    I_BG[Paused / backgrounded]:::planet
+    I_KILL[Killed for memory]:::atmosphere
+    I_REL[Relaunch]:::neutral
+    I_RUN -- "swipe home → applicationWillResignActive → OnApplicationPause(true)" --> I_BG
+    I_BG -- "~30 s then suspended; OS may terminate at any time" --> I_KILL
+    I_KILL -- "tap icon → cold start, no OnApplicationQuit fired" --> I_REL
+    I_REL -- "Awake → OnApplicationPause(false) · read save · run catch-up" --> I_RUN
+  end
+
+  subgraph AND["Android"]
+    direction TB
+    A_RUN[Running]:::orbiter
+    A_BG[Paused / Activity.onPause]:::planet
+    A_KILL[Killed by LMK]:::atmosphere
+    A_REL[Relaunch]:::neutral
+    A_RUN -- "home / recents → onPause → OnApplicationPause(true)" --> A_BG
+    A_BG -- "Low Memory Killer / battery-saver OEM kills" --> A_KILL
+    A_KILL -- "resume from recents → full cold start" --> A_REL
+    A_REL -- "Awake → OnApplicationPause(false) · run catch-up" --> A_RUN
+  end
+
+  subgraph DESK["Desktop (Mac / Windows / Linux)"]
+    direction TB
+    D_RUN[Running]:::orbiter
+    D_BG[Focus lost / minimized]:::planet
+    D_KILL[Quit or force-kill]:::atmosphere
+    D_REL[Relaunch]:::neutral
+    D_RUN -- "alt-tab / minimize → OnApplicationFocus(false); pause patchy" --> D_BG
+    D_BG -- "user quits; OnApplicationQuit is usually called here" --> D_KILL
+    D_KILL -- "user opens the app again" --> D_REL
+    D_REL -- "Awake → OnApplicationFocus(true) · optional resume pass" --> D_RUN
+  end
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef success fill:#10B981,stroke:#065F46,color:#fff;
+  classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

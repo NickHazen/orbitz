@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    /* --- Duneswept (light) default --- */
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title -->
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Call graph — the seven core scripts</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Solid = runtime call · dashed = initialization / config · bidirectional where two arrows meet</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="running" x="542" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="564" y="120" font-size="13">Active</text>
+    <rect class="paused"  x="634" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="656" y="120" font-size="13">Data source</text>
+    <rect class="killed"  x="748" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="770" y="120" font-size="13">Debris</text>
+    <rect class="relaunch" x="840" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"      x="862" y="120" font-size="13">Bootstrap</text>
+    <line  class="arrow-line" x1="950" y1="115" x2="985" y2="115" stroke-width="2" stroke-dasharray="6 4"/>
+    <text class="txt"      x="992" y="120" font-size="13">Init / config</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ============== Nodes ============== -->
+  <!-- GB — GameBootstrapper -->
+  <rect class="relaunch" x="60"   y="425" width="180" height="50" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="150" y="456" text-anchor="middle" font-size="15" font-weight="700">GameBootstrapper</text>
+
+  <!-- SL — SlingshotLauncher -->
+  <rect class="running"  x="340"  y="425" width="180" height="50" rx="10" stroke-width="2"/>
+  <text class="running-t" x="430" y="456" text-anchor="middle" font-size="15" font-weight="700">SlingshotLauncher</text>
+
+  <!-- GBODY — GravityBody (upper middle) -->
+  <rect class="running"  x="640"  y="295" width="180" height="50" rx="10" stroke-width="2"/>
+  <text class="running-t" x="730" y="326" text-anchor="middle" font-size="15" font-weight="700">GravityBody</text>
+
+  <!-- DF — DebrisField (lower middle) -->
+  <rect class="killed"   x="640"  y="555" width="180" height="50" rx="10" stroke-width="2"/>
+  <text class="killed-t"  x="730" y="586" text-anchor="middle" font-size="15" font-weight="700">DebrisField</text>
+
+  <!-- P — Planetoid (right center) -->
+  <rect class="paused"   x="1010" y="425" width="180" height="50" rx="10" stroke-width="2"/>
+  <text class="paused-t"  x="1100" y="456" text-anchor="middle" font-size="15" font-weight="700">Planetoid</text>
+
+  <!-- DFC — DebrisFieldConfig (right lower) -->
+  <rect class="decision" x="1310" y="555" width="200" height="50" rx="10" stroke-width="2"/>
+  <text class="txt"       x="1410" y="586" text-anchor="middle" font-size="14" font-weight="700">DebrisFieldConfig</text>
+
+  <!-- SDV — StuckDebrisVisual (far right lower) -->
+  <rect class="killed"   x="1310" y="685" width="200" height="50" rx="10" stroke-width="2"/>
+  <text class="killed-t"  x="1410" y="716" text-anchor="middle" font-size="14" font-weight="700">StuckDebrisVisual</text>
+
+  <!-- ============== Edges ============== -->
+
+  <!-- 1. GB → SL (dashed: init) -->
+  <line class="arrow-line" x1="240" y1="450" x2="335" y2="450" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text class="txt"     x="288" y="433" text-anchor="middle" font-size="11">enables EnhancedTouchSupport</text>
+  <text class="txt-dim" x="288" y="420" text-anchor="middle" font-size="10" font-style="italic">before any Awake</text>
+
+  <!-- 2. SL → P (long curve, reads) -->
+  <path class="arrow-line" d="M 520 456 Q 765 525 1005 462" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="765" y="505" text-anchor="middle" font-size="11">reads Position · SurfaceRadius</text>
+  <text class="txt-dim" x="765" y="520" text-anchor="middle" font-size="10" font-style="italic">GetGravityAcceleration()</text>
+
+  <!-- 3. SL → GBODY (curve up) -->
+  <path class="arrow-line" d="M 500 430 Q 570 370 635 340" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="480" y="370" font-size="11">Instantiate · Launch</text>
+  <text class="txt-dim" x="480" y="384" font-size="10" font-style="italic">reads G off prefab</text>
+
+  <!-- 4. GBODY → P (curve down-right) -->
+  <path class="arrow-line" d="M 820 335 Q 920 390 1015 440" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="860" y="370" font-size="11">reads Gravity()</text>
+  <text class="txt-dim" x="860" y="384" font-size="10" font-style="italic">Drag @ point</text>
+
+  <!-- 5. GBODY → DF (vertical down, left arrow) -->
+  <line class="arrow-line" x1="700" y1="345" x2="700" y2="553" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="688" y="443" text-anchor="end" font-size="11">Register /</text>
+  <text class="txt-dim" x="688" y="457" text-anchor="end" font-size="10" font-style="italic">Unregister</text>
+
+  <!-- 6. DF → GBODY (vertical up, right arrow — mutual) -->
+  <line class="arrow-line" x1="760" y1="555" x2="760" y2="347" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="772" y="443" text-anchor="start" font-size="11">reads radius · pos</text>
+  <text class="txt-dim" x="772" y="457" text-anchor="start" font-size="10" font-style="italic">calls Absorb()</text>
+
+  <!-- 7. DF → P (curve up-right) -->
+  <path class="arrow-line" d="M 820 570 Q 920 520 1015 468" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="860" y="550" font-size="11">reads Gravity · Atmosphere</text>
+  <text class="txt-dim" x="860" y="564" font-size="10" font-style="italic">SurfaceRadius</text>
+
+  <!-- 8. DF → DFC (dashed, horizontal) -->
+  <line class="arrow-line" x1="820" y1="585" x2="1305" y2="580" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="1060" y="574" text-anchor="middle" font-size="11" font-style="italic">reads tunables</text>
+
+  <!-- 9. DF → SDV (curve down-right) -->
+  <path class="arrow-line" d="M 820 600 Q 1065 680 1305 712" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1065" y="665" text-anchor="middle" font-size="11">Instantiate</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Planetoid is the passive data source everything reads from · GravityBody ↔ DebrisField is the one mutual-coupling pair.</text>
+</svg>

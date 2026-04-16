@@ -1,0 +1,19 @@
+flowchart LR
+    S1["1 · Count pass<br/>atomic increment<br/>cellCounts[c]++"]
+    S2["2 · Prefix sum<br/>exclusive scan over<br/>cellCounts → cellStart"]
+    S3["3 · Scatter pass<br/>write particle index to<br/>sortedIndices[cellStart[c] + k]"]
+    S4["4 · Query<br/>each particle reads neighbors from<br/>sortedIndices[cellStart[c] .. cellStart[c+1]]"]
+
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+
+    classDef count fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef scan fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef scatter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef query fill:#10B981,stroke:#065F46,color:#fff;
+
+    class S1 count;
+    class S2 scan;
+    class S3 scatter;
+    class S4 query;

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+    .window     { fill: #EDDFBF; fill-opacity: 0.4; stroke: #C9AE7C; stroke-width: 1.5; }
+    .row-alt    { fill: #C9AE7C; fill-opacity: 0.18; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+      .window     { fill: #0F172A; fill-opacity: 0.6; stroke: #334155; }
+      .row-alt    { fill: #334155; fill-opacity: 0.3; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Profiler hierarchy — your samples, Unity's modules, one timeline</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">BeginSample/EndSample in your code → per-thread recorder → module routing → timeline tree with named children</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- ========== PIPELINE on the left: CODE → REC → MOD → (into UI panel) ========== -->
+
+  <!-- CODE -->
+  <rect class="running" x="60" y="190" width="260" height="160" rx="12" stroke-width="2"/>
+  <text class="running-t" x="190" y="220" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">YOUR CODE</text>
+  <text class="running-t" x="190" y="252" text-anchor="middle" font-size="16" font-weight="700">BeginSample /</text>
+  <text class="running-t" x="190" y="274" text-anchor="middle" font-size="16" font-weight="700">EndSample pairs</text>
+  <text class="running-t" x="190" y="300" text-anchor="middle" font-size="12" font-style="italic">wrap each pipeline stage</text>
+  <text class="running-t" x="190" y="318" text-anchor="middle" font-size="12" font-style="italic">in DebrisField.FixedUpdate</text>
+  <text class="running-t" x="190" y="336" text-anchor="middle" font-size="12" font-style="italic">cost: ~30 ns per sample</text>
+
+  <line class="arrow-line" x1="321" y1="270" x2="359" y2="270" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- RECORDER -->
+  <rect class="relaunch" x="360" y="190" width="260" height="160" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="490" y="220" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PROFILER RECORDER</text>
+  <text class="relaunch-t" x="490" y="252" text-anchor="middle" font-size="16" font-weight="700">per-thread buffer</text>
+  <text class="relaunch-t" x="490" y="285" text-anchor="middle" font-size="12" font-style="italic">main-thread sample ring</text>
+  <text class="relaunch-t" x="490" y="303" text-anchor="middle" font-size="12" font-style="italic">worker-thread samples</text>
+  <text class="relaunch-t" x="490" y="325" text-anchor="middle" font-size="11" font-style="italic">ring-buffered · non-blocking</text>
+
+  <line class="arrow-line" x1="621" y1="270" x2="659" y2="270" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- MODULES -->
+  <rect class="paused" x="660" y="190" width="260" height="160" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="790" y="220" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PROFILER MODULES</text>
+  <text class="paused-t" x="790" y="248" text-anchor="middle" font-size="13" font-style="italic">CPU · GPU · Memory</text>
+  <text class="paused-t" x="790" y="268" text-anchor="middle" font-size="13" font-style="italic">Rendering · UI · Physics 2D</text>
+  <text class="paused-t" x="790" y="300" text-anchor="middle" font-size="12" font-style="italic">each module selects its slice</text>
+  <text class="paused-t" x="790" y="318" text-anchor="middle" font-size="12" font-style="italic">from the recorder ring</text>
+  <text class="paused-t" x="790" y="336" text-anchor="middle" font-size="12" font-style="italic">6 top-level views</text>
+
+  <line class="arrow-line" x1="921" y1="270" x2="959" y2="270" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ========== UI: Profiler window on the right, taller ========== -->
+
+  <rect class="window" x="960" y="190" width="580" height="560" rx="12"/>
+
+  <text class="txt-dim" x="980" y="222" font-size="11" font-weight="700" letter-spacing="0.1em">PROFILER WINDOW · PER-FRAME TIMELINE</text>
+
+  <!-- Parent sample bar -->
+  <rect class="running" x="980" y="240" width="540" height="46" rx="8" stroke-width="2"/>
+  <text class="running-t" x="1000" y="269" font-size="15" font-weight="700">▼ DebrisField.FixedUpdate</text>
+  <text class="running-t" x="1470" y="269" text-anchor="end" font-size="13" font-weight="700" font-family="ui-monospace, monospace">2.8 ms</text>
+
+  <!-- Children list -->
+  <g font-size="14">
+    <rect class="row-alt" x="1000" y="310" width="520" height="36" rx="6"/>
+    <text class="txt"     x="1020" y="334">├ Verlet</text>
+    <text class="txt-dim" x="1470" y="334" text-anchor="end" font-family="ui-monospace, monospace">0.9 ms</text>
+
+    <text class="txt"     x="1020" y="374">├ Drag</text>
+    <text class="txt-dim" x="1470" y="374" text-anchor="end" font-family="ui-monospace, monospace">0.2 ms</text>
+
+    <rect class="row-alt" x="1000" y="390" width="520" height="36" rx="6"/>
+    <text class="txt"     x="1020" y="414">├ Pickup</text>
+    <text class="txt-dim" x="1470" y="414" text-anchor="end" font-family="ui-monospace, monospace">0.3 ms</text>
+
+    <text class="txt"     x="1020" y="454">├ SpatialHash</text>
+    <text class="txt-dim" x="1470" y="454" text-anchor="end" font-family="ui-monospace, monospace">0.4 ms</text>
+
+    <rect class="row-alt" x="1000" y="470" width="520" height="36" rx="6"/>
+    <text class="txt"     x="1020" y="494">├ Collisions</text>
+    <text class="txt-dim" x="1470" y="494" text-anchor="end" font-family="ui-monospace, monospace">0.7 ms</text>
+
+    <text class="txt"     x="1020" y="534">├ SurfaceKill</text>
+    <text class="txt-dim" x="1470" y="534" text-anchor="end" font-family="ui-monospace, monospace">0.1 ms</text>
+
+    <rect class="row-alt" x="1000" y="550" width="520" height="36" rx="6"/>
+    <text class="txt"     x="1020" y="574">└ Render</text>
+    <text class="txt-dim" x="1470" y="574" text-anchor="end" font-family="ui-monospace, monospace">0.2 ms</text>
+  </g>
+
+  <text class="txt-dim" x="1250" y="618" text-anchor="middle" font-size="12" font-style="italic">Children roll up to parent — sums match within recorder overhead.</text>
+  <text class="txt-dim" x="1250" y="636" text-anchor="middle" font-size="12" font-style="italic">Named stages make regressions obvious: Collisions ticks up? Go look at Stage 5.</text>
+  <text class="txt-dim" x="1250" y="700" text-anchor="middle" font-size="11" font-style="italic">(Numbers above are representative; yours will vary with N particles and SoC temperature.)</text>
+
+  <!-- Below the left pipeline: why this matters -->
+  <rect class="panel" x="60" y="440" width="860" height="310" rx="12" stroke-width="1"/>
+  <text class="txt" x="490" y="482" text-anchor="middle" font-size="16" font-weight="700">Why this layering matters</text>
+  <text class="txt" x="490" y="518" text-anchor="middle" font-size="13">Without named samples, everything collapses into "DebrisField.FixedUpdate — 2.8 ms." You know it's slow. You don't know which stage.</text>
+  <text class="txt" x="490" y="542" text-anchor="middle" font-size="13">Named BeginSample/EndSample pairs cost ~30 ns each — free next to anything you'd do inside a physics step.</text>
+  <text class="txt-dim" x="490" y="582" text-anchor="middle" font-size="13" font-style="italic">Convention: one top-level parent per MonoBehaviour method, one child per pipeline stage.</text>
+  <text class="txt-dim" x="490" y="603" text-anchor="middle" font-size="13" font-style="italic">Go deeper with child-of-child for hot stages only (e.g., Collisions → BroadPhase / NarrowPhase).</text>
+  <text class="txt-dim" x="490" y="640" text-anchor="middle" font-size="12" font-style="italic">Any sample you forget to name becomes "Main Thread · Unknown" — useful for nothing.</text>
+  <text class="txt" x="490" y="682" text-anchor="middle" font-size="13" font-weight="700">Instrument once → debug forever.</text>
+  <text class="txt-dim" x="490" y="712" text-anchor="middle" font-size="12" font-style="italic">This is the cheapest, highest-leverage thing you can do for future-you.</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Same hierarchy appears in the Profiler window's Timeline AND Hierarchy views — BeginSample is the name in both.</text>
+</svg>

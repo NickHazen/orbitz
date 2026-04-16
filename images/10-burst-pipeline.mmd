@@ -1,0 +1,12 @@
+flowchart LR
+    CS[Managed C#<br/>IJobParallelFor]:::neutral --> IL[IL bytecode<br/>Roslyn]:::neutral
+    IL --> BC[Burst compiler<br/>LLVM-based]:::orbiter
+    BC --> NATIVE[Native code<br/>AVX2 / NEON SIMD]:::success
+    NATIVE --> CPU[CPU executes<br/>one SIMD op = 4-8 particles]:::planet
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+    classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

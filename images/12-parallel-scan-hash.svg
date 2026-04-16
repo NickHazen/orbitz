@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Parallel spatial-hash build — four passes, O(N) total</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Count → Prefix sum → Scatter → Query · every step is embarrassingly parallel, no locks after pass 1</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- 4 stages · centers x=215, 605, 995, 1385. Boxes 340 × 170, y=160..330 -->
+
+  <!-- Stage 1 — Count pass -->
+  <rect class="paused" x="45" y="160" width="340" height="170" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="215" y="195" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PASS 1 · COUNT</text>
+  <text class="paused-t" x="215" y="225" text-anchor="middle" font-size="18" font-weight="700">Count pass</text>
+  <text class="paused-t" x="215" y="253" text-anchor="middle" font-size="13">each particle atomics</text>
+  <text class="paused-t" x="215" y="272" text-anchor="middle" font-size="15" font-family="ui-monospace, monospace">cellCounts[c]++</text>
+  <text class="paused-t" x="215" y="302" text-anchor="middle" font-size="11" font-style="italic">one atomic op per particle —</text>
+  <text class="paused-t" x="215" y="318" text-anchor="middle" font-size="11" font-style="italic">only pass that needs a lock</text>
+
+  <line class="arrow-line" x1="386" y1="245" x2="424" y2="245" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2 — Prefix sum -->
+  <rect class="decision" x="425" y="160" width="340" height="170" rx="12" stroke-width="2"/>
+  <text class="txt" x="595" y="195" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PASS 2 · SCAN</text>
+  <text class="txt" x="595" y="225" text-anchor="middle" font-size="18" font-weight="700">Prefix sum</text>
+  <text class="txt" x="595" y="253" text-anchor="middle" font-size="13">exclusive scan over cellCounts</text>
+  <text class="txt" x="595" y="272" text-anchor="middle" font-size="15" font-family="ui-monospace, monospace">→ cellStart[c]</text>
+  <text class="txt-dim" x="595" y="302" text-anchor="middle" font-size="11" font-style="italic">gives each cell its slice</text>
+  <text class="txt-dim" x="595" y="318" text-anchor="middle" font-size="11" font-style="italic">start index in sortedIndices</text>
+
+  <line class="arrow-line" x1="766" y1="245" x2="804" y2="245" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3 — Scatter pass -->
+  <rect class="running" x="805" y="160" width="340" height="170" rx="12" stroke-width="2"/>
+  <text class="running-t" x="975" y="195" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PASS 3 · SCATTER</text>
+  <text class="running-t" x="975" y="225" text-anchor="middle" font-size="18" font-weight="700">Scatter</text>
+  <text class="running-t" x="975" y="253" text-anchor="middle" font-size="13">write each particle index to</text>
+  <text class="running-t" x="975" y="272" text-anchor="middle" font-size="14" font-family="ui-monospace, monospace">sortedIndices[cellStart[c]+k]</text>
+  <text class="running-t" x="975" y="302" text-anchor="middle" font-size="11" font-style="italic">k is a local atomic counter</text>
+  <text class="running-t" x="975" y="318" text-anchor="middle" font-size="11" font-style="italic">one write per particle, no locks</text>
+
+  <line class="arrow-line" x1="1146" y1="245" x2="1184" y2="245" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4 — Query -->
+  <rect class="relaunch" x="1185" y="160" width="340" height="170" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="1355" y="195" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.1em">PASS 4 · QUERY</text>
+  <text class="relaunch-t" x="1355" y="225" text-anchor="middle" font-size="18" font-weight="700">Neighbor query</text>
+  <text class="relaunch-t" x="1355" y="253" text-anchor="middle" font-size="13">read neighbors of cell c from</text>
+  <text class="relaunch-t" x="1355" y="272" text-anchor="middle" font-size="13" font-family="ui-monospace, monospace">[cellStart[c] … cellStart[c+1])</text>
+  <text class="relaunch-t" x="1355" y="302" text-anchor="middle" font-size="11" font-style="italic">read-only — fully parallel</text>
+  <text class="relaunch-t" x="1355" y="318" text-anchor="middle" font-size="11" font-style="italic">used by Collisions, Pickup</text>
+
+  <!-- Worked example below -->
+  <rect class="panel" x="45" y="380" width="1480" height="390" rx="12" stroke-width="1"/>
+  <text class="txt" x="800" y="420" text-anchor="middle" font-size="15" font-weight="700">Worked example · 6 particles in 4 cells</text>
+
+  <!-- Row labels -->
+  <g font-size="13" font-family="ui-monospace, monospace">
+    <text class="txt-dim" x="80" y="475" font-style="italic">particles</text>
+    <text class="txt-dim" x="80" y="530" font-style="italic">cellCounts[ ]</text>
+    <text class="txt-dim" x="80" y="585" font-style="italic">cellStart[ ]</text>
+    <text class="txt-dim" x="80" y="640" font-style="italic">sortedIndices</text>
+  </g>
+
+  <!-- Particles row (6 particles each going to a cell) -->
+  <g font-family="ui-monospace, monospace">
+    <rect class="running" x="280" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="330" y="479" text-anchor="middle" font-size="13">p0 → c2</text>
+    <rect class="running" x="390" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="440" y="479" text-anchor="middle" font-size="13">p1 → c0</text>
+    <rect class="running" x="500" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="550" y="479" text-anchor="middle" font-size="13">p2 → c2</text>
+    <rect class="running" x="610" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="660" y="479" text-anchor="middle" font-size="13">p3 → c3</text>
+    <rect class="running" x="720" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="770" y="479" text-anchor="middle" font-size="13">p4 → c0</text>
+    <rect class="running" x="830" y="455" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="running-t" x="880" y="479" text-anchor="middle" font-size="13">p5 → c2</text>
+  </g>
+
+  <!-- cellCounts row -->
+  <g font-family="ui-monospace, monospace">
+    <rect class="paused" x="280" y="510" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="paused-t" x="330" y="534" text-anchor="middle" font-size="13">c0: 2</text>
+    <rect class="paused" x="390" y="510" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="paused-t" x="440" y="534" text-anchor="middle" font-size="13">c1: 0</text>
+    <rect class="paused" x="500" y="510" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="paused-t" x="550" y="534" text-anchor="middle" font-size="13">c2: 3</text>
+    <rect class="paused" x="610" y="510" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="paused-t" x="660" y="534" text-anchor="middle" font-size="13">c3: 1</text>
+  </g>
+
+  <!-- cellStart (after prefix sum) -->
+  <g font-family="ui-monospace, monospace">
+    <rect class="decision" x="280" y="565" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="txt" x="330" y="589" text-anchor="middle" font-size="13">c0: 0</text>
+    <rect class="decision" x="390" y="565" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="txt" x="440" y="589" text-anchor="middle" font-size="13">c1: 2</text>
+    <rect class="decision" x="500" y="565" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="txt" x="550" y="589" text-anchor="middle" font-size="13">c2: 2</text>
+    <rect class="decision" x="610" y="565" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="txt" x="660" y="589" text-anchor="middle" font-size="13">c3: 5</text>
+  </g>
+
+  <!-- sortedIndices (after scatter) -->
+  <g font-family="ui-monospace, monospace">
+    <rect class="relaunch" x="280" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="330" y="644" text-anchor="middle" font-size="13">p1</text>
+    <rect class="relaunch" x="390" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="440" y="644" text-anchor="middle" font-size="13">p4</text>
+    <rect class="relaunch" x="500" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="550" y="644" text-anchor="middle" font-size="13">p0</text>
+    <rect class="relaunch" x="610" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="660" y="644" text-anchor="middle" font-size="13">p2</text>
+    <rect class="relaunch" x="720" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="770" y="644" text-anchor="middle" font-size="13">p5</text>
+    <rect class="relaunch" x="830" y="620" width="100" height="36" rx="6" stroke-width="1.5"/>
+    <text class="relaunch-t" x="880" y="644" text-anchor="middle" font-size="13">p3</text>
+  </g>
+
+  <!-- Side callouts on the right -->
+  <text class="txt"     x="970" y="479" font-size="12">each particle picks its cell</text>
+  <text class="txt-dim" x="970" y="495" font-size="11" font-style="italic">O(1) per particle</text>
+
+  <text class="txt"     x="970" y="534" font-size="12">cellCounts[c2] = 3 · three particles in c2</text>
+  <text class="txt-dim" x="970" y="550" font-size="11" font-style="italic">pass 1 result</text>
+
+  <text class="txt"     x="970" y="589" font-size="12">cellStart[c2] = 2 · c2's slice begins at index 2</text>
+  <text class="txt-dim" x="970" y="605" font-size="11" font-style="italic">exclusive scan of cellCounts</text>
+
+  <text class="txt"     x="970" y="644" font-size="12">c2's particles are now contiguous: p0, p2, p5</text>
+  <text class="txt-dim" x="970" y="660" font-size="11" font-style="italic">neighbor iteration is a tight loop</text>
+
+  <text class="txt-dim" x="800" y="712" text-anchor="middle" font-size="12" font-style="italic">After pass 4, asking "who is near particle X?" is a walk over sortedIndices[cellStart[c]..cellStart[c+1]] — O(neighbors_per_cell), not O(N).</text>
+  <text class="txt-dim" x="800" y="734" text-anchor="middle" font-size="12" font-style="italic">Pass 1 is the only one with contention · passes 2–4 are completely parallel.</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">This is the same counting-sort dance GPUs use · it's why Burst with atomics can beat a "clever" lock-free data structure.</text>
+</svg>

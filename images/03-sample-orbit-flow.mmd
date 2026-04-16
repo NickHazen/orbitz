@@ -1,0 +1,18 @@
+flowchart TB
+  Start([SampleOrbit called]) --> PickR["Pick radius r<br/>(uniform in area, annulus rInner…rOuter)"]
+  PickR --> PickV["Pick velocity v<br/>(≈ v_circ, jittered by speed + angle)"]
+  PickV --> Solve["Solve vis-viva:<br/>a = 1 / (2/r − v²/gm)<br/>e = √(1 − L²/(gm·a))<br/>perigee = a·(1 − e)"]
+  Solve --> Check{"perigee ≥ R_surface<br/>threshold?"}
+  Check -->|yes| Accept([Accept — write to pos, vel arrays])
+  Check -->|no| Retry{"attempts &lt; 6?"}
+  Retry -->|yes| PickR
+  Retry -->|no| Fallback([Fallback: exact circular orbit])
+
+  classDef ok fill:#10B981,stroke:#065F46,color:#fff;
+  classDef warn fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;
+  classDef math fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  class Accept ok
+  class Fallback warn
+  class PickR,PickV neutral
+  class Solve math

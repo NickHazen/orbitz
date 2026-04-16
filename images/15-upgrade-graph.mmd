@@ -1,0 +1,17 @@
+flowchart LR
+    BS[Basic Slingshot] --> TS[Twin Slingshot]
+    BS --> FR[Fueled Rocket]
+    TS --> MD[Mass Driver]
+    FR --> MD
+    FR --> OS[Orbital Station T1]
+    OS --> HD[Harvester Drone]
+    OS --> RF[Refinery T1]
+    MD --> OS2[Orbital Station T2]
+    RF --> OS2
+
+    classDef root fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef standard fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef capstone fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    class BS root;
+    class TS,FR,OS,HD,RF standard;
+    class MD,OS2 capstone;

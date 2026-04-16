@@ -1,0 +1,45 @@
+---
+title: Profiler hierarchy — DebrisField parent with seven named children
+---
+flowchart LR
+  subgraph CODE["Your code · DebrisField.FixedUpdate"]
+    direction TB
+    C1["Profiler.BeginSample<br/>Profiler.EndSample pairs"]:::orbiter
+  end
+
+  subgraph REC["Profiler recorder · per-thread buffer"]
+    direction TB
+    R1[main-thread sample ring]:::neutral
+    R2[worker-thread samples]:::neutral
+  end
+
+  subgraph MOD["Profiler modules"]
+    direction TB
+    M_CPU["CPU Usage"]:::planet
+    M_GPU["GPU Usage"]:::planet
+    M_MEM["Memory"]:::planet
+    M_REN["Rendering"]:::planet
+    M_PHY["Physics 2D (flatline for us)"]:::planet
+    M_UI["UI"]:::planet
+  end
+
+  subgraph UI["Profiler window · per-frame timeline"]
+    direction TB
+    DF["DebrisField.FixedUpdate (parent sample)"]:::success
+    DF --> S1[Verlet]:::success
+    DF --> S2[Drag]:::success
+    DF --> S3[Pickup]:::success
+    DF --> S4[SpatialHash]:::success
+    DF --> S5[Collisions]:::success
+    DF --> S6[SurfaceKill]:::success
+    DF --> S7[Render]:::success
+  end
+
+  CODE --> REC --> MOD --> UI
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef success fill:#10B981,stroke:#065F46,color:#fff;
+  classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

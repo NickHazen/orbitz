@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="1600" height="800" fill="#0F172A"/>
+
+  <text x="800" y="48" text-anchor="middle" font-size="26" font-weight="700" fill="#E5E7EB">Slingshot geometry — drag to velocity</text>
+  <text x="800" y="78" text-anchor="middle" font-size="16" fill="#6B7280">The launch direction is opposite the pull vector; power is the pull distance clamped to 1.</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <!-- Planet at center-bottom -->
+  <circle cx="600" cy="560" r="120" fill="#3B82F6" stroke="#1E40AF" stroke-width="3"/>
+  <text x="600" y="565" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">planet</text>
+
+  <!-- Surface radius label -->
+  <line x1="600" y1="560" x2="720" y2="560" stroke="#6B7280" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="730" y="564" font-size="13" fill="#6B7280">surfaceRadius</text>
+
+  <!-- Anchor point on surface (top of planet) -->
+  <circle cx="600" cy="440" r="10" fill="#6B7280" stroke="#374151" stroke-width="2"/>
+  <text x="628" y="435" font-size="15" fill="#6B7280" font-weight="700">anchor</text>
+  <text x="628" y="455" font-size="12" fill="#6B7280">surface + 0.3 offset</text>
+
+  <!-- Finger position (drag target) — below and to the right of anchor -->
+  <circle cx="800" cy="620" r="14" fill="#E5E7EB" stroke="#6B7280" stroke-width="2"/>
+  <text x="822" y="618" font-size="15" fill="#E5E7EB" font-weight="700">finger</text>
+  <text x="822" y="638" font-size="12" fill="#E5E7EB">(drag position)</text>
+
+  <!-- Dashed line from anchor to finger (the pull / rubber band) -->
+  <line x1="600" y1="440" x2="800" y2="620" stroke="#6B7280" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="720" y="520" font-size="14" fill="#6B7280" transform="rotate(42 720 520)">pull vector</text>
+
+  <!-- Pull distance bracket -->
+  <line x1="810" y1="438" x2="810" y2="622" stroke="#6B7280" stroke-width="1"/>
+  <line x1="805" y1="440" x2="815" y2="440" stroke="#6B7280" stroke-width="1"/>
+  <line x1="805" y1="620" x2="815" y2="620" stroke="#6B7280" stroke-width="1"/>
+  <text x="830" y="535" font-size="13" fill="#6B7280">pullDistance</text>
+
+  <!-- Launch direction arrow (orange, opposite the pull vector) -->
+  <!-- Pull goes from anchor(600,440) toward finger(800,620) = (+200, +180) -->
+  <!-- Launch direction is opposite: (-200, -180), normalized, scaled -->
+  <line x1="600" y1="440" x2="360" y2="224" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrOrange)"/>
+  <text x="420" y="290" font-size="17" font-weight="700" fill="#F59E0B">launch velocity</text>
+  <text x="420" y="312" font-size="14" fill="#F59E0B">= -pullVector.normalized</text>
+  <text x="420" y="332" font-size="14" fill="#F59E0B">  × power × multiplier × maxPull</text>
+
+  <!-- Sign-flip annotation -->
+  <path d="M 680 540 Q 740 480 640 400" stroke="#F59E0B" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+  <text x="750" y="490" font-size="13" fill="#F59E0B">sign flip: -pullVector</text>
+
+  <!-- Right-side formula box -->
+  <rect x="1000" y="130" width="540" height="340" rx="12" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="1020" y="168" font-size="17" font-weight="700" fill="#F59E0B">The math</text>
+
+  <text x="1020" y="205" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">pullVector = fingerPos - anchor</text>
+
+  <text x="1020" y="240" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">pullDist = min(|pullVector|, maxPull)</text>
+
+  <text x="1020" y="280" font-family="ui-monospace, monospace" font-size="15" fill="#F59E0B" font-weight="700">power = pullDist / maxPull</text>
+  <text x="1020" y="300" font-size="13" fill="#6B7280">     ↑ clamped to [0, 1]</text>
+
+  <text x="1020" y="340" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">launchDir = -pullVector.normalized</text>
+
+  <text x="1020" y="380" font-family="ui-monospace, monospace" font-size="15" fill="#F59E0B" font-weight="700">speed = power × multiplier × maxPull</text>
+
+  <text x="1020" y="420" font-family="ui-monospace, monospace" font-size="15" fill="#E5E7EB">launchVelocity = launchDir × speed</text>
+
+  <text x="1020" y="455" font-size="13" fill="#6B7280">Short pull → slow lob. Full pull → max speed.</text>
+
+  <!-- Max pull distance ring (dashed, around anchor) -->
+  <circle cx="600" cy="440" r="260" fill="none" stroke="#6B7280" stroke-width="1" stroke-dasharray="10 8" opacity="0.4"/>
+  <text x="390" y="680" font-size="13" fill="#6B7280">maxPullDistance (drag past this has no effect)</text>
+
+  <!-- Bottom note -->
+  <rect x="1000" y="520" width="540" height="130" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="1020" y="555" font-size="15" font-weight="700" fill="#10B981">Why it works on mobile</text>
+  <text x="1020" y="582" font-size="14" fill="#E5E7EB">Clamping pullDistance to maxPullDistance</text>
+  <text x="1020" y="602" font-size="14" fill="#E5E7EB">means screen size does not affect max</text>
+  <text x="1020" y="622" font-size="14" fill="#E5E7EB">launch power. Same physics on a phone</text>
+  <text x="1020" y="642" font-size="14" fill="#E5E7EB">and a tablet.</text>
+</svg>

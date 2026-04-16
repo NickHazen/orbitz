@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Mobile thermal state machine</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Normal → Pressure → Throttled → Recovery → Normal — with a direct shortcut when backgrounded</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Entry dot [*] -->
+  <circle class="arrow-head" cx="240" cy="280" r="9"/>
+  <line class="arrow-line" x1="250" y1="280" x2="355" y2="280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Exit donut [*] -->
+  <circle class="arrow-head" cx="240" cy="580" r="9"/>
+  <circle class="bg"         cx="240" cy="580" r="4.5"/>
+
+  <!-- States (2x2 grid) -->
+  <rect class="running" x="360" y="240" width="280" height="80" rx="12" stroke-width="2"/>
+  <text class="running-t" x="500" y="275" text-anchor="middle" font-size="17" font-weight="700">Normal</text>
+  <text class="running-t" x="500" y="295" text-anchor="middle" font-size="11" font-style="italic">60 FPS · cool SoC</text>
+  <text class="running-t" x="500" y="310" text-anchor="middle" font-size="11" font-style="italic">big cores unparked</text>
+
+  <rect class="paused" x="960" y="240" width="280" height="80" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="1100" y="275" text-anchor="middle" font-size="17" font-weight="700">Pressure</text>
+  <text class="paused-t" x="1100" y="295" text-anchor="middle" font-size="11" font-style="italic">60 FPS held · clock drop starts</text>
+  <text class="paused-t" x="1100" y="310" text-anchor="middle" font-size="11" font-style="italic">first big core parks</text>
+
+  <rect class="killed" x="960" y="540" width="280" height="80" rx="12" stroke-width="2"/>
+  <text class="killed-t" x="1100" y="575" text-anchor="middle" font-size="17" font-weight="700">Throttled</text>
+  <text class="killed-t" x="1100" y="595" text-anchor="middle" font-size="11" font-style="italic">45 or 30 FPS · clock capped</text>
+  <text class="killed-t" x="1100" y="610" text-anchor="middle" font-size="11" font-style="italic">LITTLE-core migration</text>
+
+  <rect class="relaunch" x="360" y="540" width="280" height="80" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="500" y="575" text-anchor="middle" font-size="17" font-weight="700">Recovery</text>
+  <text class="relaunch-t" x="500" y="595" text-anchor="middle" font-size="11" font-style="italic">idle detected · clocks recover</text>
+  <text class="relaunch-t" x="500" y="610" text-anchor="middle" font-size="11" font-style="italic">big cores reopen</text>
+
+  <!-- Normal → Pressure (top row, east) -->
+  <line class="arrow-line" x1="640" y1="280" x2="955" y2="280" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="797" y="261" text-anchor="middle" font-size="12">sustained high load</text>
+  <text class="txt-dim" x="797" y="247" text-anchor="middle" font-size="11" font-style="italic">&gt; 5 min · SoC temp ≥ warm threshold</text>
+
+  <!-- Pressure → Throttled (right col, south) -->
+  <line class="arrow-line" x1="1100" y1="320" x2="1100" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1118" y="425" font-size="12">temp ≥ critical</text>
+  <text class="txt-dim" x="1118" y="441" font-size="11" font-style="italic">kernel forces clock cap</text>
+
+  <!-- Throttled → Recovery (bottom row, west) -->
+  <line class="arrow-line" x1="960" y1="580" x2="645" y2="580" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="802" y="601" text-anchor="middle" font-size="12">load eased</text>
+  <text class="txt-dim" x="802" y="617" text-anchor="middle" font-size="11" font-style="italic">backgrounded · pulldown menu · idle</text>
+
+  <!-- Recovery → Normal (left col, north, offset x=470) -->
+  <line class="arrow-line" x1="470" y1="540" x2="470" y2="323" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="455" y="425" text-anchor="end" font-size="12">temp under warm</text>
+  <text class="txt-dim" x="455" y="441" text-anchor="end" font-size="11" font-style="italic">big cores reopened</text>
+
+  <!-- Normal → Recovery shortcut (left col, south, offset x=530) -->
+  <line class="arrow-line" x1="530" y1="320" x2="530" y2="537" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="545" y="425" text-anchor="start" font-size="12">app backgrounded</text>
+  <text class="txt-dim" x="545" y="441" text-anchor="start" font-size="11" font-style="italic">targetFrameRate = 1</text>
+
+  <!-- Throttled self-loop (right side belly) -->
+  <path class="arrow-line" d="M 1240 560 C 1320 560 1320 598 1243 600" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1330" y="576" font-size="12">load sustained</text>
+  <text class="txt-dim" x="1330" y="592" font-size="11" font-style="italic">stay at 30 FPS, no further drop</text>
+
+  <!-- Recovery → [*] exit (app killed) -->
+  <line class="arrow-line" x1="355" y1="580" x2="255" y2="580" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="305" y="571" text-anchor="middle" font-size="11" font-style="italic">app killed by OS</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Design for Pressure (your "it still feels good") and Throttled (your "it still plays"); Normal is easy, Recovery is cosmetic.</text>
+</svg>

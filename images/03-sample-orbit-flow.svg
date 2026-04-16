@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .killed     { fill: #B45B4D; stroke: #6F3028; }
+    .killed-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+    .resume-line { stroke: #6F9677; fill: none; }
+    .resume-head { fill: #6F9677; }
+    .resume-t   { fill: #4A7352; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+      .resume-t   { fill: #8EB294; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">SampleOrbit — rejection sampler for valid orbits</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Pick (r, v) randomly · solve vis-viva · accept if perigee clears the surface · retry ≤ 6× before falling back</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+    <marker id="arrow-resume" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path class="resume-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Start -->
+  <rect class="relaunch" x="660" y="125" width="280" height="50" rx="25" stroke-width="2"/>
+  <text class="relaunch-t" x="800" y="157" text-anchor="middle" font-size="15" font-weight="700">SampleOrbit called</text>
+
+  <line class="arrow-line" x1="800" y1="175" x2="800" y2="210" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Pick r -->
+  <rect class="running" x="640" y="215" width="320" height="70" rx="10" stroke-width="2"/>
+  <text class="running-t" x="800" y="240" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STEP 1</text>
+  <text class="running-t" x="800" y="262" text-anchor="middle" font-size="15" font-weight="700">Pick radius r</text>
+  <text class="running-t" x="800" y="279" text-anchor="middle" font-size="11" font-style="italic">uniform in area · annulus rInner … rOuter</text>
+
+  <line class="arrow-line" x1="800" y1="285" x2="800" y2="320" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Pick v -->
+  <rect class="running" x="640" y="325" width="320" height="70" rx="10" stroke-width="2"/>
+  <text class="running-t" x="800" y="350" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STEP 2</text>
+  <text class="running-t" x="800" y="372" text-anchor="middle" font-size="15" font-weight="700">Pick velocity v</text>
+  <text class="running-t" x="800" y="389" text-anchor="middle" font-size="11" font-style="italic">≈ v_circ, jittered by speed + angle</text>
+
+  <line class="arrow-line" x1="800" y1="395" x2="800" y2="430" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Solve -->
+  <rect class="paused" x="620" y="435" width="360" height="110" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="800" y="460" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STEP 3 · VIS-VIVA</text>
+  <text class="paused-t" x="800" y="483" text-anchor="middle" font-size="14" font-family="ui-monospace, monospace">a = 1 / (2/r − v² / GM)</text>
+  <text class="paused-t" x="800" y="504" text-anchor="middle" font-size="14" font-family="ui-monospace, monospace">e = √(1 − L² / (GM · a))</text>
+  <text class="paused-t" x="800" y="525" text-anchor="middle" font-size="14" font-family="ui-monospace, monospace">perigee = a · (1 − e)</text>
+
+  <line class="arrow-line" x1="800" y1="545" x2="800" y2="575" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Check diamond -->
+  <path class="decision" d="M 800 580 L 990 648 L 800 716 L 610 648 Z" stroke-width="2"/>
+  <text class="txt" x="800" y="641" text-anchor="middle" font-size="14" font-weight="700">perigee ≥ threshold?</text>
+  <text class="txt-dim" x="800" y="663" text-anchor="middle" font-size="12" font-style="italic">(clears the atmosphere)</text>
+
+  <!-- Check → Accept (yes, right) -->
+  <line class="arrow-line" x1="990" y1="648" x2="1148" y2="648" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="resume-t" x="1069" y="638" text-anchor="middle" font-size="12" font-weight="700">yes</text>
+
+  <rect class="resume-line" fill="#6F9677" fill-opacity="0.95" x="1150" y="615" width="340" height="70" rx="25" stroke-width="2"/>
+  <text fill="#FFFFFF" x="1320" y="644" text-anchor="middle" font-size="15" font-weight="700">Accept</text>
+  <text fill="#FFFFFF" x="1320" y="665" text-anchor="middle" font-size="12" font-style="italic">write to pos, vel arrays</text>
+
+  <!-- Check → Retry (no, down) -->
+  <line class="arrow-line" x1="800" y1="716" x2="800" y2="745" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="822" y="735" font-size="12" font-weight="700">no</text>
+
+  <!-- Retry diamond -->
+  <path class="decision" d="M 800 750 L 990 793 L 800 836 L 610 793 Z" stroke-width="2"/>
+  <text class="txt" x="800" y="790" text-anchor="middle" font-size="14" font-weight="700">attempts &lt; 6?</text>
+  <text class="txt-dim" x="800" y="808" text-anchor="middle" font-size="11" font-style="italic">(rejection budget)</text>
+
+  <!-- Retry → loop back to PickR -->
+  <path class="arrow-line" d="M 610 793 L 200 793 L 200 250 L 635 250" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="330" y="782" font-size="12" font-weight="700">yes — retry</text>
+  <text class="txt-dim" x="330" y="798" font-size="11" font-style="italic">increment attempts, restart</text>
+
+  <!-- Retry → Fallback (no, right) -->
+  <line class="arrow-line" x1="990" y1="793" x2="1148" y2="793" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="killed" x="1069" y="782" text-anchor="middle" font-size="12" font-weight="700" fill="#B45B4D">no — give up</text>
+
+  <rect class="killed" x="1150" y="760" width="340" height="70" rx="25" stroke-width="2"/>
+  <text class="killed-t" x="1320" y="789" text-anchor="middle" font-size="15" font-weight="700">Fallback</text>
+  <text class="killed-t" x="1320" y="810" text-anchor="middle" font-size="12" font-style="italic">exact circular orbit at midpoint</text>
+</svg>

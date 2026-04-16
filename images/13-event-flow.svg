@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Event flow — physics to economy to UI and save</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">One-way flow — physics emits, economy mutates, UI + save observe. No back-pressure, no cycles.</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="paused"  x="490" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="512" y="120" font-size="13">Physics</text>
+    <rect class="running" x="598" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="620" y="120" font-size="13">Economy</text>
+    <rect class="relaunch" x="714" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="736" y="120" font-size="13">UI</text>
+    <rect class="decision" x="790" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="812" y="120" font-size="13">Save</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Centers: 150, 380, 610, 840, 1070 (main row), plus F and G at x=1350 above/below -->
+  <!-- Box 210 × 80, y=400..480 -->
+
+  <!-- A — Physics -->
+  <rect class="paused" x="45" y="400" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="150" y="432" text-anchor="middle" font-size="13" font-weight="700">GravityBody</text>
+  <text class="paused-t" x="150" y="452" text-anchor="middle" font-size="12" font-style="italic">.Absorb(mass)</text>
+
+  <line class="arrow-line" x1="255" y1="440" x2="274" y2="440" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- B — Physics -->
+  <rect class="paused" x="275" y="400" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="paused-t" x="380" y="432" text-anchor="middle" font-size="13" font-weight="700">emits</text>
+  <text class="paused-t" x="380" y="452" text-anchor="middle" font-size="12" font-style="italic">OnMassAbsorbed</text>
+
+  <line class="arrow-line" x1="485" y1="440" x2="504" y2="440" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- C — Economy -->
+  <rect class="running" x="505" y="400" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="running-t" x="610" y="432" text-anchor="middle" font-size="13" font-weight="700">EconomyLedger</text>
+  <text class="running-t" x="610" y="452" text-anchor="middle" font-size="12" font-style="italic">.HandleMassAbsorbed(e)</text>
+
+  <line class="arrow-line" x1="715" y1="440" x2="734" y2="440" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- D — Economy -->
+  <rect class="running" x="735" y="400" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="running-t" x="840" y="432" text-anchor="middle" font-size="13" font-weight="700">wallet.Add</text>
+  <text class="running-t" x="840" y="452" text-anchor="middle" font-size="12" font-style="italic">mass × multiplier</text>
+
+  <line class="arrow-line" x1="945" y1="440" x2="964" y2="440" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- E — Economy (fork point) -->
+  <rect class="running" x="965" y="400" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="running-t" x="1070" y="432" text-anchor="middle" font-size="13" font-weight="700">wallet</text>
+  <text class="running-t" x="1070" y="452" text-anchor="middle" font-size="12" font-style="italic">.OnBalanceChanged</text>
+
+  <!-- Fork: E → F (up-right) -->
+  <path class="arrow-line" d="M 1175 420 Q 1220 360 1240 320" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1175" y="370" font-size="11">observer</text>
+  <text class="txt-dim" x="1175" y="385" font-size="10" font-style="italic">UI subscribes</text>
+
+  <!-- Fork: E → G (down-right) -->
+  <path class="arrow-line" d="M 1175 460 Q 1220 520 1240 560" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1175" y="515" font-size="11">observer</text>
+  <text class="txt-dim" x="1175" y="530" font-size="10" font-style="italic">Save subscribes</text>
+
+  <!-- F — UI -->
+  <rect class="relaunch" x="1245" y="280" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="1350" y="312" text-anchor="middle" font-size="13" font-weight="700">UI updates HUD</text>
+  <text class="relaunch-t" x="1350" y="332" text-anchor="middle" font-size="11" font-style="italic">counter animates</text>
+
+  <!-- G — Save -->
+  <rect class="decision" x="1245" y="520" width="210" height="80" rx="10" stroke-width="2"/>
+  <text class="txt" x="1350" y="552" text-anchor="middle" font-size="13" font-weight="700">SaveService queues</text>
+  <text class="txt" x="1350" y="572" text-anchor="middle" font-size="11" font-style="italic">persistence</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Physics never calls into UI or Save directly — the event bus keeps layers one-way decoupled.</text>
+</svg>

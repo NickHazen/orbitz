@@ -1,0 +1,16 @@
+flowchart TB
+  GA(("GetGravityAcceleration(r)<br/>Planetoid"))
+  GB["GravityBody.FixedUpdate<br/>(live orbiter motion)"]
+  SL["SlingshotLauncher.UpdateTrajectoryPreview<br/>(dotted-line preview)"]
+  DF["DebrisField.FixedUpdate<br/>(1500-particle loop)"]
+
+  GB -->|reads, then Verlet-steps| GA
+  SL -->|reads, then Verlet-steps| GA
+  DF -->|reads, then Verlet-steps| GA
+
+  classDef shared fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  class GA shared
+  class GB,SL orbiter
+  class DF debris

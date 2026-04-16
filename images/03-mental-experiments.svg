@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+
+  <!-- Title -->
+  <text x="800" y="58" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Three mental experiments — launch speed decides orbit shape</text>
+  <text x="800" y="90" text-anchor="middle" font-size="16" fill="#6B7280">Same planet, same launch position (black dot), different initial speeds</text>
+
+  <!-- Panel backgrounds -->
+  <g stroke="#6B7280" stroke-width="1" fill="none" stroke-dasharray="4 4">
+    <rect x="60"   y="130" width="480" height="640" rx="12"/>
+    <rect x="560"  y="130" width="480" height="640" rx="12"/>
+    <rect x="1060" y="130" width="480" height="640" rx="12"/>
+  </g>
+
+  <!-- ====================== Panel 1: Circular ====================== -->
+  <text x="300" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="#10B981">Circular orbit</text>
+  <text x="300" y="200" text-anchor="middle" font-size="16" fill="#E5E7EB">v = v_circ  =  √(G·M / r)</text>
+  <text x="300" y="225" text-anchor="middle" font-size="14" fill="#6B7280">Speed exactly balances gravity. Closed, round, forever.</text>
+
+  <!-- planet -->
+  <circle cx="300" cy="480" r="48" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="300" y="486" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">M</text>
+  <!-- circular orbit ring -->
+  <circle cx="300" cy="480" r="170" fill="none" stroke="#10B981" stroke-width="3"/>
+  <!-- launch point + velocity -->
+  <circle cx="300" cy="310" r="7" fill="#E5E7EB"/>
+  <line x1="300" y1="310" x2="400" y2="310" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrowO)"/>
+  <text x="408" y="305" font-size="14" fill="#F59E0B" font-weight="700">v_circ</text>
+  <!-- radius label -->
+  <line x1="300" y1="480" x2="300" y2="310" stroke="#6B7280" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="310" y="400" font-size="14" fill="#6B7280">r</text>
+  <text x="300" y="740" text-anchor="middle" font-size="14" fill="#6B7280">Eccentricity e = 0</text>
+
+  <!-- ====================== Panel 2: Elliptical ====================== -->
+  <text x="800" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="#F59E0B">Elliptical orbit</text>
+  <text x="800" y="200" text-anchor="middle" font-size="16" fill="#E5E7EB">v = 1.1 × v_circ  (slightly too fast)</text>
+  <text x="800" y="225" text-anchor="middle" font-size="14" fill="#6B7280">Launch point becomes perigee; orbit stretches to a distant apogee.</text>
+
+  <!-- planet -->
+  <circle cx="700" cy="480" r="48" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="700" y="486" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">M</text>
+  <!-- ellipse: wider toward +x direction, planet at left focus -->
+  <ellipse cx="830" cy="480" rx="220" ry="150" fill="none" stroke="#F59E0B" stroke-width="3"/>
+  <!-- launch point (perigee — on the near side, closest to planet) -->
+  <circle cx="610" cy="480" r="7" fill="#E5E7EB"/>
+  <text x="590" y="460" font-size="13" fill="#E5E7EB" text-anchor="end">perigee</text>
+  <!-- velocity at perigee: tangential, upward -->
+  <line x1="610" y1="480" x2="610" y2="370" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrowO)"/>
+  <text x="620" y="380" font-size="13" fill="#F59E0B" font-weight="700">1.1·v_circ</text>
+  <!-- apogee marker -->
+  <circle cx="1050" cy="480" r="6" fill="#E5E7EB"/>
+  <text x="1060" y="475" font-size="13" fill="#E5E7EB">apogee</text>
+  <text x="800" y="740" text-anchor="middle" font-size="14" fill="#6B7280">Eccentricity 0 &lt; e &lt; 1 · bound orbit</text>
+
+  <!-- ====================== Panel 3: Escape ====================== -->
+  <text x="1300" y="170" text-anchor="middle" font-size="22" font-weight="700" fill="#EF4444">Escape trajectory</text>
+  <text x="1300" y="200" text-anchor="middle" font-size="16" fill="#E5E7EB">v = √2 · v_circ  (the edge)</text>
+  <text x="1300" y="225" text-anchor="middle" font-size="14" fill="#6B7280">Exactly enough energy to leave forever. Parabolic path.</text>
+
+  <!-- planet -->
+  <circle cx="1200" cy="520" r="48" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <text x="1200" y="526" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">M</text>
+  <!-- parabolic curve approximation: quadratic Bezier -->
+  <path d="M 1200 350 Q 1340 540 1520 700" fill="none" stroke="#EF4444" stroke-width="3"/>
+  <!-- launch point -->
+  <circle cx="1200" cy="350" r="7" fill="#E5E7EB"/>
+  <line x1="1200" y1="350" x2="1300" y2="330" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrowO)"/>
+  <text x="1305" y="325" font-size="13" fill="#F59E0B" font-weight="700">√2·v_circ</text>
+  <!-- arrow indicating departure -->
+  <text x="1440" y="680" font-size="14" fill="#EF4444" font-weight="700">goodbye →</text>
+  <text x="1300" y="740" text-anchor="middle" font-size="14" fill="#6B7280">Eccentricity e = 1 · unbounded</text>
+
+  <!-- arrow marker -->
+  <defs>
+    <marker id="arrowO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <g font-size="13">
+    <rect x="60"  y="810" width="16" height="16" fill="#3B82F6" stroke="#1E40AF"/>
+    <text x="84"  y="823" fill="#E5E7EB">planet (mass M)</text>
+    <rect x="230" y="810" width="16" height="16" fill="none" stroke="#10B981" stroke-width="3"/>
+    <text x="254" y="823" fill="#E5E7EB">circular</text>
+    <rect x="350" y="810" width="16" height="16" fill="none" stroke="#F59E0B" stroke-width="3"/>
+    <text x="374" y="823" fill="#E5E7EB">elliptical</text>
+    <rect x="470" y="810" width="16" height="16" fill="none" stroke="#EF4444" stroke-width="3"/>
+    <text x="494" y="823" fill="#E5E7EB">escape</text>
+    <line x1="600" y1="818" x2="635" y2="818" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrowO)"/>
+    <text x="643" y="823" fill="#E5E7EB">velocity at launch</text>
+  </g>
+</svg>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    /* --- Duneswept (light) default --- */
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title -->
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Startup sequence</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">From BeforeSceneLoad through Awake to the first FixedUpdate — six actors, one 50 Hz handoff</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Participant boxes (y=160..220), lane centers at 150, 410, 670, 930, 1190, 1450 -->
+  <rect class="paused"   x="40"   y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="paused-t"   x="150"  y="196" text-anchor="middle" font-size="15" font-weight="700">Unity runtime</text>
+
+  <rect class="running"  x="300"  y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="410"  y="196" text-anchor="middle" font-size="15" font-weight="700">GameBootstrapper</text>
+
+  <rect class="running"  x="560"  y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="670"  y="196" text-anchor="middle" font-size="15" font-weight="700">Planetoid.Awake</text>
+
+  <rect class="running"  x="820"  y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="930"  y="196" text-anchor="middle" font-size="15" font-weight="700">DebrisField.Awake</text>
+
+  <rect class="running"  x="1080" y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="running-t"  x="1190" y="193" text-anchor="middle" font-size="14" font-weight="700">SlingshotLauncher</text>
+  <text class="running-t"  x="1190" y="210" text-anchor="middle" font-size="12" font-style="italic">.Awake</text>
+
+  <rect class="relaunch" x="1340" y="160" width="220" height="60" rx="10" stroke-width="2"/>
+  <text class="relaunch-t" x="1450" y="193" text-anchor="middle" font-size="15" font-weight="700">first FixedUpdate</text>
+  <text class="relaunch-t" x="1450" y="210" text-anchor="middle" font-size="11" font-style="italic">(50 Hz tick)</text>
+
+  <!-- Lifelines (dashed, y=220..780) -->
+  <line class="arrow-line" x1="150"  y1="220" x2="150"  y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="410"  y1="220" x2="410"  y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="670"  y1="220" x2="670"  y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="930"  y1="220" x2="930"  y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1190" y1="220" x2="1190" y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+  <line class="arrow-line" x1="1450" y1="220" x2="1450" y2="780" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+
+  <!-- Msg 1: U → GB at y=275 (2-line label above) -->
+  <text class="txt"     x="280" y="253" font-size="12">RuntimeInitializeOnLoadMethod</text>
+  <text class="txt-dim" x="280" y="268" font-size="11" font-style="italic">[BeforeSceneLoad]</text>
+  <line class="arrow-line" x1="150" y1="275" x2="405" y2="275" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 2: GB → GB self-loop at y=330 -->
+  <path class="arrow-line" d="M 410 322 C 480 322 480 350 413 348" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt" x="492" y="340" font-size="12">EnhancedTouchSupport.Enable()</text>
+
+  <!-- Msg 3: GB → U (editor-only response, dashed) at y=400 -->
+  <text class="txt"     x="280" y="388" font-size="12">TouchSimulation.Enable()</text>
+  <text class="txt-dim" x="280" y="403" font-size="11" font-style="italic">editor-only · dashed return</text>
+  <line class="arrow-line" x1="410" y1="412" x2="155" y2="412" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <!-- Msg 4: U → P at y=465 -->
+  <text class="txt" x="410" y="458" font-size="12">Awake — scene object</text>
+  <line class="arrow-line" x1="150" y1="465" x2="665" y2="465" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 5: U → DF at y=525 (2-line label) -->
+  <text class="txt"     x="540" y="503" font-size="12">Awake — FindAnyObjectByType&lt;Planetoid&gt;()</text>
+  <text class="txt-dim" x="540" y="518" font-size="11" font-style="italic">configure ParticleSystem · spawn initial debris</text>
+  <line class="arrow-line" x1="150" y1="525" x2="925" y2="525" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Msg 6: U → SL at y=585 -->
+  <text class="txt" x="670" y="578" font-size="12">Awake — cache Camera.main</text>
+  <line class="arrow-line" x1="150" y1="585" x2="1185" y2="585" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Note over U..SL at y=620..680 -->
+  <rect class="decision" x="100" y="622" width="1200" height="56" rx="8" stroke-width="1"/>
+  <text class="txt" x="700" y="655" text-anchor="middle" font-size="13" font-style="italic">Scene-object Awake order is NOT guaranteed — we code defensively (no cross-Awake references; all lookups via FindAnyObjectByType or SerializeField).</text>
+
+  <!-- Msg 8: U → FU at y=735 (2-line label) -->
+  <text class="txt"     x="800" y="713" font-size="12">First FixedUpdate (50 Hz) —</text>
+  <text class="txt-dim" x="800" y="728" font-size="11" font-style="italic">GravityBody integrates · DebrisField steps · SlingshotLauncher polls pointer</text>
+  <line class="arrow-line" x1="150" y1="735" x2="1445" y2="735" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">GameBootstrapper runs before the scene loads; Awake order isn't defined; FixedUpdate is where the invariant finally holds.</text>
+</svg>

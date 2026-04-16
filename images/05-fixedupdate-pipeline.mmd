@@ -1,0 +1,18 @@
+flowchart TD
+    A[FixedUpdate tick] --> B["pos += vel·dt + ½·acc·dt²"]
+    B --> C["Planetoid.GetGravityAcceleration(newPos, G)"]
+    C --> D["vel += ½·(old + new)·dt"]
+    D --> E["acc = new"]
+    E --> F["transform.position = pos"]
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;
+
+    class A neutral
+    class B orbiter
+    class C planet
+    class D orbiter
+    class E neutral
+    class F success

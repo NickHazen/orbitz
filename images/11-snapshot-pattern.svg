@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .paused-sub { fill: #D4DEEA; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+    .decision   { fill: #EDDFBF; stroke: #C9AE7C; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+      .decision   { fill: #1A2033; stroke: #334155; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Snapshot pattern — main thread → worker jobs → main thread</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Immutable copy crosses the job boundary; events return through a queue; never touch MonoBehaviours from a worker</text>
+
+  <!-- Legend -->
+  <g>
+    <rect class="running" x="440" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="462" y="120" font-size="13">Main thread</text>
+    <rect class="relaunch" x="570" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="592" y="120" font-size="13">Immutable snapshot</text>
+    <rect class="paused"  x="742" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="764" y="120" font-size="13">Worker threads</text>
+    <rect class="decision" x="880" y="108" width="14" height="14" rx="3" stroke-width="1.5"/>
+    <text class="txt"     x="902" y="120" font-size="13">Queue</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Box 240 × 150, centers x=160, 440, 720, 1000, 1280 (280 apart) -->
+  <!-- y=360..510 -->
+
+  <!-- 1 — MonoBehaviour -->
+  <rect class="running" x="40" y="360" width="240" height="150" rx="12" stroke-width="2"/>
+  <text class="running-t" x="160" y="395" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 1 · MAIN</text>
+  <text class="running-t" x="160" y="425" text-anchor="middle" font-size="16" font-weight="700">MonoBehaviour</text>
+  <text class="running-t" x="160" y="452" text-anchor="middle" font-size="12" font-style="italic">mutable state</text>
+  <text class="running-t" x="160" y="480" text-anchor="middle" font-size="12" font-style="italic">Planetoid · GravityBody</text>
+
+  <line class="arrow-line" x1="281" y1="435" x2="319" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="300" y="415" text-anchor="middle" font-size="11">copy fields</text>
+  <text class="txt-dim" x="300" y="460" text-anchor="middle" font-size="10" font-style="italic">top of FixedUpdate</text>
+
+  <!-- 2 — Snapshot -->
+  <rect class="relaunch" x="320" y="360" width="240" height="150" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="440" y="395" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 2 · COPY</text>
+  <text class="relaunch-t" x="440" y="425" text-anchor="middle" font-size="16" font-weight="700">Snapshot struct</text>
+  <text class="relaunch-t" x="440" y="452" text-anchor="middle" font-size="12" font-style="italic">immutable copy</text>
+  <text class="relaunch-t" x="440" y="480" text-anchor="middle" font-size="12" font-style="italic">float2 · float · int</text>
+
+  <line class="arrow-line" x1="561" y1="435" x2="599" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="580" y="415" text-anchor="middle" font-size="11">[ReadOnly]</text>
+  <text class="txt-dim" x="580" y="460" text-anchor="middle" font-size="10" font-style="italic">input</text>
+
+  <!-- 3 — Job -->
+  <rect class="paused" x="600" y="360" width="240" height="150" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="720" y="395" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 3 · WORKERS</text>
+  <text class="paused-t" x="720" y="425" text-anchor="middle" font-size="16" font-weight="700">IJobParallelFor</text>
+  <text class="paused-t" x="720" y="452" text-anchor="middle" font-size="12" font-style="italic">reads snapshot</text>
+  <text class="paused-t" x="720" y="480" text-anchor="middle" font-size="12" font-style="italic">[BurstCompile]</text>
+
+  <line class="arrow-line" x1="841" y1="435" x2="879" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="860" y="415" text-anchor="middle" font-size="11">Enqueue</text>
+  <text class="txt-dim" x="860" y="460" text-anchor="middle" font-size="10" font-style="italic">events</text>
+
+  <!-- 4 — Queue -->
+  <rect class="decision" x="880" y="360" width="240" height="150" rx="12" stroke-width="2"/>
+  <text class="txt" x="1000" y="395" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 4 · QUEUE</text>
+  <text class="txt" x="1000" y="425" text-anchor="middle" font-size="16" font-weight="700">NativeQueue&lt;T&gt;</text>
+  <text class="txt" x="1000" y="452" text-anchor="middle" font-size="12" font-style="italic">ParallelWriter</text>
+  <text class="txt" x="1000" y="480" text-anchor="middle" font-size="12" font-style="italic">AbsorbEvent, …</text>
+
+  <line class="arrow-line" x1="1121" y1="435" x2="1159" y2="435" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="1140" y="415" text-anchor="middle" font-size="11">TryDequeue</text>
+  <text class="txt-dim" x="1140" y="460" text-anchor="middle" font-size="10" font-style="italic">after Complete()</text>
+
+  <!-- 5 — Main thread -->
+  <rect class="running" x="1160" y="360" width="240" height="150" rx="12" stroke-width="2"/>
+  <text class="running-t" x="1280" y="395" text-anchor="middle" font-size="11" font-style="italic" letter-spacing="0.08em">STAGE 5 · MAIN</text>
+  <text class="running-t" x="1280" y="425" text-anchor="middle" font-size="16" font-weight="700">Main thread</text>
+  <text class="running-t" x="1280" y="452" text-anchor="middle" font-size="12" font-style="italic">drains queue</text>
+  <text class="running-t" x="1280" y="480" text-anchor="middle" font-size="12" font-style="italic">Absorb · SpawnStuck</text>
+
+  <!-- Return curve: MT -> MB (dashed) -->
+  <path class="arrow-line" d="M 1280 510 C 1280 680 160 680 160 515" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text class="txt"     x="720" y="698" text-anchor="middle" font-size="12">next tick — rebuild snapshot</text>
+  <text class="txt-dim" x="720" y="714" text-anchor="middle" font-size="11" font-style="italic">mutations applied, next FixedUpdate re-copies fresh state</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">Worker threads never touch MonoBehaviours directly — the snapshot + queue pattern is what makes the boundary safe.</text>
+</svg>

@@ -1,0 +1,29 @@
+flowchart LR
+  GB[GameBootstrapper]:::neutral
+  P[Planetoid]:::planet
+  GBODY[GravityBody]:::orbiter
+  SL[SlingshotLauncher]:::orbiter
+  DF[DebrisField]:::debris
+  DFC[DebrisFieldConfig]:::neutral
+  SDV[StuckDebrisVisual]:::debris
+
+  GB -.->|enables EnhancedTouchSupport<br/>before any Awake| SL
+
+  SL -->|reads Position,<br/>SurfaceRadius,<br/>GetGravityAcceleration| P
+  SL -->|Instantiate +<br/>Launch / SetPosition| GBODY
+  SL -->|reads G off prefab| GBODY
+
+  GBODY -->|reads GetGravityAcceleration,<br/>GetDragAtPoint| P
+  GBODY -->|RegisterOrbiter /<br/>UnregisterOrbiter| DF
+
+  DF -->|reads GetGravityAcceleration,<br/>AtmosphereRadius,<br/>SurfaceRadius| P
+  DF -->|reads ColliderRadius, Pos;<br/>calls Absorb| GBODY
+  DF -.->|reads tunables| DFC
+  DF -->|Instantiate| SDV
+
+  classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+  classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+  classDef success fill:#10B981,stroke:#065F46,color:#fff;
+  classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+  classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+  classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

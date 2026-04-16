@@ -1,0 +1,15 @@
+flowchart LR
+    SRC[Unity source<br/>C# + assets]:::neutral --> IL2[IL2CPP transpile<br/>C# → C++]:::orbiter
+    IL2 --> XC[Xcode<br/>Clang + Metal]:::planet
+    IL2 --> GR[Gradle<br/>NDK + Vulkan]:::success
+    IL2 --> WG[Emscripten<br/>WebGPU/WebAssembly]:::debris
+    XC --> IPA[Signed .ipa<br/>App Store]:::planet
+    GR --> AAB[Signed .aab<br/>Play Store]:::success
+    WG --> WEB[Hosted bundle<br/>.wasm + .js + .data]:::debris
+
+    classDef planet fill:#3B82F6,stroke:#1E40AF,color:#fff;
+    classDef orbiter fill:#F59E0B,stroke:#B45309,color:#000;
+    classDef success fill:#10B981,stroke:#065F46,color:#fff;
+    classDef atmosphere fill:#EF4444,stroke:#991B1B,color:#fff;
+    classDef debris fill:#8B5CF6,stroke:#5B21B6,color:#fff;
+    classDef neutral fill:#6B7280,stroke:#374151,color:#fff;

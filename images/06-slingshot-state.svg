@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14">
+  <style>
+    .bg         { fill: #FDF8EB; }
+    .panel      { fill: #EDDFBF; fill-opacity: 0.55; stroke: #C9AE7C; stroke-opacity: 0.7; }
+    .txt        { fill: #2E1F14; }
+    .txt-dim    { fill: #6B4A2E; }
+    .arrow-line { stroke: #8B857A; fill: none; }
+    .arrow-head { fill: #8B857A; }
+    .running    { fill: #D9A860; stroke: #8B6918; }
+    .running-t  { fill: #2E1F14; }
+    .paused     { fill: #6B8098; stroke: #394A5E; }
+    .paused-t   { fill: #FFFFFF; }
+    .relaunch   { fill: #857F75; stroke: #4A443D; }
+    .relaunch-t { fill: #FFFFFF; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg         { fill: #1E293B; }
+      .panel      { fill: #0F172A; fill-opacity: 0.55; stroke: #334155; stroke-opacity: 0.8; }
+      .txt        { fill: #E5E4DC; }
+      .txt-dim    { fill: #A3A097; }
+      .arrow-line { stroke: #A3A097; }
+      .arrow-head { fill: #A3A097; }
+    }
+  </style>
+
+  <rect class="bg" width="1600" height="900"/>
+
+  <text class="txt" x="800" y="50" text-anchor="middle" font-size="28" font-weight="700">Slingshot state machine</text>
+  <text class="txt-dim" x="800" y="80" text-anchor="middle" font-size="15">Touch input from idle → aiming → released, with an abort path for short pulls</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="arrow-head" d="M0,0 L10,5 L0,10 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Entry dot [*] -->
+  <circle class="arrow-head" cx="180" cy="450" r="9"/>
+  <line class="arrow-line" x1="190" y1="450" x2="275" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Idle state -->
+  <rect class="paused" x="280" y="415" width="200" height="70" rx="12" stroke-width="2"/>
+  <text class="paused-t" x="380" y="457" text-anchor="middle" font-size="18" font-weight="700">Idle</text>
+
+  <!-- Aiming state -->
+  <rect class="running" x="680" y="415" width="200" height="70" rx="12" stroke-width="2"/>
+  <text class="running-t" x="780" y="457" text-anchor="middle" font-size="18" font-weight="700">Aiming</text>
+
+  <!-- Released state -->
+  <rect class="relaunch" x="1080" y="415" width="200" height="70" rx="12" stroke-width="2"/>
+  <text class="relaunch-t" x="1180" y="457" text-anchor="middle" font-size="18" font-weight="700">Released</text>
+
+  <!-- Forward transitions (labels above each arrow) -->
+
+  <!-- Idle → Aiming -->
+  <line class="arrow-line" x1="480" y1="450" x2="675" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="577" y="432" text-anchor="middle" font-size="12">press near planet</text>
+  <text class="txt-dim" x="577" y="418" text-anchor="middle" font-size="11" font-style="italic">distance &lt; 2.5 · surfaceRadius</text>
+
+  <!-- Aiming → Released -->
+  <line class="arrow-line" x1="880" y1="450" x2="1075" y2="450" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="977" y="432" text-anchor="middle" font-size="12">release</text>
+  <text class="txt-dim" x="977" y="418" text-anchor="middle" font-size="11" font-style="italic">pull ≥ minPullDistance</text>
+
+  <!-- Self-loops (below each box) -->
+
+  <!-- Idle self-loop: press far from planet -->
+  <path class="arrow-line" d="M 370 485 C 350 535 410 535 390 485" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="380" y="562" text-anchor="middle" font-size="11" font-style="italic">press far from planet (ignored)</text>
+
+  <!-- Aiming self-loop: drag -->
+  <path class="arrow-line" d="M 770 485 C 750 535 810 535 790 485" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt-dim" x="780" y="562" text-anchor="middle" font-size="11" font-style="italic">drag — update band + preview</text>
+
+  <!-- Abort curve: Aiming → Idle (short pull) -->
+  <path class="arrow-line" d="M 680 485 C 680 608 480 608 480 488" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="580" y="625" text-anchor="middle" font-size="12">release</text>
+  <text class="txt-dim" x="580" y="641" text-anchor="middle" font-size="11" font-style="italic">pull &lt; minPullDistance — abort</text>
+
+  <!-- Return curve: Released → Idle (orbiter launched) -->
+  <path class="arrow-line" d="M 1180 485 C 1180 700 380 700 380 488" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="txt"     x="780" y="715" text-anchor="middle" font-size="12">orbiter spawned &amp; launched</text>
+  <text class="txt-dim" x="780" y="731" text-anchor="middle" font-size="11" font-style="italic">SlingshotLauncher hands off to GravityBody</text>
+
+  <!-- Footer -->
+  <text class="txt-dim" x="800" y="852" text-anchor="middle" font-size="13" font-style="italic">A hard-state FSM — no ambiguity about whether we're mid-drag, and no way to launch without passing Aiming.</text>
+</svg>

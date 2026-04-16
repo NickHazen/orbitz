@@ -1,0 +1,8 @@
+stateDiagram-v2
+  [*] --> Idle
+  Idle --> Aiming: press near planet (< 2.5·R)
+  Idle --> Idle: press far from planet (ignored)
+  Aiming --> Aiming: drag (update band + preview)
+  Aiming --> Released: release, pull ≥ minPullDistance
+  Aiming --> Idle: release, pull < minPullDistance
+  Released --> Idle: orbiter spawned & launched

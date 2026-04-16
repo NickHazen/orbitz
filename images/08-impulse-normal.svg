@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18">
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <text x="800" y="54" text-anchor="middle" font-size="30" font-weight="700" fill="#E5E7EB">Impulse along the contact normal</text>
+  <text x="800" y="86" text-anchor="middle" font-size="17" fill="#6B7280">Decompose relative velocity along n — the perpendicular component is preserved</text>
+
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#E5E7EB"/>
+    </marker>
+    <marker id="arrowN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7280"/>
+    </marker>
+    <marker id="arrowRel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <!-- Two circles in contact. Particle A at (550,470), r=110; B at (780,470), r=120 → touching at x=660 -->
+  <circle cx="550" cy="470" r="110" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+  <text x="550" y="478" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">A</text>
+  <text x="550" y="610" text-anchor="middle" font-size="14" fill="#6B7280">mass m<tspan baseline-shift="sub" font-size="11">A</tspan></text>
+
+  <circle cx="780" cy="470" r="120" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2"/>
+  <text x="780" y="478" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">B</text>
+  <text x="780" y="620" text-anchor="middle" font-size="14" fill="#6B7280">mass m<tspan baseline-shift="sub" font-size="11">B</tspan></text>
+
+  <!-- Contact point -->
+  <circle cx="660" cy="470" r="6" fill="#E5E7EB"/>
+  <text x="660" y="448" text-anchor="middle" font-size="13" fill="#E5E7EB">contact</text>
+
+  <!-- Normal n from A to B along +x. Draw at contact: from (660,470) to (860,470) -->
+  <line x1="660" y1="470" x2="880" y2="470" stroke="#10B981" stroke-width="4" marker-end="url(#arrowN)"/>
+  <text x="900" y="476" font-size="20" font-weight="700" fill="#10B981">n</text>
+  <text x="900" y="498" font-size="13" fill="#10B981">contact normal</text>
+
+  <!-- Relative velocity v_rel at A pointing toward B with a tangential component. Place at (550,470) drawing a vector (Δx=200, Δy=120). Magnitude √(200²+120²) ≈ 233. Scale 1. -->
+  <line x1="550" y1="470" x2="750" y2="590" stroke="#F59E0B" stroke-width="4" marker-end="url(#arrowRel)"/>
+  <text x="710" y="625" font-size="18" font-weight="700" fill="#F59E0B">v<tspan baseline-shift="sub" font-size="12">rel</tspan> = v<tspan baseline-shift="sub" font-size="12">A</tspan> − v<tspan baseline-shift="sub" font-size="12">B</tspan></text>
+
+  <!-- Decomposition: along n = (1,0), component is (200, 0). Draw from (550,470) to (750,470) -->
+  <line x1="550" y1="470" x2="750" y2="470" stroke="#10B981" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrowN)"/>
+  <text x="560" y="460" font-size="15" fill="#10B981">v<tspan baseline-shift="sub" font-size="11">rel</tspan> · n  (normal)</text>
+
+  <!-- Tangential component = (0, 120). Draw from (750,470) to (750,590) -->
+  <line x1="750" y1="470" x2="750" y2="590" stroke="#6B7280" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrowT)"/>
+  <text x="760" y="540" font-size="15" fill="#6B7280">tangential (unchanged)</text>
+
+  <!-- Formula panel right -->
+  <rect x="1010" y="140" width="540" height="640" rx="12" fill="#1E293B" stroke="#6B7280" stroke-width="1"/>
+  <text x="1030" y="180" font-size="18" fill="#E5E7EB" font-weight="700">Impulse magnitude</text>
+
+  <text x="1030" y="230" font-size="22" font-weight="700" fill="#E5E7EB">j = −(1 + e) · (v<tspan baseline-shift="sub" font-size="14">rel</tspan> · n)</text>
+  <text x="1080" y="265" font-size="22" font-weight="700" fill="#E5E7EB">──────────────</text>
+  <text x="1080" y="298" font-size="22" font-weight="700" fill="#E5E7EB">1/m<tspan baseline-shift="sub" font-size="14">A</tspan> + 1/m<tspan baseline-shift="sub" font-size="14">B</tspan></text>
+
+  <text x="1030" y="355" font-size="15" fill="#E5E7EB">e — coefficient of restitution (0..1)</text>
+  <text x="1030" y="382" font-size="15" fill="#E5E7EB">• e = 1  → perfectly elastic (billiards)</text>
+  <text x="1030" y="406" font-size="15" fill="#E5E7EB">• e = 0  → perfectly inelastic (stick)</text>
+  <text x="1030" y="430" font-size="15" fill="#E5E7EB">• e = 0.7 → our default (bleeds energy)</text>
+
+  <text x="1030" y="480" font-size="18" fill="#E5E7EB" font-weight="700">Apply to each body</text>
+  <text x="1030" y="516" font-size="18" font-weight="700" fill="#F59E0B">v<tspan baseline-shift="sub" font-size="12">A</tspan> += ( j / m<tspan baseline-shift="sub" font-size="12">A</tspan> ) · n</text>
+  <text x="1030" y="546" font-size="18" font-weight="700" fill="#F59E0B">v<tspan baseline-shift="sub" font-size="12">B</tspan> −= ( j / m<tspan baseline-shift="sub" font-size="12">B</tspan> ) · n</text>
+
+  <text x="1030" y="600" font-size="15" fill="#10B981" font-weight="700">Guards</text>
+  <text x="1030" y="628" font-size="14" fill="#E5E7EB">• Skip if v<tspan baseline-shift="sub" font-size="10">rel</tspan> · n ≥ 0 (already separating).</text>
+  <text x="1030" y="654" font-size="14" fill="#E5E7EB">• Skip if n² &lt; ε (coincident positions).</text>
+  <text x="1030" y="680" font-size="14" fill="#E5E7EB">• Positional correction by inverse mass</text>
+  <text x="1030" y="704" font-size="14" fill="#E5E7EB">  separates overlapping pairs.</text>
+  <text x="1030" y="740" font-size="13" fill="#6B7280">Tangential component isn't touched by impulse;</text>
+  <text x="1030" y="760" font-size="13" fill="#6B7280">friction would go here (we ship frictionless).</text>
+</svg>
